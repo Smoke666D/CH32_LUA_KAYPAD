@@ -103,11 +103,11 @@ void vAppTask( void * argument )
 
             }
         }
-      //  if ( uxQueueMessagesWaiting(pCANRXQueue) != 0)
-      //
-     //   }
+        if ( uxQueueMessagesWaiting(pCANRXQueue) != 0)
+        {
 
 
+        }
     }
 }
 
