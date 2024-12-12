@@ -7,12 +7,25 @@
 
 #include "init.h"
 #include "app_task.h"
+#include "hal_gpio.h"
 
-
-
+static void vGpioInit();
 
 void InitDevice()
 {
+    vGpioInit();
     vAppInit();
+
+}
+
+
+
+static void vGpioInit()
+{
+    HAL_InitGPO();
+    HAL_InitGpioAF(CAN_Port,CAN_TX_Pin,GPIO_Remap1_CAN1,GPIO_Mode_AF_PP);
+    HAL_InitGpioAF(CAN_Port,CAN_RX_Pin,GPIO_Remap1_CAN1,GPIO_Mode_IPU);
+    HAL_InitGpioAF(RS_Port,RS_TX_Pin,0,GPIO_Mode_AF_PP);
+    HAL_InitGpioIn(RS_Port,RS_RX_Pin);
 
 }

@@ -133,7 +133,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="HAL_DRIVER|PROTOCOLS|FreeRTOS/portable/Common/mpu_wrappers.c|Startup|Ld" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry excluding="system_config.h|hal_wdt.h|hal_wdt_ch32.c|hal_typedef.h|hal_timers.h|hal_timers_ch32.c|hal_spi.h|hal_spi_ch32.c|hal_rtc.h|hal_rtc_ch32.c|hal_i2c.h|hal_i2c_ch32.c|hal_gpio.h|hal_gpio_ch32.c|hal_flash.h|hal_flash_ch32.c|hal_dma.h|hal_dma_ch32.c|hal_dac.h|hal_dac.c|hal_adc.h|hal_adc.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="HAL_DRIVER"/>
+						<entry excluding="system_config.h|hal_wdt.h|hal_wdt_ch32.c|hal_timers.h|hal_timers_ch32.c|hal_spi.h|hal_spi_ch32.c|hal_rtc.h|hal_rtc_ch32.c|hal_i2c.h|hal_i2c_ch32.c|hal_flash.h|hal_flash_ch32.c|hal_dma.h|hal_dma_ch32.c|hal_dac.h|hal_dac.c|hal_adc.h|hal_adc.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="HAL_DRIVER"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Ld"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="PROTOCOLS"/>
 						<entry excluding="startup_ch32v30x_D8.S" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Startup"/>

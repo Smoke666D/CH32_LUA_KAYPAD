@@ -20,36 +20,8 @@
 #include "task.h"
 #include "system_init.h"
 #include "lawicel.h"
-
-/* Global define */
-#define TASK1_TASK_PRIO     5
-#define TASK1_STK_SIZE      256
-#define TASK2_TASK_PRIO     5
-#define TASK2_STK_SIZE      256
-
-/* Global Variable */
-TaskHandle_t Task1Task_Handler;
-TaskHandle_t Task2Task_Handler;
-
-
-/*********************************************************************
- * @fn      GPIO_Toggle_INIT
- *
- * @brief   Initializes GPIOA.0/1
- *
- * @return  none
- */
-void GPIO_Toggle_INIT(void)
-{
-  GPIO_InitTypeDef  GPIO_InitStructure={0};
-
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-  GPIO_InitStructure.GPIO_Speed=GPIO_Speed_50MHz;
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
-}
-
+#include "app_task.h"
+#include "init.h"
 
 
 
@@ -65,20 +37,19 @@ int main(void)
 
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	SystemCoreClockUpdate();
-	//Delay_Init();
-	//USART_Printf_Init(115200);
-		
-	//printf("SystemClk:%d\r\n",SystemCoreClock);
-	//printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
-	//printf("FreeRTOS Kernel Version:%s\r\n",tskKERNEL_VERSION_NUMBER);
-	InitDevice();
-	GPIO_Toggle_INIT();
-	vSYStaskInit();
 
-    vTaskStartScheduler();
+	//Delay_Init();
+   //  USART_Printf_Init(115200);
+     InitDevice();
+	//printf("SystemClk:%d\r\n",SystemCoreClock);
+  // printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
+	//printf("FreeRTOS Kernel Version:%s\r\n",tskKERNEL_VERSION_NUMBER);
+
+    vSYStaskInit();
+   vTaskStartScheduler();
 
 	while(1)
 	{
-	    printf("shouldn't run at here!!\n");
+
 	}
 }

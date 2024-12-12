@@ -43,11 +43,12 @@ User/system_init.o: ../User/system_init.c ../User/system_init.h \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/task.h \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/semphr.h \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/queue.h \
- C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/event_groups.h \
- C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/timers.h \
+ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/message_buffer.h \
+ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/stream_buffer.h \
  ../User/app_task.h \
  C:\Users\i.dymov\Documents\SYSTEM_LIB\PROTOCOLS/lawicel.h \
- C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\User/main.h
+ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\User/main.h \
+ C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_can.h
 
 ../User/system_init.h:
 
@@ -139,12 +140,14 @@ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/semphr.h:
 
 C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/queue.h:
 
-C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/event_groups.h:
+C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/message_buffer.h:
 
-C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/timers.h:
+C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/stream_buffer.h:
 
 ../User/app_task.h:
 
 C:\Users\i.dymov\Documents\SYSTEM_LIB\PROTOCOLS/lawicel.h:
 
 C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\User/main.h:
+
+C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_can.h:

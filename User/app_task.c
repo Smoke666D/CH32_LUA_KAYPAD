@@ -5,20 +5,33 @@
  *      Author: i.dymov
  */
 #include "app_task.h"
+
 #include "hal_usart.h"
 #include "lawicel.h"
+#include "hal_can.h"
 
 static TaskHandle_t  AppTaskHandle;
 static QueueHandle_t    pRXQueue;
-static QueueHandle_t    pTXQueue;
-static QueueHandle_t    pCANRXQueue;
 
-#define RX_BUFFER_SIZE  40
+
+#define   STORAGE_SIZE_BYTES 100
+static uint8_t ucMessageBufferStorage[ STORAGE_SIZE_BYTES ];
+#define STREAM_BUFFER_SIZE_BYTES 100
+static uint8_t ucTXStreamBufferStorage[ STREAM_BUFFER_SIZE_BYTES + 1 ];
+static uint8_t ucRXStreamBufferStorage[ STREAM_BUFFER_SIZE_BYTES + 1 ];
+static StaticStreamBuffer_t xTXStreamBufferStruct;
+static StaticStreamBuffer_t xRXStreamBufferStruct;
+static StreamBufferHandle_t xRXStreamBuffer;
+static StreamBufferHandle_t xTXStreamBuffer;
+
+
+static MessageBufferHandle_t xCANRXMessageBuffer;
+static StaticMessageBuffer_t xMessageBufferStruct;
+#define RX_BUFFER_SIZE  100
 static u8 RX_DATA_BUFFER[RX_BUFFER_SIZE];
 static u8 TX_DATA_BUFFER[RX_BUFFER_SIZE];
 static u8 TX_SIZE;
 static u8 RX_INDEX = 0;
-static u8 RX_SIZE  = 0;
 static u8 data_byte;
 
 
@@ -28,15 +41,9 @@ QueueHandle_t * xRXQueue( void )
   return  (&pRXQueue);
 }
 
-QueueHandle_t * xTXQueue( void )
-{
-  return  (&pTXQueue);
-}
 
-QueueHandle_t * xCANRXQueue( void )
-{
-  return  (&pCANRXQueue);
-}
+
+
 
 
 TaskHandle_t * xGetAppTaskHandle ()
@@ -47,9 +54,8 @@ TaskHandle_t * xGetAppTaskHandle ()
 void TX_Callback(void)
 {
     uint8_t tx_data;
-    BaseType_t xHigherPriorityTaskWoken;
-    xHigherPriorityTaskWoken = pdFALSE;
-    if ( xQueueReceiveFromISR(pTXQueue, &tx_data, &xHigherPriorityTaskWoken ) == pdPASS )
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    if (xStreamBufferReceiveFromISR(xTXStreamBuffer,&tx_data,1,&xHigherPriorityTaskWoken ) > 0 )
     {
         HAL_SendByte_IT(HAL_USART3,tx_data);
     }
@@ -58,55 +64,82 @@ void TX_Callback(void)
 
 void RX_Callback( void)
 {
-    BaseType_t xHigherPriorityTaskWoken;
-    xHigherPriorityTaskWoken = pdFALSE;
-    u8 data = data_byte;
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     HAL_RecieveByte_IT(HAL_USART3 ,&data_byte);
-    xQueueSendFromISR( pRXQueue, &data, &xHigherPriorityTaskWoken );
+    uint8_t data = data_byte;
+    xStreamBufferSendFromISR(xRXStreamBuffer, &data, 1, &xHigherPriorityTaskWoken);
     portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
 }
 
+void vCallBack()
+{}
+
 void vAppInit()
 {
-    HALUSARTInit(HAL_USART3,115200,HAL_StopBits_1,HAL_Parity_No,UART_WORDLENGTH_8B);
-    HALUSARTInitIT(HAL_USART3,&RX_Callback,&TX_Callback,1,1);
-    HALUSARTEnable(HAL_USART3);
-    HAL_RecieveByte_IT(HAL_USART3 ,&data_byte);
+
+   xCANRXMessageBuffer = xMessageBufferCreateStatic(sizeof(ucMessageBufferStorage),ucMessageBufferStorage,&xMessageBufferStruct);
+   xTXStreamBuffer = xStreamBufferCreateStatic(STREAM_BUFFER_SIZE_BYTES,1,ucTXStreamBufferStorage,&xTXStreamBufferStruct );
+   xRXStreamBuffer = xStreamBufferCreateStatic(STREAM_BUFFER_SIZE_BYTES,1,ucRXStreamBufferStorage,&xRXStreamBufferStruct );
+   LAWICEL_Init(&xCANRXMessageBuffer);
+   HAL_CANToInitMode();
+
+   HAL_CANSetRXCallback(&ProcessMsgFromCan);
+   HAL_CANSetERRCallback(&vCallBack);
+   HAL_CANSetTXCallback(&vCallBack);
+   HALUSARTInit(HAL_USART3,115200,HAL_StopBits_1,HAL_Parity_No,UART_WORDLENGTH_8B);
+   HALUSARTInitIT(HAL_USART3,&RX_Callback,&TX_Callback,1,1);
+   HALUSARTEnable(HAL_USART3);
+   HAL_RecieveByte_IT(HAL_USART3 ,&data_byte);
+}
+
+void SendDataToSerial( uint8_t * data_buffer, uint8_t data_size)
+{
+    uint8_t cur_data_szie =  data_size;
+    if (xStreamBufferIsEmpty(xTXStreamBuffer) == pdTRUE )
+    {
+        cur_data_szie--;
+        xStreamBufferSend( xTXStreamBuffer,( void * ) &data_buffer[ 1 ], cur_data_szie, 0 );
+        HAL_SendByte_IT(HAL_USART3,data_buffer[0]);
+
+    }
+    else
+
+    {
+        xStreamBufferSend( xTXStreamBuffer,( void * ) &data_buffer[0], cur_data_szie, 0 );
+    }
 }
 
 void vAppTask( void * argument )
 {
-    uint8_t data;
+    uint8_t RXDATA[100];
     uint8_t cmd_len;
     while(1)
+
     {
-        if ( uxQueueMessagesWaiting(pRXQueue) != 0)
+
+        if (xStreamBufferIsEmpty(xRXStreamBuffer) == pdFALSE)
         {
-            if ( xQueueReceive(pRXQueue, &data, 0U ) == pdPASS )
+            uint8_t data_size =  xStreamBufferReceive(xRXStreamBuffer,RXDATA,100,0);
+            for (uint8_t i =0 ; i < data_size;i++)
             {
-                RX_DATA_BUFFER[RX_INDEX] = data;
-                if (RX_SIZE <= (RX_BUFFER_SIZE )) RX_SIZE++;
-                if (data =='\r')
+                RX_DATA_BUFFER[RX_INDEX] = RXDATA[i];
+                if (RX_INDEX <= (RX_BUFFER_SIZE )) RX_INDEX++;
+                if (RXDATA[i] =='\r')
                 {
                     cmd_len = RX_INDEX -1;
                     DataParser( RX_DATA_BUFFER, cmd_len,TX_DATA_BUFFER,&TX_SIZE);
                     if (TX_SIZE!= 0)
                     {
-                        for (uint8_t i =1; i< TX_SIZE;i++)
-                        {
-                            xQueueSend(pTXQueue,&TX_DATA_BUFFER[i],1);
-                        }
-                        HAL_SendByte_IT(HAL_USART3,TX_DATA_BUFFER[0]);
-                        while ( uxQueueMessagesWaiting(pTXQueue) != 0);
+                        SendDataToSerial(TX_DATA_BUFFER,TX_SIZE);
                     }
+                    RX_INDEX = 0;
                 }
-
             }
         }
-        if ( uxQueueMessagesWaiting(pCANRXQueue) != 0)
+        if (xMessageBufferIsEmpty(xCANRXMessageBuffer) == pdFALSE)
         {
-
-
+            TX_SIZE = xMessageBufferReceive( xCANRXMessageBuffer, TX_DATA_BUFFER, sizeof(ucMessageBufferStorage),0);
+            SendDataToSerial(TX_DATA_BUFFER,TX_SIZE);
         }
     }
 }

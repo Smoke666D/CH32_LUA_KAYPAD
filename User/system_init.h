@@ -15,7 +15,7 @@
 #include "list.h"
 #include "task.h"
 #include "semphr.h"
-#include "event_groups.h"
+#include "message_buffer.h"
 #include "portmacro.h"
 #include "stdbool.h"
 

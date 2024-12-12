@@ -47,8 +47,8 @@ HAL_DRIVER/hal_irq.o: \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/task.h \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/semphr.h \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/queue.h \
- C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/event_groups.h \
- C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/timers.h
+ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/message_buffer.h \
+ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/stream_buffer.h
 
 C:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_irq.h:
 
@@ -144,6 +144,6 @@ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/semphr.h:
 
 C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/queue.h:
 
-C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/event_groups.h:
+C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/message_buffer.h:
 
-C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/timers.h:
+C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/stream_buffer.h:
