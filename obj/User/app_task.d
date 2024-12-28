@@ -48,7 +48,8 @@ User/app_task.o: ../User/app_task.c ../User/app_task.h ../User/main.h \
  C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_usart.h \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\User/main.h \
  C:\Users\i.dymov\Documents\SYSTEM_LIB\PROTOCOLS/lawicel.h \
- C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_can.h
+ C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_can.h \
+ C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_timers.h
 
 ../User/app_task.h:
 
@@ -153,3 +154,5 @@ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\User/main.h:
 C:\Users\i.dymov\Documents\SYSTEM_LIB\PROTOCOLS/lawicel.h:
 
 C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_can.h:
+
+C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_timers.h:

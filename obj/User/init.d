@@ -48,7 +48,12 @@ User/init.o: ../User/init.c ../User/init.h ../User/main.h \
  C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_typedef.h \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\User/main.h ../User/app_task.h \
  C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_gpio.h \
- C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_typedef.h
+ C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_typedef.h \
+ C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_timers.h \
+ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\USB_Device/ch32v30x_usbfs_device.h \
+ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\USB_Device/usb_desc.h \
+ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\Peripheral\inc/ch32v30x_usb.h \
+ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\UART/UART.h
 
 ../User/init.h:
 
@@ -155,3 +160,13 @@ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\User/main.h:
 C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_gpio.h:
 
 C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_typedef.h:
+
+C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_timers.h:
+
+C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\USB_Device/ch32v30x_usbfs_device.h:
+
+C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\USB_Device/usb_desc.h:
+
+C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\Peripheral\inc/ch32v30x_usb.h:
+
+C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\UART/UART.h:

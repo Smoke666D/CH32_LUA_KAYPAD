@@ -19,7 +19,7 @@
 
 #define CORE WCH32V3
 
-
+#define  TIM1_UP_ENABLE
 #define USART3_IT_ENABLE
 
 #endif /* USER_MAIN_H_ */

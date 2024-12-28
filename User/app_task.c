@@ -9,6 +9,7 @@
 #include "hal_usart.h"
 #include "lawicel.h"
 #include "hal_can.h"
+#include "hal_timers.h"
 
 static TaskHandle_t  AppTaskHandle;
 static QueueHandle_t    pRXQueue;
@@ -74,15 +75,15 @@ void RX_Callback( void)
 void vCallBack()
 {}
 
+
+
 void vAppInit()
 {
-
    xCANRXMessageBuffer = xMessageBufferCreateStatic(sizeof(ucMessageBufferStorage),ucMessageBufferStorage,&xMessageBufferStruct);
    xTXStreamBuffer = xStreamBufferCreateStatic(STREAM_BUFFER_SIZE_BYTES,1,ucTXStreamBufferStorage,&xTXStreamBufferStruct );
    xRXStreamBuffer = xStreamBufferCreateStatic(STREAM_BUFFER_SIZE_BYTES,1,ucRXStreamBufferStorage,&xRXStreamBufferStruct );
    LAWICEL_Init(&xCANRXMessageBuffer);
    HAL_CANToInitMode();
-
    HAL_CANSetRXCallback(&ProcessMsgFromCan);
    HAL_CANSetERRCallback(&vCallBack);
    HAL_CANSetTXCallback(&vCallBack);
@@ -90,6 +91,8 @@ void vAppInit()
    HALUSARTInitIT(HAL_USART3,&RX_Callback,&TX_Callback,1,1);
    HALUSARTEnable(HAL_USART3);
    HAL_RecieveByte_IT(HAL_USART3 ,&data_byte);
+   HAL_TIMER_InitIt(TIMER1,100000,99,&MSTimrCallBack,1,0);
+   HAL_TiemrEneblae(TIMER1);
 }
 
 void SendDataToSerial( uint8_t * data_buffer, uint8_t data_size)
@@ -100,10 +103,8 @@ void SendDataToSerial( uint8_t * data_buffer, uint8_t data_size)
         cur_data_szie--;
         xStreamBufferSend( xTXStreamBuffer,( void * ) &data_buffer[ 1 ], cur_data_szie, 0 );
         HAL_SendByte_IT(HAL_USART3,data_buffer[0]);
-
     }
     else
-
     {
         xStreamBufferSend( xTXStreamBuffer,( void * ) &data_buffer[0], cur_data_szie, 0 );
     }
@@ -114,9 +115,7 @@ void vAppTask( void * argument )
     uint8_t RXDATA[100];
     uint8_t cmd_len;
     while(1)
-
     {
-
         if (xStreamBufferIsEmpty(xRXStreamBuffer) == pdFALSE)
         {
             uint8_t data_size =  xStreamBufferReceive(xRXStreamBuffer,RXDATA,100,0);

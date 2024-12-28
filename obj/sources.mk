@@ -32,5 +32,7 @@ HAL_DRIVER \
 PROTOCOLS \
 Peripheral/src \
 Startup \
+UART \
+USB_Device \
 User \
 

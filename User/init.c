@@ -8,6 +8,8 @@
 #include "init.h"
 #include "app_task.h"
 #include "hal_gpio.h"
+#include "hal_timers.h"
+#include "ch32v30x_usbfs_device.h"
 
 static void vGpioInit();
 
@@ -15,6 +17,13 @@ void InitDevice()
 {
     vGpioInit();
     vAppInit();
+    UART2_ParaInit( 1 );
+   // USBOTG_FS->UEP2_DMA = (uint32_t)(uint8_t *)&UART2_Tx_Buf[ 0 ];
+  //  USBOTG_FS->UEP2_RX_CTRL &= ~USBFS_UEP_R_RES_MASK;
+   // USBOTG_FS->UEP2_RX_CTRL |= USBFS_UEP_R_RES_ACK;
+    USBFS_RCC_Init( );
+    USBFS_Device_Init( ENABLE );
+
 
 }
 

@@ -1,6 +1,6 @@
-PROTOCOLS/lawicel.o: \
- C:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS/lawicel.c \
- C:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS/lawicel.h \
+HAL_DRIVER/hal_timers_ch32.o: \
+ C:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_timers_ch32.c \
+ C:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_timers.h \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\User/main.h \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\User/system_init.h \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\User/main.h \
@@ -49,10 +49,9 @@ PROTOCOLS/lawicel.o: \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/queue.h \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/message_buffer.h \
  C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/stream_buffer.h \
- C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_can.h \
- C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_timers.h
+ C:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_irq.h
 
-C:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS/lawicel.h:
+C:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_timers.h:
 
 C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\User/main.h:
 
@@ -150,6 +149,4 @@ C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/message_buffer.h:
 
 C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include/stream_buffer.h:
 
-C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_can.h:
-
-C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER/hal_timers.h:
+C:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_irq.h:

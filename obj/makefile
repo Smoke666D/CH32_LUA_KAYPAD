@@ -10,6 +10,8 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include User/subdir.mk
+-include USB_Device/subdir.mk
+-include UART/subdir.mk
 -include Startup/subdir.mk
 -include Peripheral/src/subdir.mk
 -include PROTOCOLS/subdir.mk
