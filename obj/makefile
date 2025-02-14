@@ -15,6 +15,7 @@ RM := rm -rf
 -include Startup/subdir.mk
 -include Peripheral/src/subdir.mk
 -include PROTOCOLS/subdir.mk
+-include LUA/subdir.mk
 -include HAL_DRIVER/subdir.mk
 -include FreeRTOS/portable/MemMang/subdir.mk
 -include FreeRTOS/portable/GCC/RISC-V/subdir.mk
@@ -46,34 +47,34 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 SECONDARY_FLASH += \
-CH32V3_CAN_HACKER.hex \
+CH32V3_LUA.hex \
 
 SECONDARY_LIST += \
-CH32V3_CAN_HACKER.lst \
+CH32V3_LUA.lst \
 
 SECONDARY_SIZE += \
-CH32V3_CAN_HACKER.siz \
+CH32V3_LUA.siz \
 
 
 # All Target
-all: CH32V3_CAN_HACKER.elf secondary-outputs
+all: CH32V3_LUA.elf secondary-outputs
 
 # Tool invocations
-CH32V3_CAN_HACKER.elf: $(OBJS) $(USER_OBJS)
-	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\Ld\Link.ld" -nostartfiles -Xlinker --gc-sections -Wl,-Map,"CH32V3_CAN_HACKER.map" --specs=nano.specs --specs=nosys.specs -o "CH32V3_CAN_HACKER.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+CH32V3_LUA.elf: $(OBJS) $(USER_OBJS)
+	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "C:\MRS_DATA\workspace\CH32V_LUA\Ld\Link.ld" -nostartfiles -Xlinker --gc-sections -Xlinker -print-memory-usage -Wl,-Map,"CH32V3_LUA.map" --specs=nano.specs --specs=nosys.specs -o "CH32V3_LUA.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@	@
-CH32V3_CAN_HACKER.hex: CH32V3_CAN_HACKER.elf
-	@	riscv-none-embed-objcopy -O ihex "CH32V3_CAN_HACKER.elf"  "CH32V3_CAN_HACKER.hex"
+CH32V3_LUA.hex: CH32V3_LUA.elf
+	@	riscv-none-embed-objcopy -O ihex "CH32V3_LUA.elf"  "CH32V3_LUA.hex"
 	@	@
-CH32V3_CAN_HACKER.lst: CH32V3_CAN_HACKER.elf
-	@	riscv-none-embed-objdump --all-headers --demangle --disassemble -M xw "CH32V3_CAN_HACKER.elf" > "CH32V3_CAN_HACKER.lst"
+CH32V3_LUA.lst: CH32V3_LUA.elf
+	@	riscv-none-embed-objdump --all-headers --demangle --disassemble -M xw "CH32V3_LUA.elf" > "CH32V3_LUA.lst"
 	@	@
-CH32V3_CAN_HACKER.siz: CH32V3_CAN_HACKER.elf
-	@	riscv-none-embed-size --format=berkeley "CH32V3_CAN_HACKER.elf"
+CH32V3_LUA.siz: CH32V3_LUA.elf
+	@	riscv-none-embed-size --format=berkeley "CH32V3_LUA.elf"
 	@	@
 # Other Targets
 clean:
-	-$(RM) $(ASM_UPPER_DEPS)$(OBJS)$(SECONDARY_FLASH)$(SECONDARY_LIST)$(SECONDARY_SIZE)$(ASM_DEPS)$(S_DEPS)$(S_UPPER_DEPS)$(C_DEPS) CH32V3_CAN_HACKER.elf
+	-$(RM) $(ASM_UPPER_DEPS)$(OBJS)$(SECONDARY_FLASH)$(SECONDARY_LIST)$(SECONDARY_SIZE)$(ASM_DEPS)$(S_DEPS)$(S_UPPER_DEPS)$(C_DEPS) CH32V3_LUA.elf
 	-@
 secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_LIST) $(SECONDARY_SIZE)
 

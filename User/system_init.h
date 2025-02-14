@@ -22,6 +22,9 @@
 
 #define APP_TASK_PRIO               6  //§¥§°§­§¨§¦§¯ §¢§½§´§¾ §³§¡§®§½ §£§½§³§°§¬§ª§«
 #define APP_STK_SIZE                256
+#define LUA_TASK_PRIO               6  //§¥§°§­§¨§¦§¯ §¢§½§´§¾ §³§¡§®§½ §£§½§³§°§¬§ª§«
+#define LUA_STK_SIZE                3000
+
 
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
                                     StackType_t **ppxIdleTaskStackBuffer,

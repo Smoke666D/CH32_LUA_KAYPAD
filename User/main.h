@@ -10,6 +10,8 @@
 
 #include "system_init.h"
 
+#define VM_HEAP_SIZE 50000
+
 #define CAN_SFID_MASK                      ((uint32_t)0x000007FFU)      /*!< mask of standard identifier */
 
 #define INIT_FUNC_LOC //__attribute__((section(".stext")))

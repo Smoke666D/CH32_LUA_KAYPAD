@@ -29,6 +29,7 @@ FreeRTOS \
 FreeRTOS/portable/GCC/RISC-V \
 FreeRTOS/portable/MemMang \
 HAL_DRIVER \
+LUA \
 PROTOCOLS \
 Peripheral/src \
 Startup \

@@ -46,7 +46,7 @@ int main(void)
 	//printf("FreeRTOS Kernel Version:%s\r\n",tskKERNEL_VERSION_NUMBER);
 
     vSYStaskInit();
-   vTaskStartScheduler();
+    vTaskStartScheduler();
 
 	while(1)
 	{
