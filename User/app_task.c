@@ -87,6 +87,8 @@ void vAppInit()
    HAL_CANSetRXCallback(&ProcessMsgFromCan);
    HAL_CANSetERRCallback(&vCallBack);
    HAL_CANSetTXCallback(&vCallBack);
+
+
    HALUSARTInit(HAL_USART3,115200,HAL_StopBits_1,HAL_Parity_No,UART_WORDLENGTH_8B);
    HALUSARTInitIT(HAL_USART3,&RX_Callback,&TX_Callback,1,1);
    HALUSARTEnable(HAL_USART3);

@@ -15,6 +15,7 @@ encoding//HAL_DRIVER/hal_usart.c=GBK
 encoding//HAL_DRIVER/hal_usart.h=GBK
 encoding//PROTOCOLS/lawicel.c=UTF-8
 encoding//PROTOCOLS/lawicel.h=GBK
+encoding//PROTOCOLS/xmodem.c=GBK
 encoding//Peripheral/inc/ch32v30x.h=GBK
 encoding//Peripheral/inc/ch32v30x_can.h=GBK
 encoding//Peripheral/inc/ch32v30x_usart.h=GBK
