@@ -8,12 +8,18 @@
 #include "app_task.h"
 #include "lawicel.h"
 
+
+#define STORAGE_SIZE_BYTES 1000
+static uint8_t ucTXMessageBufferStorage[ STORAGE_SIZE_BYTES ];
+static StaticMessageBuffer_t xTXMessageBufferStruct;
 static StaticTask_t xIdleTaskTCB;
 static StaticTask_t xTimerTaskTCB;
 static StaticTask_t xAPPTaskTCB;
+static StaticTask_t xCanTaskTCB;
 static StackType_t uxIdleTaskStack[ configMINIMAL_STACK_SIZE ];
 static StackType_t uxTimerTaskStack[ configTIMER_TASK_STACK_DEPTH ];
 static StackType_t AppTaskBuffer[ APP_STK_SIZE ];
+static StackType_t CanTaskBuffer[ CAN_STK_SIZE ];
 uint8_t ucQueueStorageArea[  16U  ];
 static StaticQueue_t xStaticQueue;
 /*
@@ -45,10 +51,10 @@ INIT_FUNC_LOC  void vSYStaskInit ( void )
 
     (* xGetAppTaskHandle()) = xTaskCreateStatic( vAppTask, "AppTask", APP_STK_SIZE , ( void * ) 1, APP_TASK_PRIO  ,
             (StackType_t * const )AppTaskBuffer, &xAPPTaskTCB );
-  /* (* xProcessTaskHandle ())
-             = xTaskCreateStatic( vRedrawTask, "ProcessTask", PROCESS_STK_SIZE , ( void * ) 1, PROCESS_TASK_PRIO  ,
-                                     (StackType_t * const )ProcessTaskBuffer, &ProcessTaskControlBlock );
-  (* xCanOpenPeriodicTaskHandle ())
+    (* xGetCanTaskHandle ())
+             = xTaskCreateStatic( vCanTask, "ProcessTask", CAN_STK_SIZE , ( void * ) 1, CAN_TASK_PRIO  ,
+                                     (StackType_t * const ) CanTaskBuffer, &xCanTaskTCB );
+ /* (* xCanOpenPeriodicTaskHandle ())
   = xTaskCreateStatic( vCanOpenPeriodicProcess, "CanOpenPeriodic", PERIODIC_CAN_STK_SIZE , ( void * ) 1, PERIODIC_CAN_TASK_PRIO ,
                      (StackType_t * const )CanOpnePeriodicTaskBuffer, &CanOpnePeriodicTaskControlBlock );
   (* xCanOpenProcessTaskHandle())
@@ -65,6 +71,10 @@ INIT_FUNC_LOC  void vSYStaskInit ( void )
 
 INIT_FUNC_LOC void vSYSqueueInit ( void )
 {
+
+   * (xTXMessage()) = xMessageBufferCreateStatic( sizeof( ucTXMessageBufferStorage ),
+           ucTXMessageBufferStorage,
+           &xTXMessageBufferStruct );
 
    * (xRXQueue()) = xQueueCreateStatic( 16U, 1,ucQueueStorageArea, &xStaticQueue );
 }

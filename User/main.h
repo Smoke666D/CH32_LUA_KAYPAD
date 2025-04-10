@@ -19,6 +19,8 @@
 
 #define CORE WCH32V3
 
+#define  DMA1_CH2_ENABLE
+#define  DMA1_CH3_ENABLE
 #define  TIM1_UP_ENABLE
 #define USART3_IT_ENABLE
 

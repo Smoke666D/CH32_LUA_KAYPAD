@@ -36,6 +36,7 @@ int main(void)
 {
 	SystemCoreClockUpdate();
     InitDevice();
+    vSYSqueueInit();
     vSYStaskInit();
     vTaskStartScheduler();
 
