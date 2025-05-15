@@ -11,6 +11,36 @@
 #include "main.h"
 #include "system_init.h"
 
+#define NO_RESULT  0U
+#define ONE_RESULT 1U
+#define TWO_RESULT 2U
+#define SEVEN_RESULT   7U
+#define SUCSESS    1U
+#define ERROR	   0U
+
+#define CAN_FRAME_SIZE  				8U
+#define CAN_ID_POS					    1U
+#define FRAME_SIZE_POS					2U
+#define CAN_TABLE_POS					3U
+
+#define CANREQSEND_ARGUMENT_COUNT 3
+#define SEND_REQUEST_ARGUMENT_COUNT 3
+#define CAN_SEND_TABLE_ARGUMENT_COUNT 	3U
+
+#define FIRST_ARGUMENT   1U
+#define SECOND_ARGUMENT  2U
+#define THIRD_ARGUMENT   3U
+#define FOURTH_ARGUMENT  4U
+#define FIVE_ARGUMENT	 5U
+#define SIX_ARGUMENT	 6U
+#define SEVEN_ARGUMENT   7U
+#define LAST_ARGUMENT	-1
+
+#define ONE_ARGUMENT	1U
+#define TWO_ARGUMENTS	2U
+#define THREE_ARGUMENTS  3U
+#define FOUR_ARGUMENTS  4U
+
 
 typedef enum {
     LUA_INIT,

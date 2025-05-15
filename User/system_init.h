@@ -19,12 +19,19 @@
 #include "portmacro.h"
 #include "stdbool.h"
 
+#include "lua_task.h"
 
 #define APP_TASK_PRIO               6  //§¥§°§­§¨§¦§¯ §¢§½§´§¾ §³§¡§®§½ §£§½§³§°§¬§ª§«
-#define APP_STK_SIZE                256
+#define APP_STK_SIZE                128
 #define LUA_TASK_PRIO               6  //§¥§°§­§¨§¦§¯ §¢§½§´§¾ §³§¡§®§½ §£§½§³§°§¬§ª§«
 #define LUA_STK_SIZE                3000
+#define CANRX_TASK_PRIO               5 //§¥§°§­§¨§¦§¯ §¢§½§´§¾ §³§¡§®§½ §£§½§³§°§¬§ª§«
+#define CANRX_STK_SIZE               128
+#define CANTX_TASK_PRIO               5 //§¥§°§­§¨§¦§¯ §¢§½§´§¾ §³§¡§®§½ §£§½§³§°§¬§ª§«
+#define CANTX_STK_SIZE               128
 
+#define  CANRX_QUEUE_SIZE 				16U
+#define  CANTX_QUEUE_SIZE 				16U
 
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
                                     StackType_t **ppxIdleTaskStackBuffer,

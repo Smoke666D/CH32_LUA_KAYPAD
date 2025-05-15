@@ -37,8 +37,10 @@ void NMI_Handler(void)
  */
 void HardFault_Handler(void)
 {
+  printf("hard falult\r\n");
   while (1)
   {
+    
   }
 }
 

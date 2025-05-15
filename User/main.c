@@ -19,8 +19,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "system_init.h"
-#include "lawicel.h"
-#include "app_task.h"
+
 #include "init.h"
 
 
@@ -34,18 +33,16 @@
  */
 int main(void)
 {
-
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	SystemCoreClockUpdate();
-
-	//Delay_Init();
-   //  USART_Printf_Init(115200);
-     InitDevice();
-	//printf("SystemClk:%d\r\n",SystemCoreClock);
-  // printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
-	//printf("FreeRTOS Kernel Version:%s\r\n",tskKERNEL_VERSION_NUMBER);
-
-    vSYStaskInit();
+	Delay_Init();
+  
+    InitDevice();
+	USART_Printf_Init(115200);
+    printf("SystemClk:%d\r\n",SystemCoreClock);
+   vSYSqueueInit();
+   vSYStaskInit();
+   
     vTaskStartScheduler();
 
 	while(1)

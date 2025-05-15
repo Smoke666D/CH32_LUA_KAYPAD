@@ -17,9 +17,9 @@
 #define CAN_RX_Pin                  GPIO_8
 #define CAN_TX_Pin                  GPIO_9
 #define CAN_Port                    PORT_B
-#define RS_TX_Pin                   GPIO_10
-#define RS_RX_Pin                   GPIO_Pin_11
-#define RS_Port                     PORT_B
+#define RS_TX_Pin                   GPIO_9
+#define RS_RX_Pin                   GPIO_10
+#define RS_Port                     PORT_A
 
 
 void InitDevice();
