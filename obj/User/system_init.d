@@ -46,8 +46,9 @@ User/system_init.o: ../User/system_init.c ../User/system_init.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h \
  ../User/lua_task.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h \
- c:/MRS_DATA/workspace/CH32V_LUA/User/main.h
+ c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_LIB/hw_lib_can.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
+ c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h
 ../User/system_init.h:
 ../User/main.h:
 c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/FreeRTOS.h:
@@ -96,5 +97,6 @@ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/queue.h:
 c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h:
 c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h:
 ../User/lua_task.h:
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h:
+c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_LIB/hw_lib_can.h:
 c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
+c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h:

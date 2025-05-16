@@ -5,7 +5,7 @@
  *      Author: i.dymov
  */
 #include "system_init.h"
-//#include "hw_lib_can.h"
+#include "hw_lib_can.h"
 #include "hal_can.h"
 
 static StaticTask_t xIdleTaskTCB;
@@ -51,8 +51,8 @@ void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer,
 
 INIT_FUNC_LOC  void vSYStaskInit ( void )
 {
- //(* xGetRXTaskHandle ())= xTaskCreateStatic( vCanRXTask, "CanrxTask", CANRX_STK_SIZE , ( void * ) 1, CANRX_TASK_PRIO  ,
- //     (StackType_t * const )CANRXTaskBuffer, &xCANRXTaskTCB );
+ (* xGetCanTaskHandle ())= xTaskCreateStatic( vCanTask, "CanrxTask", CANRX_STK_SIZE , ( void * ) 1, CANRX_TASK_PRIO  ,
+      (StackType_t * const )CANRXTaskBuffer, &xCANRXTaskTCB );
  //(* xGetTXTaskHandle ())= xTaskCreateStatic( vCanTXTask, "CanTxTask", CANTX_STK_SIZE , ( void * ) 1, CANTX_TASK_PRIO  ,
  //     (StackType_t * const )CANTXTaskBuffer, &xCANTXTaskTCB );
  (* xGetLuaTaskHandle()) = xTaskCreateStatic( vLuaTask, "LuaTask", LUA_STK_SIZE , ( void * ) 1, LUA_TASK_PRIO  ,
@@ -63,8 +63,8 @@ INIT_FUNC_LOC  void vSYStaskInit ( void )
 INIT_FUNC_LOC void vSYSqueueInit ( void )
 {
 
- //*( pCANRXgetQueue() ) = xQueueCreateStatic( CANRX_QUEUE_SIZE, sizeof( CAN_FRAME_TYPE), ( uint8_t* )canRXBuffer, &xcanRXqueue );
- //*( pCANTXgetQueue() ) = xQueueCreateStatic( CANTX_QUEUE_SIZE, sizeof( CAN_TX_FRAME_TYPE ), ( uint8_t* )canTXBuffer, &xcanTXqueue );
+ *( pCANRXgetQueue() ) = xQueueCreateStatic( CANRX_QUEUE_SIZE, sizeof( CAN_FRAME_TYPE), ( uint8_t* )canRXBuffer, &xcanRXqueue );
+ *( pCANTXgetQueue() ) = xQueueCreateStatic( CANTX_QUEUE_SIZE, sizeof( CAN_TX_FRAME_TYPE ), ( uint8_t* )canTXBuffer, &xcanTXqueue );
 }
 /*----------------------------------------------------------------------------*/
 void vSYSeventInit ( void )

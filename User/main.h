@@ -20,6 +20,9 @@
 #define WCH32V3   2
 #define WCH32V2   1
 
+#define CAN1_PRIOR        1
+#define CAN1_SUBPRIOR     0
+
 #define CORE WCH32V3
 
 #define  TIM1_UP_ENABLE
