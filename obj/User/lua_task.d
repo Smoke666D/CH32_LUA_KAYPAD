@@ -59,7 +59,9 @@ User/lua_task.o: ../User/lua_task.c ../User/lua_task.h ../User/main.h \
  c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ltm.h \
  c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lzio.h \
  c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lmem.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_LIB/hw_lib_can.h
+ c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_LIB/hw_lib_can.h \
+ c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h \
+ c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_timers.h
 ../User/lua_task.h:
 ../User/main.h:
 ../User/system_init.h:
@@ -123,3 +125,5 @@ c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ltm.h:
 c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lzio.h:
 c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lmem.h:
 c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_LIB/hw_lib_can.h:
+c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h:
+c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_timers.h:

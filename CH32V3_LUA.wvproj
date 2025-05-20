@@ -45,6 +45,11 @@
 				"parentLogicPath": "",
 				"type": "folder",
 				"name": "USB_Device"
+			},
+			{
+				"parentLogicPath": "Peripheral",
+				"type": "folder",
+				"name": "HAL_LIB"
 			}
 		],
 		"projectName": "CH32V3_LUA",
@@ -67,12 +72,8 @@
 				"post_script": "",
 				"post_script_description": "",
 				"excludeResources": [
-					"${project}/HAL_DRIVER/hal_adc.c",
-					"${project}/HAL_DRIVER/hal_adc.h",
 					"${project}/HAL_DRIVER/hal_dac.c",
 					"${project}/HAL_DRIVER/hal_dac.h",
-					"${project}/HAL_DRIVER/hal_dma_ch32.c",
-					"${project}/HAL_DRIVER/hal_dma.h",
 					"${project}/HAL_DRIVER/hal_i2c_ch32.c",
 					"${project}/HAL_DRIVER/hal_i2c.h",
 					"${project}/HAL_DRIVER/hal_rtc_ch32.c",
@@ -91,7 +92,6 @@
 					"${project}/PROTOCOLS/lawicel.h",
 					"${project}/PROTOCOLS/xmodem.h",
 					"${project}/PROTOCOLS/xmodem.c",
-					"${project}/HAL_DRIVER/hal_adc_ch32.c",
 					"${project}/HAL_DRIVER/hal_flash_ch32.c",
 					"${project}/HAL_DRIVER/hal_flash.h",
 					"${project}/HAL_DRIVER/hal_usart.c",
@@ -112,7 +112,8 @@
 					"${project}/HAL_LIB/hw_lib_din.c",
 					"${project}/HAL_LIB/hw_lib_adc.h",
 					"${project}/HAL_LIB/hw_lib_adc.c",
-					"${project}/Peripheral/HAL_LIB"
+					"${project}/Peripheral/HAL_LIB",
+					"${project}/HAL_DRIVER/hal_adc.c"
 				],
 				"riscvTargetProcessor": {
 					"architecture": "rv32i",
@@ -222,7 +223,6 @@
 						"include_paths": [
 							"${project}/Debug",
 							"${project}/HAL_DRIVER",
-							"${project}/PROTOCOLS",
 							"${project}/Core",
 							"${project}/User",
 							"${project}/Peripheral/inc",

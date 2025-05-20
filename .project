@@ -67,5 +67,13 @@
         <arguments>1.0-name-matches-false-false-USB_Device</arguments>
       </matcher>
     </filter>
+    <filter>
+      <name>Peripheral</name>
+      <type>10</type>
+      <matcher>
+        <id>org.eclipse.ui.ide.multiFilter</id>
+        <arguments>1.0-name-matches-false-false-HAL_LIB</arguments>
+      </matcher>
+    </filter>
   </filteredResources>
 </projectDescription>
