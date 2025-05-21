@@ -1,55 +1,119 @@
 #include "io_task.h"
 #include "hal_dma.h"
 #include "string.h"
+#include "hw_lib_keyboard.h"
+#include "init.h"
 
 static TaskHandle_t  IOTaskHandle;
-static int16_t  ADC1_DMABuffer[AC_CONVERION_NUMBER*ADC_CHANNEL];
+static uint8_t  STATUS[KEY_COUNT];
+static uint8_t  COUNTERS[KEY_COUNT];
+static QueueHandle_t     pKeyboard        = NULL;
+static KeyEvent          TempEvent        = { 0U };
 
 TaskHandle_t * xGetIOTaskHandle ()
 {
     return  &IOTaskHandle ;
 }
 
-void ADC1_Event( void )
+
+BitState_t fPortState (uint8_t i)
 {
- //   HAL_TiemrDisable(TIMER2);
-    HAL_DMA_Disable(DMA1_CH1);
-
-   // ADC_EXT_TRIG_DISABLE (ADC_1);
-
-    //HW_TIMER_SelectOutTrigger(TIMER3,TIM_TRGOSource_OC4Ref);
-
-
-   // FindMax();
-    HAL_DMA_SetCounter(DMA1_CH1, AC_CONVERION_NUMBER*3);
-    HAL_DMA_Enable(DMA1_CH1);
-   // HAL_TiemrEneblae(TIMER2);
-    //HW_TIMER_SelectOutTrigger(TIMER3,TIM_TRGOSource_Update);
-   // ADC_EXT_TRIG_ENABLE (ADC_1);
-    static portBASE_TYPE xHigherPriorityTaskWoken;
-    xHigherPriorityTaskWoken = pdFALSE;
-    //xTaskNotifyFromISR(pAdcTaskHandle,  ADC1_DATA_READY, eSetBits, &xHigherPriorityTaskWoken  );
-    portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
-
+    switch (i)
+    {
+        case 0:
+            return HAL_GetBit( KL1_Port, KL1Pin  );
+        case 1:
+            return HAL_GetBit( KL2_8_Port, KL2Pin  );
+        case 2:
+            return HAL_GetBit( KL2_8_Port, KL3Pin  );
+        case 3:
+            return HAL_GetBit( KL2_8_Port, KL4Pin  );
+        case 4:
+            return HAL_GetBit( KL2_8_Port, KL5Pin  );
+        case 5:
+            return HAL_GetBit( KL2_8_Port, KL6Pin  );
+        case 6:
+            return HAL_GetBit( KL2_8_Port, KL7Pin  );
+        case 7:
+            return HAL_GetBit( KL2_8_Port, KL8Pin  );
+        default:
+            return 0;
+    }
 }
 
 
+
+void vInitKeybord()
+{
+    KeybaordStruct_t KeyboardInit;
+    KeyboardInit.KEYBOARD_COUNT    = KEY_COUNT;
+    KeyboardInit.COUNTERS          = COUNTERS;
+    KeyboardInit.STATUS            = STATUS;
+    KeyboardInit.REPEAT_TIME       = 3;
+    KeyboardInit.KEYDOWN_HOLD_TIME = 4;
+    KeyboardInit.KEYDOWN_DELAY     = 2;
+    KeyboardInit.KEYBOARD_PERIOD   = 20;
+    KeyboardInit.getPortCallback = &fPortState;
+    eKeyboardInit(&KeyboardInit);
+}
+
+static uint8_t data;
+
+uint8_t getKeyData()
+{
+    return data;
+}
+
 void vIOTask(void *argument)
 {
-	DMA_INIT_t init;
-    init.stream = DMA1_CH1;
-    init.direction = PTOM;
-    init.mode  = DMA_Circular;
-    init.paddr = (u32)&ADC1->RDATAR;
-    init.memadr = (u32)ADC1_DMABuffer;
-    init.dma_size = DMA_HWORD;
-    init.bufsize = AC_CONVERION_NUMBER*3;
-    init.prioroty = dma_VeryHigh;
-    HAL_DMAInitIT(init,  ADC1_PRIOR , ADC1_SUB_PRIOR, &ADC1_Event  );
-    HAL_DMA_Enable(DMA1_CH1);
-    memset(ADC1_DMABuffer,0,AC_CONVERION_NUMBER*3);
+ static uint8_t key_mask;
+   vInitKeybord();
+   pKeyboard = *( xKeyboardQueue());
 	while(1)
 	{  
 		vTaskDelay(1); 
+        HW_LIB_KeyboradFSM();
+        if ( uxQueueMessagesWaiting(pKeyboard) != 0)
+		{
+			xQueueReceive( pKeyboard, &TempEvent,portMAX_DELAY );
+			switch (TempEvent.KeyCode)
+			{
+				case kl1_key:
+				   key_mask = K1;
+				   break;
+				case kl2_key:
+				   key_mask = K2;
+			   	   break;
+				case kl3_key:
+				   key_mask = K3;
+			   	   break;
+				case kl4_key:
+				   key_mask = K4;
+ 			   	   break;
+				case kl5_key:
+				   key_mask = K5;
+   			   	   break;
+				case kl6_key:
+				   key_mask = K6;
+			  	   break;
+				case kl7_key:
+				   key_mask = K7;
+			   	   break;
+				case kl8_key:
+				   key_mask = K8;
+			   	   break;
+				default:
+				   key_mask = 0U;
+				   break;
+			}
+			if ( TempEvent.Status == MAKECODE )
+			{
+				data |= key_mask;
+			}
+			else
+			{
+				data &= ~key_mask;
+			}
+        }
 	}
 }

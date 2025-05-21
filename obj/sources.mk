@@ -31,6 +31,7 @@ FreeRTOS/portable/MemMang \
 HAL_DRIVER \
 HAL_LIB \
 LUA \
+Peripheral/LUA \
 Peripheral/src \
 Startup \
 User \

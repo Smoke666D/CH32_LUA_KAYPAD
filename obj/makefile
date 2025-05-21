@@ -11,6 +11,7 @@ RM := rm -rf
 -include User/subdir.mk
 -include Startup/subdir.mk
 -include Peripheral/src/subdir.mk
+-include Peripheral/LUA/subdir.mk
 -include LUA/subdir.mk
 -include HAL_LIB/subdir.mk
 -include HAL_DRIVER/subdir.mk
@@ -61,13 +62,13 @@ main-build: CH32V3_LUA.elf secondary-outputs
 
 # Tool invocations
 CH32V3_LUA.elf: $(OBJS) $(USER_OBJS)
-	@	riscv-wch-elf-gcc -march=rv32imafcxw -mabi=ilp32f -msmall-data-limit=8 -msave-restore -fmax-errors=20 -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized -g -T "c:/MRS_DATA/workspace/CH32V_LUA/Ld/Link.ld" -nostartfiles -Xlinker --gc-sections -Xlinker --print-memory-usage -Xlinker -print-memory-usage -Wl,-Map,"CH32V3_LUA.map" --specs=nano.specs --specs=nosys.specs -o "CH32V3_LUA.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	@	riscv-none-embed-gcc -march=rv32imafcxw -mabi=ilp32f -msmall-data-limit=8 -msave-restore -fmax-errors=20 -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized -g -T "c:/MRS_DATA/workspace/CH32V_LUA/Ld/Link.ld" -nostartfiles -Xlinker --gc-sections -Xlinker --print-memory-usage -Xlinker -print-memory-usage -Wl,-Map,"CH32V3_LUA.map" --specs=nano.specs --specs=nosys.specs -o "CH32V3_LUA.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 CH32V3_LUA.hex: CH32V3_LUA.elf
-	@	riscv-wch-elf-objcopy -O ihex "CH32V3_LUA.elf" "CH32V3_LUA.hex"
+	@	riscv-none-embed-objcopy -O ihex "CH32V3_LUA.elf" "CH32V3_LUA.hex"
 CH32V3_LUA.lst: CH32V3_LUA.elf
-	@	riscv-wch-elf-objdump --all-headers --demangle --disassemble -M xw "CH32V3_LUA.elf" > "CH32V3_LUA.lst"
+	@	riscv-none-embed-objdump --all-headers --demangle --disassemble -M xw "CH32V3_LUA.elf" > "CH32V3_LUA.lst"
 CH32V3_LUA.siz: CH32V3_LUA.elf
-	riscv-wch-elf-size --format=berkeley "CH32V3_LUA.elf"
+	riscv-none-embed-size --format=berkeley "CH32V3_LUA.elf"
 
 # Other Targets
 clean:

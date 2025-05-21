@@ -78,8 +78,6 @@
 					"${project}/HAL_DRIVER/hal_i2c.h",
 					"${project}/HAL_DRIVER/hal_rtc_ch32.c",
 					"${project}/HAL_DRIVER/hal_rtc.h",
-					"${project}/HAL_DRIVER/hal_spi_ch32.c",
-					"${project}/HAL_DRIVER/hal_spi.h",
 					"${project}/HAL_DRIVER/hal_wdt_ch32.c",
 					"${project}/HAL_DRIVER/hal_wdt.h",
 					"${project}/HAL_DRIVER/system_config.h",
@@ -104,16 +102,14 @@
 					"${project}/HAL_LIB/hw_data_model.h",
 					"${project}/HAL_LIB/hw_timeout.h",
 					"${project}/HAL_LIB/hw_timeout.c",
-					"${project}/HAL_LIB/hw_lib_keyboard.h",
-					"${project}/HAL_LIB/hw_lib_keyboard.c",
 					"${project}/HAL_LIB/hw_lib_eeprom_i2c.h",
 					"${project}/HAL_LIB/hw_lib_eeprom_i2c.c",
 					"${project}/HAL_LIB/hw_lib_din.h",
 					"${project}/HAL_LIB/hw_lib_din.c",
-					"${project}/HAL_LIB/hw_lib_adc.h",
-					"${project}/HAL_LIB/hw_lib_adc.c",
 					"${project}/Peripheral/HAL_LIB",
-					"${project}/HAL_DRIVER/hal_adc.c"
+					"${project}/HAL_DRIVER/hal_adc.c",
+					"${project}/HAL_LIB/hw_lib_adc.c",
+					"${project}/HAL_LIB/hw_lib_adc.h"
 				],
 				"riscvTargetProcessor": {
 					"architecture": "rv32i",
@@ -404,7 +400,7 @@
 					"show_totals": false,
 					"other_flags": ""
 				},
-				"component_toolchain": "${WCH:Toolchain:GCC12}",
+				"component_toolchain": "${WCH:Toolchain:GCC8}",
 				"name": "obj",
 				"configVariables": []
 			},
@@ -768,7 +764,7 @@
 			"enableNoZeroWaitingAreaFlash": false
 		},
 		"gdbCfg": {
-			"executable": "${WCH:Toolchain:GCC12}",
+			"executable": "${WCH:Toolchain:GCC8}",
 			"options": [],
 			"commands": [
 				"set mem inaccessible-by-default off",
