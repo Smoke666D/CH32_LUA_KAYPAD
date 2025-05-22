@@ -247,7 +247,7 @@ static const INIT_FUNC_LOC char Script[] = "CANID = 0x15 Keys = 0 OldKeys= 0 ste
  if Keys ~=OldKeys then CanSend(0x180+CANID,Keys,0,0,0,0,0,0,0) OldKeys = Keys end \n\
  \n\
  \n\
-     time,Keys = coroutine.yield(LED_STATE[1],LED_STATE[2],LED_STATE[3],LED_BRIGTH[1],LED_BACK_LIGTH[1]) end end";
+     time,Keys = coroutine.yield(LED_BRIGTH[1],LED_BACK_LIGTH[1],LED_STATE[1],LED_STATE[2],LED_STATE[3]) end end";
 
 int res ;
 
@@ -292,6 +292,7 @@ void vLuaTask( void * argument )
                 ulWorkCicleIn10us= HAL_GetTimerCnt(TIMER1);
                 lua_pushinteger(L1, ulWorkCicleIn10us);
                 lua_pushinteger(L1, getKeyData());
+               
                 res = lua_resume(L1,0,2);
                 for (uint8_t i=0;i<5;i++)
                 {
@@ -309,11 +310,10 @@ void vLuaTask( void * argument )
                             break;
                         case 4:
                             vSetBackLigth(temp_data);
-                                    break;
+                            break;
                       }
                     }
                 }  
-                
                 counter++;
                 if (counter == 1000)
                 {

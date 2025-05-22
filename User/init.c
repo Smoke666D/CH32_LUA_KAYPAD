@@ -26,6 +26,5 @@ INIT_FUNC_LOC void InitDevice()
     HAL_SPI_InitDMA(HAL_SPI2, SPI_8bit);
     HW_TIMER_TimerInit(TIMER1,100000,10000);
     vLedDriverStart();
-
 }
 

@@ -7637,61 +7637,61 @@ OUTPUT(CH32V3_LUA.elf elf32-littleriscv)
  .debug_ranges  0x00000000000055e8      0x198 ./FreeRTOS/timers.o
  .debug_ranges  0x0000000000005780       0x40 ./Debug/debug.o
 
-.debug_line     0x0000000000000000    0x469bd
+.debug_line     0x0000000000000000    0x469bb
  .debug_line    0x0000000000000000      0x2e7 ./User/ch32v30x_it.o
  .debug_line    0x00000000000002e7      0x398 ./User/init.o
  .debug_line    0x000000000000067f      0x76d ./User/io_task.o
  .debug_line    0x0000000000000dec      0x962 ./User/led_task.o
- .debug_line    0x000000000000174e      0xfb9 ./User/lua_task.o
- .debug_line    0x0000000000002707      0x41b ./User/main.o
- .debug_line    0x0000000000002b22      0x6fe ./User/system_ch32v30x.o
- .debug_line    0x0000000000003220      0x593 ./User/system_init.o
- .debug_line    0x00000000000037b3      0x122 ./Startup/startup_ch32v30x_D8C.o
- .debug_line    0x00000000000038d5      0xa1d ./Peripheral/src/ch32v30x_dma.o
- .debug_line    0x00000000000042f2      0xf41 ./Peripheral/src/ch32v30x_gpio.o
- .debug_line    0x0000000000005233      0x41a ./Peripheral/src/ch32v30x_misc.o
- .debug_line    0x000000000000564d     0x1823 ./Peripheral/src/ch32v30x_rcc.o
- .debug_line    0x0000000000006e70     0x3342 ./Peripheral/src/ch32v30x_tim.o
- .debug_line    0x000000000000a1b2      0xf42 ./Peripheral/src/ch32v30x_usart.o
- .debug_line    0x000000000000b0f4     0x41c8 ./LUA/lapi.o
- .debug_line    0x000000000000f2bc     0x347e ./LUA/lauxlib.o
- .debug_line    0x000000000001273a     0x14e1 ./LUA/lbaselib.o
- .debug_line    0x0000000000013c1b     0x2a10 ./LUA/lcode.o
- .debug_line    0x000000000001662b      0x306 ./LUA/lcorolib.o
- .debug_line    0x0000000000016931      0x2a0 ./LUA/lctype.o
- .debug_line    0x0000000000016bd1     0x2072 ./LUA/ldebug.o
- .debug_line    0x0000000000018c43     0x2355 ./LUA/ldo.o
- .debug_line    0x000000000001af98      0xa2c ./LUA/lfunc.o
- .debug_line    0x000000000001b9c4     0x2a45 ./LUA/lgc.o
- .debug_line    0x000000000001e409      0x32c ./LUA/linit.o
- .debug_line    0x000000000001e735     0x1bff ./LUA/llex.o
- .debug_line    0x0000000000020334      0x56d ./LUA/lmem.o
- .debug_line    0x00000000000208a1     0x1681 ./LUA/lobject.o
- .debug_line    0x0000000000021f22      0x2a4 ./LUA/lopcodes.o
- .debug_line    0x00000000000221c6     0x4143 ./LUA/lparser.o
- .debug_line    0x0000000000026309     0x132b ./LUA/lstate.o
- .debug_line    0x0000000000027634      0xe44 ./LUA/lstring.o
- .debug_line    0x0000000000028478     0x1a63 ./LUA/ltable.o
- .debug_line    0x0000000000029edb      0xa51 ./LUA/ltm.o
- .debug_line    0x000000000002a92c      0xffd ./LUA/lundump.o
- .debug_line    0x000000000002b929     0x47e0 ./LUA/lvm.o
- .debug_line    0x0000000000030109      0x599 ./LUA/lzio.o
- .debug_line    0x00000000000306a2      0xfd2 ./HAL_LIB/hw_lib_can.o
- .debug_line    0x0000000000031674      0x7bb ./HAL_LIB/hw_lib_keyboard.o
- .debug_line    0x0000000000031e2f     0x17f6 ./HAL_DRIVER/hal_can_ch32.o
- .debug_line    0x0000000000033625      0xb83 ./HAL_DRIVER/hal_dma_ch32.o
- .debug_line    0x00000000000341a8     0x40c9 ./HAL_DRIVER/hal_gpio_ch32.o
- .debug_line    0x0000000000038271      0x45a ./HAL_DRIVER/hal_irq.o
- .debug_line    0x00000000000386cb      0x68a ./HAL_DRIVER/hal_spi_ch32.o
- .debug_line    0x0000000000038d55     0x1347 ./HAL_DRIVER/hal_timers_ch32.o
- .debug_line    0x000000000003a09c      0xcc8 ./FreeRTOS/portable/MemMang/heap_4.o
- .debug_line    0x000000000003ad64      0x7eb ./FreeRTOS/portable/GCC/RISC-V/port.o
- .debug_line    0x000000000003b54f      0x374 ./FreeRTOS/portable/GCC/RISC-V/portASM.o
- .debug_line    0x000000000003b8c3      0x6ed ./FreeRTOS/list.o
- .debug_line    0x000000000003bfb0     0x358d ./FreeRTOS/queue.o
- .debug_line    0x000000000003f53d     0x5452 ./FreeRTOS/tasks.o
- .debug_line    0x000000000004498f     0x18a7 ./FreeRTOS/timers.o
- .debug_line    0x0000000000046236      0x787 ./Debug/debug.o
+ .debug_line    0x000000000000174e      0xfb7 ./User/lua_task.o
+ .debug_line    0x0000000000002705      0x41b ./User/main.o
+ .debug_line    0x0000000000002b20      0x6fe ./User/system_ch32v30x.o
+ .debug_line    0x000000000000321e      0x593 ./User/system_init.o
+ .debug_line    0x00000000000037b1      0x122 ./Startup/startup_ch32v30x_D8C.o
+ .debug_line    0x00000000000038d3      0xa1d ./Peripheral/src/ch32v30x_dma.o
+ .debug_line    0x00000000000042f0      0xf41 ./Peripheral/src/ch32v30x_gpio.o
+ .debug_line    0x0000000000005231      0x41a ./Peripheral/src/ch32v30x_misc.o
+ .debug_line    0x000000000000564b     0x1823 ./Peripheral/src/ch32v30x_rcc.o
+ .debug_line    0x0000000000006e6e     0x3342 ./Peripheral/src/ch32v30x_tim.o
+ .debug_line    0x000000000000a1b0      0xf42 ./Peripheral/src/ch32v30x_usart.o
+ .debug_line    0x000000000000b0f2     0x41c8 ./LUA/lapi.o
+ .debug_line    0x000000000000f2ba     0x347e ./LUA/lauxlib.o
+ .debug_line    0x0000000000012738     0x14e1 ./LUA/lbaselib.o
+ .debug_line    0x0000000000013c19     0x2a10 ./LUA/lcode.o
+ .debug_line    0x0000000000016629      0x306 ./LUA/lcorolib.o
+ .debug_line    0x000000000001692f      0x2a0 ./LUA/lctype.o
+ .debug_line    0x0000000000016bcf     0x2072 ./LUA/ldebug.o
+ .debug_line    0x0000000000018c41     0x2355 ./LUA/ldo.o
+ .debug_line    0x000000000001af96      0xa2c ./LUA/lfunc.o
+ .debug_line    0x000000000001b9c2     0x2a45 ./LUA/lgc.o
+ .debug_line    0x000000000001e407      0x32c ./LUA/linit.o
+ .debug_line    0x000000000001e733     0x1bff ./LUA/llex.o
+ .debug_line    0x0000000000020332      0x56d ./LUA/lmem.o
+ .debug_line    0x000000000002089f     0x1681 ./LUA/lobject.o
+ .debug_line    0x0000000000021f20      0x2a4 ./LUA/lopcodes.o
+ .debug_line    0x00000000000221c4     0x4143 ./LUA/lparser.o
+ .debug_line    0x0000000000026307     0x132b ./LUA/lstate.o
+ .debug_line    0x0000000000027632      0xe44 ./LUA/lstring.o
+ .debug_line    0x0000000000028476     0x1a63 ./LUA/ltable.o
+ .debug_line    0x0000000000029ed9      0xa51 ./LUA/ltm.o
+ .debug_line    0x000000000002a92a      0xffd ./LUA/lundump.o
+ .debug_line    0x000000000002b927     0x47e0 ./LUA/lvm.o
+ .debug_line    0x0000000000030107      0x599 ./LUA/lzio.o
+ .debug_line    0x00000000000306a0      0xfd2 ./HAL_LIB/hw_lib_can.o
+ .debug_line    0x0000000000031672      0x7bb ./HAL_LIB/hw_lib_keyboard.o
+ .debug_line    0x0000000000031e2d     0x17f6 ./HAL_DRIVER/hal_can_ch32.o
+ .debug_line    0x0000000000033623      0xb83 ./HAL_DRIVER/hal_dma_ch32.o
+ .debug_line    0x00000000000341a6     0x40c9 ./HAL_DRIVER/hal_gpio_ch32.o
+ .debug_line    0x000000000003826f      0x45a ./HAL_DRIVER/hal_irq.o
+ .debug_line    0x00000000000386c9      0x68a ./HAL_DRIVER/hal_spi_ch32.o
+ .debug_line    0x0000000000038d53     0x1347 ./HAL_DRIVER/hal_timers_ch32.o
+ .debug_line    0x000000000003a09a      0xcc8 ./FreeRTOS/portable/MemMang/heap_4.o
+ .debug_line    0x000000000003ad62      0x7eb ./FreeRTOS/portable/GCC/RISC-V/port.o
+ .debug_line    0x000000000003b54d      0x374 ./FreeRTOS/portable/GCC/RISC-V/portASM.o
+ .debug_line    0x000000000003b8c1      0x6ed ./FreeRTOS/list.o
+ .debug_line    0x000000000003bfae     0x358d ./FreeRTOS/queue.o
+ .debug_line    0x000000000003f53b     0x5452 ./FreeRTOS/tasks.o
+ .debug_line    0x000000000004498d     0x18a7 ./FreeRTOS/timers.o
+ .debug_line    0x0000000000046234      0x787 ./Debug/debug.o
 
 .debug_str      0x0000000000000000     0x9338
  .debug_str     0x0000000000000000      0x53a ./User/ch32v30x_it.o
