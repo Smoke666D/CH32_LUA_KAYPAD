@@ -57,14 +57,7 @@ static int iCanSetConfig(lua_State *L)
 	return ( NO_RESULT );
 }
 
-static int iSetLedBrigth(lua_State *L)
-{
-   if (lua_gettop(L) == ONE_ARGUMENT)
-   {
-      vSetBrigth((uint8_t) lua_tointeger( L, FIRST_ARGUMENT));
-   }
-   return ( NO_RESULT );
-}
+
 
 static int iSetBackLigthBrigth(lua_State *L)
 {
@@ -74,15 +67,7 @@ static int iSetBackLigthBrigth(lua_State *L)
    }
    return ( NO_RESULT );
 }
-static int iSetLedState(lua_State *L)
-{
 
-if (lua_gettop(L) == TWO_ARGUMENTS)
-{
-    vSetLedOn((uint8_t) lua_tointeger( L, FIRST_ARGUMENT),(uint8_t) lua_tointeger( L, SECOND_ARGUMENT));
-}
-
-}
 
 
 
@@ -248,21 +233,21 @@ int iCanGetMessage(lua_State *L )
 static const INIT_FUNC_LOC char Script[] = "CANID = 0x15 Keys = 0 OldKeys= 0 step = 0  time = 0 main = function () \n\
    \n\
  ConfigCan(1,250) t=0  \n\
- data={[1]=0,[2]=0,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
- data1={[1]=0,[2]=0,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
+ LED_BACK_LIGTH={[1]=14,[2]=0,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
+ LED_BRIGTH={[1]=0,[2]=14,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
  LED_STATE={[1]=0,[2]=0,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
- SetLedBrigth(14)  SetBackLighthBrigth(14) setCanFilter(0x500+CANID) setCanFilter(0x400+CANID) setCanFilter(0x300+CANID) setCanFilter(0x200+CANID) \n\
+  setCanFilter(0x500+CANID) setCanFilter(0x400+CANID) setCanFilter(0x300+CANID) setCanFilter(0x200+CANID) \n\
  while true do  t= t+time/100 if (t>1000) then\n\
   t=0 step=step+800  if step>26400 then step = 8000 end\n\
  CanSend(0x0CF00400 | 0x80000000 ,0x55,0x55,0x55,step and 0xFF,step >>8,0x55,0x55,0x56) end\n\
  \n\
- if ( GetCanToTable( 0x500+CANID,data) == 1 ) then SetBackLighthBrigth(data[1])   end\n\
- if ( GetCanToTable( 0x400+CANID,data1) == 1 ) then SetLedBrigth(data1[1])   end\n\
+ GetCanToTable( 0x500+CANID,LED_BACK_LIGTH) \n\
+ GetCanToTable( 0x400+CANID,LED_BRIGTH) \n\
  GetCanToTable( 0x200+CANID,LED_STATE)  \n\
  if Keys ~=OldKeys then CanSend(0x180+CANID,Keys,0,0,0,0,0,0,0) OldKeys = Keys end \n\
  \n\
  \n\
-     time,Keys = coroutine.yield(LED_STATE[1],LED_STATE[2],LED_STATE[3]) end end";
+     time,Keys = coroutine.yield(LED_STATE[1],LED_STATE[2],LED_STATE[3],LED_BRIGTH[1],LED_BACK_LIGTH[1]) end end";
 
 int res ;
 
@@ -272,7 +257,8 @@ static lua_State *L1 = NULL;
 
 void vLuaTask( void * argument )
 {
-   int ss =200;
+   uint8_t data_buffer[5]={0,0,0,0,0};
+ 
    uint16_t counter = 0;
     lua_state = LUA_INIT;
     uint32_t ulWorkCicleIn10us;
@@ -294,9 +280,6 @@ void vLuaTask( void * argument )
                lua_register(L1,"ResetCanFilter",    iCanResetResiveFilter );
 	             lua_register(L1,"GetCanToTable",     iCanGetResivedData);
 	             lua_register(L1,"ConfigCan",         iCanSetConfig);
-               lua_register(L1,"SetLedBrigth",      iSetLedBrigth);
-               lua_register(L1,"SetBackLighthBrigth", iSetBackLigthBrigth);
-             //  lua_register(L1,"SetLED",iSetLedState);
                printf("Memory %d\r\n",lua_gc(L1,LUA_GCCOUNT,0)*1024);
                res =luaL_dostring(L1, Script);//, sizeof(Script)+1 , Script )));//  || lua_pcall(L1, 0, LUA_MULTRET, 0)) 	);
                printf("Res %d\r\n",res);
@@ -306,26 +289,36 @@ void vLuaTask( void * argument )
                lua_state = LUA_RUN;
                break;
             case LUA_RUN:
-               
-                // int temp;
-                
-
                 ulWorkCicleIn10us= HAL_GetTimerCnt(TIMER1);
                 lua_pushinteger(L1, ulWorkCicleIn10us);
                 lua_pushinteger(L1, getKeyData());
                 res = lua_resume(L1,0,2);
-                uint8_t data1 = (uint8_t) lua_tointeger( L1,-(1));
-                uint8_t data2 = (uint8_t) lua_tointeger( L1,-(2));
-                uint8_t data3 = (uint8_t) lua_tointeger( L1,-(3));
-                vSetLedOn(1,data1);
-                vSetLedOn(2,data2);
-                vSetLedOn(3,data3);
+                for (uint8_t i=0;i<5;i++)
+                {
+                    uint8_t temp_data = (uint8_t) lua_tointeger( L1,-(i+1));
+                    if (data_buffer[i]!=temp_data)
+                    {
+                      data_buffer[i]=temp_data;
+                      switch (i)
+                      {
+                        default:
+                            vSetLedOn((i+1),temp_data);
+                            break;
+                        case 3:
+                            vSetBrigth(temp_data);
+                            break;
+                        case 4:
+                            vSetBackLigth(temp_data);
+                                    break;
+                      }
+                    }
+                }  
                 
                 counter++;
                 if (counter == 1000)
                 {
                   counter=0;
-                  printf("data %i %i %i",data1,data2,data3);
+                  printf("data %i %i %i",data_buffer[0],data_buffer[1],data_buffer[2]);
                   printf("timer = %i\r\n",ulWorkCicleIn10us);
                 }
                 HAL_TimerReset(TIMER1);
