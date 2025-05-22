@@ -245,13 +245,12 @@ int iCanGetMessage(lua_State *L )
 }
 
 
-static const INIT_FUNC_LOC char Script[] = "CANID = 0x20 Keys = 0 OldKeys= 0 step = 0 Out1 = false time = 0 main = function () \n\
- function stop()  time,Keys = coroutine.yield(Out1,i)  end  \n\
+static const INIT_FUNC_LOC char Script[] = "CANID = 0x15 Keys = 0 OldKeys= 0 step = 0  time = 0 main = function () \n\
+   \n\
  ConfigCan(1,250) t=0  \n\
  data={[1]=0,[2]=0,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
  data1={[1]=0,[2]=0,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
- data2={[1]=0,[2]=0,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
- data3={[1]=0,[2]=0,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
+ LED_STATE={[1]=0,[2]=0,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
  SetLedBrigth(14)  SetBackLighthBrigth(14) setCanFilter(0x500+CANID) setCanFilter(0x400+CANID) setCanFilter(0x300+CANID) setCanFilter(0x200+CANID) \n\
  while true do  t= t+time/100 if (t>1000) then\n\
   t=0 step=step+800  if step>26400 then step = 8000 end\n\
@@ -259,11 +258,11 @@ static const INIT_FUNC_LOC char Script[] = "CANID = 0x20 Keys = 0 OldKeys= 0 ste
  \n\
  if ( GetCanToTable( 0x500+CANID,data) == 1 ) then SetBackLighthBrigth(data[1])   end\n\
  if ( GetCanToTable( 0x400+CANID,data1) == 1 ) then SetLedBrigth(data1[1])   end\n\
- if ( GetCanToTable( 0x200+CANID,data2) == 1 ) then SetLED(1,data2[1])  SetLED(2,data2[2]) SetLED(3,data2[3])end \n\
+ GetCanToTable( 0x200+CANID,LED_STATE)  \n\
  if Keys ~=OldKeys then CanSend(0x180+CANID,Keys,0,0,0,0,0,0,0) OldKeys = Keys end \n\
  \n\
  \n\
-  Out1 = not Out1   stop() end end";
+     time,Keys = coroutine.yield(LED_STATE[1],LED_STATE[2],LED_STATE[3]) end end";
 
 int res ;
 
@@ -297,7 +296,7 @@ void vLuaTask( void * argument )
 	             lua_register(L1,"ConfigCan",         iCanSetConfig);
                lua_register(L1,"SetLedBrigth",      iSetLedBrigth);
                lua_register(L1,"SetBackLighthBrigth", iSetBackLigthBrigth);
-               lua_register(L1,"SetLED",iSetLedState);
+             //  lua_register(L1,"SetLED",iSetLedState);
                printf("Memory %d\r\n",lua_gc(L1,LUA_GCCOUNT,0)*1024);
                res =luaL_dostring(L1, Script);//, sizeof(Script)+1 , Script )));//  || lua_pcall(L1, 0, LUA_MULTRET, 0)) 	);
                printf("Res %d\r\n",res);
@@ -315,10 +314,18 @@ void vLuaTask( void * argument )
                 lua_pushinteger(L1, ulWorkCicleIn10us);
                 lua_pushinteger(L1, getKeyData());
                 res = lua_resume(L1,0,2);
+                uint8_t data1 = (uint8_t) lua_tointeger( L1,-(1));
+                uint8_t data2 = (uint8_t) lua_tointeger( L1,-(2));
+                uint8_t data3 = (uint8_t) lua_tointeger( L1,-(3));
+                vSetLedOn(1,data1);
+                vSetLedOn(2,data2);
+                vSetLedOn(3,data3);
+                
                 counter++;
                 if (counter == 1000)
                 {
                   counter=0;
+                  printf("data %i %i %i",data1,data2,data3);
                   printf("timer = %i\r\n",ulWorkCicleIn10us);
                 }
                 HAL_TimerReset(TIMER1);
