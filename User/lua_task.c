@@ -57,6 +57,16 @@ static int iCanSetConfig(lua_State *L)
 	return ( NO_RESULT );
 }
 
+static int iCanSetNodeID(lua_State *L)
+{
+	if (lua_gettop(L) == TWO_ARGUMENTS)
+	{
+		ConfigNodeID( (uint8_t) lua_tointeger( L, FIRST_ARGUMENT)); 
+   
+
+	}
+	return ( NO_RESULT );
+}
 
 
 static int iSetBackLigthBrigth(lua_State *L)
@@ -114,12 +124,12 @@ int iCanSendRequest( lua_State *L )
 int iCanSendData( lua_State *L )
 {
     CAN_TX_FRAME_TYPE frame;
-	  frame.DLC = lua_gettop(L);  //Определяем кол-во агрументов, дожно быть как миниум 2 (CAN_ID и как миниум один байт данных)
+	  frame.DLC = lua_gettop(L)-1;  //Определяем кол-во агрументов, дожно быть как миниум 2 (CAN_ID и как миниум один байт данных)
 	  if (frame.DLC >= TWO_ARGUMENTS)
 	  {
-		  for (int i=0; i< (frame.DLC-1) ;i++)
+		  for (int i=0; i< (frame.DLC) ;i++)
 		  {
-			  frame.data[i]= (uint8_t) lua_tointeger(L,-( frame.DLC-1-i)); 
+			  frame.data[i]= (uint8_t) lua_tointeger(L,-( frame.DLC-i)); 
 		  }
       frame.ident = (uint32_t)lua_tointeger(L, FIRST_ARGUMENT);
       vSendCanData(&frame);
@@ -236,7 +246,7 @@ static const INIT_FUNC_LOC char Script[] = "CANID = 0x15 Keys = 0 OldKeys= 0 ste
  LED_BACK_LIGTH={[1]=14,[2]=0,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
  LED_BRIGTH={[1]=0,[2]=14,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
  LED_STATE={[1]=0,[2]=0,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
-  setCanFilter(0x500+CANID) setCanFilter(0x400+CANID) setCanFilter(0x300+CANID) setCanFilter(0x200+CANID) \n\
+  ConfigNodeID(CANID) setCanFilter(0x500+CANID) setCanFilter(0x400+CANID) setCanFilter(0x300+CANID) setCanFilter(0x200+CANID) \n\
  while true do  t= t+time/100 if (t>1000) then\n\
   t=0 step=step+800  if step>26400 then step = 8000 end\n\
  CanSend(0x0CF00400 | 0x80000000 ,0x55,0x55,0x55,step and 0xFF,step >>8,0x55,0x55,0x56) end\n\
@@ -259,7 +269,7 @@ void vLuaTask( void * argument )
 {
    uint8_t data_buffer[5]={0,0,0,0,0};
  
-   uint16_t counter = 0;
+    uint16_t counter = 0;
     lua_state = LUA_INIT;
     uint32_t ulWorkCicleIn10us;
     while(1)
@@ -280,6 +290,7 @@ void vLuaTask( void * argument )
                lua_register(L1,"ResetCanFilter",    iCanResetResiveFilter );
 	             lua_register(L1,"GetCanToTable",     iCanGetResivedData);
 	             lua_register(L1,"ConfigCan",         iCanSetConfig);
+               lua_register(L1,"ConfigNodeID",      iCanSetNodeID);
                printf("Memory %d\r\n",lua_gc(L1,LUA_GCCOUNT,0)*1024);
                res =luaL_dostring(L1, Script);//, sizeof(Script)+1 , Script )));//  || lua_pcall(L1, 0, LUA_MULTRET, 0)) 	);
                printf("Res %d\r\n",res);
@@ -292,7 +303,6 @@ void vLuaTask( void * argument )
                 ulWorkCicleIn10us= HAL_GetTimerCnt(TIMER1);
                 lua_pushinteger(L1, ulWorkCicleIn10us);
                 lua_pushinteger(L1, getKeyData());
-               
                 res = lua_resume(L1,0,2);
                 for (uint8_t i=0;i<5;i++)
                 {

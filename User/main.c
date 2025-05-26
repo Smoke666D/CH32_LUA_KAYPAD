@@ -33,20 +33,12 @@
  */
 int main(void)
 {
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	SystemCoreClockUpdate();
-	Delay_Init();
-  
     InitDevice();
 	USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n",SystemCoreClock);
-   vSYSqueueInit();
-   vSYStaskInit();
-   
+    vSYSqueueInit();
+    vSYStaskInit();
     vTaskStartScheduler();
-
-	while(1)
-	{
-
-	}
+	while(1);
 }

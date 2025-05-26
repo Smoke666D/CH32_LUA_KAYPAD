@@ -24,8 +24,8 @@
 #define APP_TASK_PRIO               6  //§¥§°§­§¨§¦§¯ §¢§½§´§¾ §³§¡§®§½ §£§½§³§°§¬§ª§«
 #define APP_STK_SIZE                128
 #define LUA_TASK_PRIO               6  //§¥§°§­§¨§¦§¯ §¢§½§´§¾ §³§¡§®§½ §£§½§³§°§¬§ª§«
-#define LUA_STK_SIZE                1000
-#define CANRX_TASK_PRIO               5 //§¥§°§­§¨§¦§¯ §¢§½§´§¾ §³§¡§®§½ §£§½§³§°§¬§ª§«
+#define LUA_STK_SIZE                700
+#define CANRX_TASK_PRIO             5 //§¥§°§­§¨§¦§¯ §¢§½§´§¾ §³§¡§®§½ §£§½§³§°§¬§ª§«
 #define CANRX_STK_SIZE              128
 #define IO_TASK_PRIO                5 //§¥§°§­§¨§¦§¯ §¢§½§´§¾ §³§¡§®§½ §£§½§³§°§¬§ª§«
 #define IO_STK_SIZE                 128

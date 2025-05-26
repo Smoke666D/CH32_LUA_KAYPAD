@@ -50,7 +50,8 @@ HAL_LIB/hw_lib_can.o: \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h
+ c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h \
+ c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_flash.h
 
 c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_LIB/hw_lib_can.h:
 
@@ -153,3 +154,5 @@ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h:
 c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h:
 
 c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h:
+
+c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_flash.h:

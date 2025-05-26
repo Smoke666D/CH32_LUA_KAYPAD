@@ -18,6 +18,6 @@ Program=true
 Verify=true
 Reset=true
 SDIPrintf=false
-Disable Power Output=false
+Disable Power Output=true
 Clear CodeFlash=false
 Disable Code-Protect=true
