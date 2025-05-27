@@ -27,7 +27,7 @@ static StaticQueue_t xStaticQueue;
 static StaticQueue_t xcanTXqueue;
 static StaticQueue_t xcanRXqueue;
 /*
- * ���֧�֧ާ֧ߧߧ���
+ * 妤快把快技快扶扶抑快
  */
 
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,

@@ -107,9 +107,7 @@
 					"${project}/Peripheral/HAL_LIB",
 					"${project}/HAL_DRIVER/hal_adc.c",
 					"${project}/HAL_LIB/hw_lib_adc.c",
-					"${project}/HAL_LIB/hw_lib_adc.h",
-					"${project}/HAL_DRIVER/hal_adc_ch32.c",
-					"${project}/HAL_DRIVER/hal_adc.h"
+					"${project}/HAL_LIB/hw_lib_adc.h"
 				],
 				"riscvTargetProcessor": {
 					"architecture": "rv32i",
@@ -237,7 +235,7 @@
 						"include_files": []
 					},
 					"optimization": {
-						"language_standard": "gnu99",
+						"language_standard": "gnu11",
 						"other_optimization_flags": ""
 					},
 					"warnings": {
@@ -735,7 +733,7 @@
 		"address": "0x08000000",
 		"target_path": "obj\\CH32V3_LUA.hex",
 		"clkSpeed": "High",
-		"debug_interface_mode": "",
+		"debug_interface_mode": "1-wire serial",
 		"erase": true,
 		"program": true,
 		"verify": true,

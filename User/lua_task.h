@@ -41,6 +41,11 @@
 #define THREE_ARGUMENTS  3U
 #define FOUR_ARGUMENTS  4U
 
+typedef enum
+{
+	RESULT_TRUE = 1,
+	RESULT_FALSE =0
+} RESULT_t;
 
 typedef enum {
     LUA_INIT,

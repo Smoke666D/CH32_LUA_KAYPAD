@@ -58,8 +58,8 @@ INIT_FUNC_LOC void vLedDriverStart(void)
     return;
 }
 /*
- * ����ߧܧ�ڧ� �ӧܧݧ��֧ߧڧ� ��ӧ֧��էڧ�է��.
- * ������֧ܧ�ߧ���� �ѧ�ԧ�ާ֧ߧ��� ����ӧ֧����� ���� �ӧ��٧�ӧ�
+ * Функция включения светодиодоы.
+ * Корректность аргументов проверятся при вызове
  */
 void vSetLedOn(uint8_t Color,uint8_t State)
 {
@@ -139,21 +139,21 @@ void vSetBrigth(uint8_t brigth)
 	if (brigth <= MAX_BRIGTH)
 	{
 	    /*
-	         * ����ܧ���� ����ѧߧӧ�  �ڧӧѧ֧��� �էݧ� �ܧѧاէ�ԧ� ��ӧ֧�� ���է֧ݧ�ߧ�. ����٧ާ�اߧ� �٧ѧէѧӧѧ�� �ڧߧէڧӧڧէ�ѧݧߧ�� �����ߧ��֧ߧڧ� ���ܧ���֧� ��ӧ֧��� �էݧ� ���ݧ��֧ߧڧ�
-	           * �է���ݧߧڧ�֧ݧ�ߧ��� ��֧�֧��էߧ��� ��ӧ֧���, �ߧѧ��ڧާ֧�  AMBER �� YELLOW_GREEN
+	         * Яркость устанвл  ивается для каждого цвета отдельно. Возможно задавать индивидуалное соотношение яркостей цветов для получения
+	           * дополнительных переходных цветов, например  AMBER и YELLOW_GREEN
 	    */
 	    uint16_t pulse;
-	    pulse =  (uint16_t)( ( (float)(brigth)/MAX_BRIGTH )* PWM_TIM_PERIOD )+1;
+	    pulse =  (uint16_t)( ( (float)(MAX_BRIGTH-brigth)/MAX_BRIGTH )* PWM_TIM_PERIOD )+1;
 	    HAL_TIMER_SetPWMPulse(TIMER2, TIM_CHANNEL_1 | TIM_CHANNEL_2 | TIM_CHANNEL_3 ,pulse);
 	    HAL_TIMER_EnablePWMCH(TIMER2);
 	}
 }
 /*
- *  ����ߧܧ�ڧ� �ӧ��ӧ�է� �էѧߧߧ��� �� SPI, �ӧ��٧��ӧѧ֧��� ��� ���֧���ӧѧߧڧ� ��ѧۧާ�� ��4
+ *  Функция вывода данных в SPI, вызывается по прерыванию таймра №4
  */
 void vLedProcess( void )
 {
-	/*C�ҧ�ѧӧ���ӧѧ֧� ��ݧѧ� ��ѧާ֧�� 4*/
+	/*Cбравысваем флаг тамера 4*/
 	uint8_t temp_led;
     if (++led_brigth_counter>(MAX_BRIGTH_COUNTER))
     {

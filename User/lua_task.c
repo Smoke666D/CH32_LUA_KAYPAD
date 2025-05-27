@@ -15,6 +15,7 @@
 #include "hal_timers.h"
 #include "led_task.h"
 #include "io_task.h"
+#include "string.h"
 
 static TaskHandle_t  LuaTaskHandle;
 static LUA_STATE_t lua_state;
@@ -240,27 +241,60 @@ int iCanGetMessage(lua_State *L )
 }
 
 
-static const INIT_FUNC_LOC char Script[] = "CANID = 0x15 Keys = 0 OldKeys= 0 step = 0  time = 0 main = function () \n\
-   \n\
- ConfigCan(1,250) t=0  \n\
- LED_BACK_LIGTH={[1]=14,[2]=0,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
- LED_BRIGTH={[1]=0,[2]=14,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
- LED_STATE={[1]=0,[2]=0,[3]=0,[4]=0,[5]=0,[6]=0,[7]=0,[8]=0} \n\
-  ConfigNodeID(CANID) setCanFilter(0x500+CANID) setCanFilter(0x400+CANID) setCanFilter(0x300+CANID) setCanFilter(0x200+CANID) \n\
- while true do  t= t+time/100 if (t>1000) then\n\
-  t=0 step=step+800  if step>26400 then step = 8000 end\n\
- CanSend(0x0CF00400 | 0x80000000 ,0x55,0x55,0x55,step and 0xFF,step >>8,0x55,0x55,0x56) end\n\
- \n\
- GetCanToTable( 0x500+CANID,LED_BACK_LIGTH) \n\
- GetCanToTable( 0x400+CANID,LED_BRIGTH) \n\
- GetCanToTable( 0x200+CANID,LED_STATE)  \n\
- if Keys ~=OldKeys then CanSend(0x180+CANID,Keys,0,0,0,0,0,0,0) OldKeys = Keys end \n\
- \n\
- \n\
-     time,Keys = coroutine.yield(LED_BRIGTH[1],LED_BACK_LIGTH[1],LED_STATE[1],LED_STATE[2],LED_STATE[3]) end end";
+static RESULT_t eIsLuaSkriptValid(const uint8_t* pcData, uint32_t size, uint32_t *real_size)
+{
+	uint8_t ucRes = RESULT_FALSE;
+	uint8_t ucEND = 0x00;
+	for (uint32_t ulIndex = 0;ulIndex < size; ulIndex++)
+	{
+		if ( pcData[ulIndex] == ucEND )
+		{
+			if (ucEND == 0x00)
+			{
+				if ( ( pcData[0] == LUA_SIGNATURE[0] ) && ( pcData[1] == LUA_SIGNATURE[1] ) && ( pcData[2] == LUA_SIGNATURE[2] ) && (pcData[3] == LUA_SIGNATURE[3]) )
+				{
+          printf("Find signature\r\n");
+					ucEND = 0xFF;
+          
+				}
+				else
+				{
+          *real_size = ulIndex;
+					ucRes = RESULT_TRUE;
+					break;
+				}
+			}
+			else
+			{
+        *real_size = ulIndex;
+				ucRes = RESULT_TRUE;
+				break;
+			}
+		}
+	}
+	return ( ucRes );
+}
+#define  FLASH_STORAGE_ADR         0x00025000UL
+#define  FLASH_STORAGE_LENGTH      0x2800U
+#define  FLASH_STORAGE_LENGTH_SIZE 4U
+
+
+const uint8_t* uFLASHgetScript ( void )
+{
+  return ( const uint8_t* )( FLASH_STORAGE_ADR + FLASH_STORAGE_LENGTH_SIZE );
+}
+uint32_t uFLASHgetLength ( void )
+{
+  uint32_t size;
+  size = *( uint8_t* )( FLASH_STORAGE_ADR );
+  size |= (*( uint8_t* )( FLASH_STORAGE_ADR+1 ))<<8;
+  size |= (*( uint8_t* )( FLASH_STORAGE_ADR+2 ))<<16;
+  size |= (*( uint8_t* )( FLASH_STORAGE_ADR+3 ))<<24;
+  return  size;
+}
 
 int res ;
-
+int res1 ;
  
 static lua_State *L1 = NULL;
 
@@ -292,12 +326,39 @@ void vLuaTask( void * argument )
 	             lua_register(L1,"ConfigCan",         iCanSetConfig);
                lua_register(L1,"ConfigNodeID",      iCanSetNodeID);
                printf("Memory %d\r\n",lua_gc(L1,LUA_GCCOUNT,0)*1024);
-               res =luaL_dostring(L1, Script);//, sizeof(Script)+1 , Script )));//  || lua_pcall(L1, 0, LUA_MULTRET, 0)) 	);
-               printf("Res %d\r\n",res);
-               printf("Memory %d\r\n",lua_gc(L1,LUA_GCCOUNT,0)*1024);
-               HAL_TiemrEneblae(TIMER1);
-               lua_getglobal(L1, "main");
-               lua_state = LUA_RUN;
+               printf("scripth_hegth=%i\r\n",uFLASHgetLength());
+               uint32_t real_size;
+                if ( eIsLuaSkriptValid(uFLASHgetScript(), uFLASHgetLength()+1,&real_size) == RESULT_TRUE )
+	   	          {
+                     printf("Size=%i\r\n",real_size);
+	   	    	        res =luaL_loadbuffer(L1, uFLASHgetScript(), uFLASHgetLength() , uFLASHgetScript());  
+                    if (res!=0)
+                    {
+                        pcLuaErrorString =  (char *) lua_tostring( L1, LAST_ARGUMENT );
+                        printf("Error = %s\r\n",pcLuaErrorString);
+                    }
+                    res1= lua_pcall(L1, 0, LUA_MULTRET, 0);
+                    if (res1!=0)
+                    {
+                      pcLuaErrorString =  (char *) lua_tostring( L1, LAST_ARGUMENT );
+                        printf("Error = %s\r\n",pcLuaErrorString);
+                    }
+                   
+	   	            lua_getglobal(L1, "main");
+                  printf("Res load %d\r\n",res);
+                  printf("Res call %d\r\n",res1);
+                  printf("Memory %d\r\n",lua_gc(L1,LUA_GCCOUNT,0)*1024);
+                  HAL_TiemrEneblae(TIMER1);
+                  lua_getglobal(L1, "main");
+                  lua_state = LUA_RUN;
+	   	          }
+	   	          else
+	   	          {
+                  printf("File break\r\n");
+	   	   		       lua_state = LUA_ERROR;
+	   	          }
+	   	  
+              
                break;
             case LUA_RUN:
                 ulWorkCicleIn10us= HAL_GetTimerCnt(TIMER1);
@@ -328,7 +389,7 @@ void vLuaTask( void * argument )
                 if (counter == 1000)
                 {
                   counter=0;
-                  printf("data %i %i %i",data_buffer[0],data_buffer[1],data_buffer[2]);
+                  printf("data %i %i %i %i %i",data_buffer[0],data_buffer[1],data_buffer[2],data_buffer[3],data_buffer[4]);
                   printf("timer = %i\r\n",ulWorkCicleIn10us);
                 }
                 HAL_TimerReset(TIMER1);

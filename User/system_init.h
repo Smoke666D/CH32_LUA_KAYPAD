@@ -21,13 +21,13 @@
 
 #include "lua_task.h"
 
-#define APP_TASK_PRIO               6  //ДОЛЖЕН БЫТЬ САМЫ ВЫСОКИЙ
+#define APP_TASK_PRIO               6  //袛袨袥袞袝袧 袘蝎孝鞋 小袗袦蝎 袙蝎小袨袣袠袡
 #define APP_STK_SIZE                128
-#define LUA_TASK_PRIO               6  //ДОЛЖЕН БЫТЬ САМЫ ВЫСОКИЙ
+#define LUA_TASK_PRIO               6  //袛袨袥袞袝袧 袘蝎孝鞋 小袗袦蝎 袙蝎小袨袣袠袡
 #define LUA_STK_SIZE                700
-#define CANRX_TASK_PRIO             5 //ДОЛЖЕН БЫТЬ САМЫ ВЫСОКИЙ
+#define CANRX_TASK_PRIO             5 //袛袨袥袞袝袧 袘蝎孝鞋 小袗袦蝎 袙蝎小袨袣袠袡
 #define CANRX_STK_SIZE              128
-#define IO_TASK_PRIO                5 //ДОЛЖЕН БЫТЬ САМЫ ВЫСОКИЙ
+#define IO_TASK_PRIO                5 //袛袨袥袞袝袧 袘蝎孝鞋 小袗袦蝎 袙蝎小袨袣袠袡
 #define IO_STK_SIZE                 128
 
 #define  CANRX_QUEUE_SIZE 				16U

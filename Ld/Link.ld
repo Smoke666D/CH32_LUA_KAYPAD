@@ -11,8 +11,10 @@ MEMORY
    CH32V30x_D8 - CH32V303CB-CH32V303RB
 */
 /**/
-	FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 124K
-	SFLASH (rx) : ORIGIN = 0x00020000, LENGTH = 120K
+	FLASH (rx) : ORIGIN = 0x00001000, LENGTH = 124K
+	SFLASH (rx) : ORIGIN = 0x00020000, LENGTH = 20K
+	DSFLASH(rx) : ORIGIN = 0x00025004, LENGTH = 10K
+
 	RAM (xrw) : ORIGIN = 0x20000000, LENGTH = 32K
 
     
@@ -64,8 +66,15 @@ SECTIONS
 	{
 		. = ALIGN(4);
 		*(.stext)
+		. = ALIGN(4);
 	} >SFLASH AT>SFLASH 
-	
+	.sdatatext :
+	{
+		. = ALIGN(4);
+		*(.sdatatext)
+		. = ALIGN(4);
+	} >DSFLASH AT>DSFLASH	
+
 	.fini :
 	{
 		KEEP(*(SORT_NONE(.fini)))
