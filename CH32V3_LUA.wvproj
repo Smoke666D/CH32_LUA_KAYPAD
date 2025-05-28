@@ -17,10 +17,7 @@
 				"name": "HAL_DRIVER",
 				"location": "c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER"
 			},
-			{
-				"name": "PROTOCOLS",
-				"location": "c:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS"
-			},
+		
 			{
 				"name": "LUA",
 				"location": "c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA"
@@ -86,10 +83,7 @@
 					"${project}/USB_Device",
 					"${project}/UART",
 					"${project}/LUA/luac.c",
-					"${project}/PROTOCOLS/lawicel.c",
-					"${project}/PROTOCOLS/lawicel.h",
-					"${project}/PROTOCOLS/xmodem.h",
-					"${project}/PROTOCOLS/xmodem.c",
+	
 					"${project}/HAL_DRIVER/hal_usart.c",
 					"${project}/HAL_DRIVER/hal_usart.h",
 					"${project}/HAL_LIB/EEPROM_25C.c",
@@ -541,7 +535,6 @@
 						"include_paths": [
 							"${project}/Debug",
 							"${project}/HAL_DRIVER",
-							"${project}/PROTOCOLS",
 							"${project}/Core",
 							"${project}/User",
 							"${project}/Peripheral/inc",

@@ -27,20 +27,11 @@
       <locationURI>c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER</locationURI>
     </link>
     <link>
-      <name>PROTOCOLS</name>
-      <type>2</type>
-      <locationURI>c:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS</locationURI>
-    </link>
-    <link>
       <name>LUA</name>
       <type>2</type>
       <locationURI>c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA</locationURI>
     </link>
-    <link>
-      <name>HAL_LIB</name>
-      <type>2</type>
-      <locationURI>c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_LIB</locationURI>
-    </link>
+
   </linkedResources>
   <filteredResources>
     <filter>
@@ -51,28 +42,13 @@
         <arguments>1.0-name-matches-false-false-*.wvproj</arguments>
       </matcher>
     </filter>
+
     <filter>
       <name/>
       <type>10</type>
       <matcher>
         <id>org.eclipse.ui.ide.multiFilter</id>
-        <arguments>1.0-name-matches-false-false-UART</arguments>
-      </matcher>
-    </filter>
-    <filter>
-      <name/>
-      <type>10</type>
-      <matcher>
-        <id>org.eclipse.ui.ide.multiFilter</id>
-        <arguments>1.0-name-matches-false-false-USB_Device</arguments>
-      </matcher>
-    </filter>
-    <filter>
-      <name>Peripheral</name>
-      <type>10</type>
-      <matcher>
-        <id>org.eclipse.ui.ide.multiFilter</id>
-        <arguments>1.0-name-matches-false-false-HAL_LIB</arguments>
+        <arguments>1.0-name-matches-false-false-LUA</arguments>
       </matcher>
     </filter>
   </filteredResources>
