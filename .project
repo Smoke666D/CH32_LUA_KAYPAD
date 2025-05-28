@@ -20,19 +20,7 @@
     <nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
     <nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
   </natures>
-  <linkedResources>
-    <link>
-      <name>HAL_DRIVER</name>
-      <type>2</type>
-      <locationURI>c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER</locationURI>
-    </link>
-    <link>
-      <name>LUA</name>
-      <type>2</type>
-      <locationURI>c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA</locationURI>
-    </link>
-
-  </linkedResources>
+  <linkedResources/>
   <filteredResources>
     <filter>
       <name/>
@@ -40,15 +28,6 @@
       <matcher>
         <id>org.eclipse.ui.ide.multiFilter</id>
         <arguments>1.0-name-matches-false-false-*.wvproj</arguments>
-      </matcher>
-    </filter>
-
-    <filter>
-      <name/>
-      <type>10</type>
-      <matcher>
-        <id>org.eclipse.ui.ide.multiFilter</id>
-        <arguments>1.0-name-matches-false-false-LUA</arguments>
       </matcher>
     </filter>
   </filteredResources>

@@ -1,7 +1,4 @@
-LUA/lvm.o: c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lvm.c \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lprefix.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/luaconf.h \
+LUA/lvm.o: ../LUA/lvm.c ../LUA/lprefix.h ../LUA/lua.h ../LUA/luaconf.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/system_init.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
@@ -50,27 +47,16 @@ LUA/lvm.o: c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lvm.c \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/queue.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h \
- c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ldebug.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lstate.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lobject.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/llimits.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ltm.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lzio.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lmem.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ldo.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lfunc.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lgc.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lopcodes.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lstring.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ltable.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lvm.h
+ c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h ../LUA/ldebug.h \
+ ../LUA/lstate.h ../LUA/lobject.h ../LUA/llimits.h ../LUA/ltm.h \
+ ../LUA/lzio.h ../LUA/lmem.h ../LUA/ldo.h ../LUA/lfunc.h ../LUA/lgc.h \
+ ../LUA/lopcodes.h ../LUA/lstring.h ../LUA/ltable.h ../LUA/lvm.h
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lprefix.h:
+../LUA/lprefix.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h:
+../LUA/lua.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/luaconf.h:
+../LUA/luaconf.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
 
@@ -170,30 +156,30 @@ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ldebug.h:
+../LUA/ldebug.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lstate.h:
+../LUA/lstate.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lobject.h:
+../LUA/lobject.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/llimits.h:
+../LUA/llimits.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ltm.h:
+../LUA/ltm.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lzio.h:
+../LUA/lzio.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lmem.h:
+../LUA/lmem.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ldo.h:
+../LUA/ldo.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lfunc.h:
+../LUA/lfunc.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lgc.h:
+../LUA/lgc.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lopcodes.h:
+../LUA/lopcodes.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lstring.h:
+../LUA/lstring.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ltable.h:
+../LUA/ltable.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lvm.h:
+../LUA/lvm.h:

@@ -45,14 +45,12 @@ User/init.o: ../User/init.c ../User/init.h ../User/main.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/queue.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h \
- ../User/lua_task.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_typedef.h \
+ ../User/lua_task.h c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_typedef.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_gpio.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_typedef.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_timers.h \
- ../User/led_task.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_spi.h
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_gpio.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_typedef.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_timers.h ../User/led_task.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_spi.h
 
 ../User/init.h:
 
@@ -152,16 +150,16 @@ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h:
 
 ../User/lua_task.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_typedef.h:
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_typedef.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_gpio.h:
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_gpio.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_typedef.h:
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_typedef.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_timers.h:
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_timers.h:
 
 ../User/led_task.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_spi.h:
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_spi.h:

@@ -1,8 +1,5 @@
-LUA/lctype.o: c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lctype.c \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lprefix.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lctype.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/luaconf.h \
+LUA/lctype.o: ../LUA/lctype.c ../LUA/lprefix.h ../LUA/lctype.h \
+ ../LUA/lua.h ../LUA/luaconf.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/system_init.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
@@ -51,16 +48,15 @@ LUA/lctype.o: c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lctype.c \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/queue.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h \
- c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/llimits.h
+ c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h ../LUA/llimits.h
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lprefix.h:
+../LUA/lprefix.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lctype.h:
+../LUA/lctype.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h:
+../LUA/lua.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/luaconf.h:
+../LUA/luaconf.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
 
@@ -160,4 +156,4 @@ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/llimits.h:
+../LUA/llimits.h:

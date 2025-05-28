@@ -1,9 +1,5 @@
-LUA/lopcodes.o: c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lopcodes.c \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lprefix.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lopcodes.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/llimits.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/luaconf.h \
+LUA/lopcodes.o: ../LUA/lopcodes.c ../LUA/lprefix.h ../LUA/lopcodes.h \
+ ../LUA/llimits.h ../LUA/lua.h ../LUA/luaconf.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/system_init.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
@@ -54,15 +50,15 @@ LUA/lopcodes.o: c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lopcodes.c \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lprefix.h:
+../LUA/lprefix.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lopcodes.h:
+../LUA/lopcodes.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/llimits.h:
+../LUA/llimits.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h:
+../LUA/lua.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/luaconf.h:
+../LUA/luaconf.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
 

@@ -1,7 +1,4 @@
-LUA/lzio.o: c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lzio.c \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lprefix.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/luaconf.h \
+LUA/lzio.o: ../LUA/lzio.c ../LUA/lprefix.h ../LUA/lua.h ../LUA/luaconf.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/system_init.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
@@ -50,19 +47,15 @@ LUA/lzio.o: c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lzio.c \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/queue.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h \
- c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/llimits.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lmem.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lstate.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lobject.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ltm.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lzio.h
+ c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h ../LUA/llimits.h \
+ ../LUA/lmem.h ../LUA/lstate.h ../LUA/lobject.h ../LUA/ltm.h \
+ ../LUA/lzio.h
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lprefix.h:
+../LUA/lprefix.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h:
+../LUA/lua.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/luaconf.h:
+../LUA/luaconf.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
 
@@ -162,14 +155,14 @@ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/llimits.h:
+../LUA/llimits.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lmem.h:
+../LUA/lmem.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lstate.h:
+../LUA/lstate.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lobject.h:
+../LUA/lobject.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ltm.h:
+../LUA/ltm.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lzio.h:
+../LUA/lzio.h:

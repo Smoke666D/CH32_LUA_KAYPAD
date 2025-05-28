@@ -1,8 +1,5 @@
-LUA/lbaselib.o: c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lbaselib.c \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lprefix.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/luaconf.h \
- c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
+LUA/lbaselib.o: ../LUA/lbaselib.c ../LUA/lprefix.h ../LUA/lua.h \
+ ../LUA/luaconf.h c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/system_init.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/FreeRTOS.h \
@@ -50,15 +47,14 @@ LUA/lbaselib.o: c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lbaselib.c \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/queue.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h \
- c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lauxlib.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lualib.h
+ c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h ../LUA/lauxlib.h \
+ ../LUA/lualib.h
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lprefix.h:
+../LUA/lprefix.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h:
+../LUA/lua.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/luaconf.h:
+../LUA/luaconf.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
 
@@ -158,6 +154,6 @@ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lauxlib.h:
+../LUA/lauxlib.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lualib.h:
+../LUA/lualib.h:

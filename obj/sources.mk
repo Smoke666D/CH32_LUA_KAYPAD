@@ -24,14 +24,13 @@ SECONDARY_SIZE :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Core \
+DRIVER \
 Debug \
 FreeRTOS \
 FreeRTOS/portable/GCC/RISC-V \
 FreeRTOS/portable/MemMang \
-HAL_DRIVER \
-HAL_LIB \
+LIB \
 LUA \
-Peripheral/LUA \
 Peripheral/src \
 Startup \
 User \

@@ -12,41 +12,12 @@
 			"link": "WCH-Link",
 			"peripheral_version": "==2.6"
 		},
-		"linkedFolders": [
-			{
-				"name": "HAL_DRIVER",
-				"location": "c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER"
-			},
-		
-			{
-				"name": "LUA",
-				"location": "c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA"
-			},
-			{
-				"name": "HAL_LIB",
-				"location": "c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_LIB"
-			}
-		],
+		"linkedFolders": [],
 		"removedResources": [
 			{
 				"parentLogicPath": "",
 				"type": "file",
 				"name": "*.wvproj"
-			},
-			{
-				"parentLogicPath": "",
-				"type": "folder",
-				"name": "UART"
-			},
-			{
-				"parentLogicPath": "",
-				"type": "folder",
-				"name": "USB_Device"
-			},
-			{
-				"parentLogicPath": "Peripheral",
-				"type": "folder",
-				"name": "HAL_LIB"
 			}
 		],
 		"projectName": "CH32V3_LUA",
@@ -69,23 +40,10 @@
 				"post_script": "",
 				"post_script_description": "",
 				"excludeResources": [
-					"${project}/HAL_DRIVER/hal_dac.c",
-					"${project}/HAL_DRIVER/hal_dac.h",
-					"${project}/HAL_DRIVER/hal_i2c_ch32.c",
-					"${project}/HAL_DRIVER/hal_i2c.h",
-					"${project}/HAL_DRIVER/hal_rtc_ch32.c",
-					"${project}/HAL_DRIVER/hal_rtc.h",
-					"${project}/HAL_DRIVER/hal_wdt_ch32.c",
-					"${project}/HAL_DRIVER/hal_wdt.h",
-					"${project}/HAL_DRIVER/system_config.h",
 					"${project}/FreeRTOS/portable/Common/mpu_wrappers.c",
 					"${project}/Startup/startup_ch32v30x_D8.S",
 					"${project}/USB_Device",
 					"${project}/UART",
-					"${project}/LUA/luac.c",
-	
-					"${project}/HAL_DRIVER/hal_usart.c",
-					"${project}/HAL_DRIVER/hal_usart.h",
 					"${project}/HAL_LIB/EEPROM_25C.c",
 					"${project}/HAL_LIB/EEPROM_25C.h",
 					"${project}/HAL_LIB/filters.c",
@@ -99,9 +57,34 @@
 					"${project}/HAL_LIB/hw_lib_din.h",
 					"${project}/HAL_LIB/hw_lib_din.c",
 					"${project}/Peripheral/HAL_LIB",
-					"${project}/HAL_DRIVER/hal_adc.c",
 					"${project}/HAL_LIB/hw_lib_adc.c",
-					"${project}/HAL_LIB/hw_lib_adc.h"
+					"${project}/HAL_LIB/hw_lib_adc.h",
+					"${project}/LIB/EEPROM_25C.c",
+					"${project}/LIB/EEPROM_25C.h",
+					"${project}/LIB/filters.c",
+					"${project}/LIB/filters.h",
+					"${project}/LIB/hw_lib_adc.c",
+					"${project}/LIB/hw_lib_adc.h",
+					"${project}/LIB/hw_lib_din.c",
+					"${project}/LIB/hw_lib_din.h",
+					"${project}/LIB/hw_lib_eeprom_i2c.c",
+					"${project}/LIB/hw_lib_eeprom_i2c.h",
+					"${project}/LIB/hw_timeout.c",
+					"${project}/LIB/hw_timeout.h",
+					"${project}/LIB/hw_data_model.h",
+					"${project}/LIB/hw_data_model.c",
+					"${project}/DRIVER/hal_adc_ch32.c",
+					"${project}/DRIVER/hal_adc.c",
+					"${project}/DRIVER/hal_adc.h",
+					"${project}/DRIVER/hal_rtc_ch32.c",
+					"${project}/DRIVER/hal_rtc.h",
+					"${project}/DRIVER/hal_i2c_ch32.c",
+					"${project}/DRIVER/hal_i2c.h",
+					"${project}/DRIVER/hal_dac.c",
+					"${project}/DRIVER/hal_dac.h",
+					"${project}/DRIVER/system_config.h",
+					"${project}/DRIVER/hal_usart.c",
+					"${project}/DRIVER/hal_usart.h"
 				],
 				"riscvTargetProcessor": {
 					"architecture": "rv32i",
@@ -184,9 +167,7 @@
 							"${project}/FreeRTOS/portable/Common",
 							"${project}/FreeRTOS/portable/GCC/RISC-V",
 							"${project}/FreeRTOS/portable/GCC/RISC-V/chip_specific_extensions/RV32I_PFIC_no_extensions",
-							"${project}/FreeRTOS/portable/MemMang",
-							"${workspace_loc:/CH32V3_CAN_HACKER/UART}",
-							"${project}/HAL_LIB"
+							"${project}/FreeRTOS/portable/MemMang"
 						],
 						"include_system_paths": [],
 						"include_files": []
@@ -210,7 +191,6 @@
 					"includes": {
 						"include_paths": [
 							"${project}/Debug",
-							"${project}/HAL_DRIVER",
 							"${project}/Core",
 							"${project}/User",
 							"${project}/Peripheral/inc",
@@ -220,10 +200,9 @@
 							"${project}/FreeRTOS/portable/GCC/RISC-V",
 							"${project}/FreeRTOS/portable/GCC/RISC-V/chip_specific_extensions/RV32I_PFIC_no_extensions",
 							"${project}/FreeRTOS/portable/MemMang",
-							"${project}/USB_Device",
-							"${project}/UART",
 							"${project}/LUA",
-							"${project}/HAL_LIB"
+							"${project}/LIB",
+							"${project}/DRIVER"
 						],
 						"include_system_paths": [],
 						"include_files": []
@@ -410,21 +389,6 @@
 				"post_script": "",
 				"post_script_description": "",
 				"excludeResources": [
-					"${project}/HAL_DRIVER/hal_adc.c",
-					"${project}/HAL_DRIVER/hal_adc.h",
-					"${project}/HAL_DRIVER/hal_dac.c",
-					"${project}/HAL_DRIVER/hal_dac.h",
-					"${project}/HAL_DRIVER/hal_dma_ch32.c",
-					"${project}/HAL_DRIVER/hal_dma.h",
-					"${project}/HAL_DRIVER/hal_i2c_ch32.c",
-					"${project}/HAL_DRIVER/hal_i2c.h",
-					"${project}/HAL_DRIVER/hal_rtc_ch32.c",
-					"${project}/HAL_DRIVER/hal_rtc.h",
-					"${project}/HAL_DRIVER/hal_spi_ch32.c",
-					"${project}/HAL_DRIVER/hal_spi.h",
-					"${project}/HAL_DRIVER/hal_wdt_ch32.c",
-					"${project}/HAL_DRIVER/hal_wdt.h",
-					"${project}/HAL_DRIVER/system_config.h",
 					"${project}/FreeRTOS/portable/Common/mpu_wrappers.c",
 					"${project}/Startup/startup_ch32v30x_D8.S"
 				],
@@ -534,7 +498,6 @@
 					"includes": {
 						"include_paths": [
 							"${project}/Debug",
-							"${project}/HAL_DRIVER",
 							"${project}/Core",
 							"${project}/User",
 							"${project}/Peripheral/inc",
@@ -545,8 +508,7 @@
 							"${project}/FreeRTOS/portable/GCC/RISC-V/chip_specific_extensions/RV32I_PFIC_no_extensions",
 							"${project}/FreeRTOS/portable/MemMang",
 							"${project}/USB_Device",
-							"${project}/UART",
-							"${project}/LUA"
+							"${project}/UART"
 						],
 						"include_system_paths": [],
 						"include_files": []

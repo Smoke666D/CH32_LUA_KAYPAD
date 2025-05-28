@@ -45,24 +45,24 @@ User/lua_task.o: ../User/lua_task.c ../User/lua_task.h ../User/main.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/queue.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lprefix.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/luaconf.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/lprefix.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/lua.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/luaconf.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lauxlib.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lualib.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lapi.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/llimits.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lstate.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lobject.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ltm.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lzio.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lmem.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_LIB/hw_lib_can.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_timers.h \
- ../User/led_task.h ../User/io_task.h
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/lauxlib.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/lua.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/lualib.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/lapi.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/llimits.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/lstate.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/lobject.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/ltm.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/lzio.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/lmem.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LIB/hw_lib_can.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_can.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_timers.h ../User/led_task.h \
+ ../User/io_task.h
 
 ../User/lua_task.h:
 
@@ -160,39 +160,39 @@ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lprefix.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/lprefix.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/lua.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/luaconf.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/luaconf.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lauxlib.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/lauxlib.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lua.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/lua.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lualib.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/lualib.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lapi.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/lapi.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/llimits.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/llimits.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lstate.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/lstate.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lobject.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/lobject.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/ltm.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/ltm.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lzio.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/lzio.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/LUA/lmem.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/lmem.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_LIB/hw_lib_can.h:
+c:/MRS_DATA/workspace/CH32V_LUA/LIB/hw_lib_can.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h:
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_can.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_timers.h:
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_timers.h:
 
 ../User/led_task.h:
 

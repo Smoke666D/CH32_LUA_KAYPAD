@@ -45,7 +45,7 @@ User/main.o: ../User/main.c c:/MRS_DATA/workspace/CH32V_LUA/Debug/debug.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h \
  ../User/lua_task.h ../User/init.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_typedef.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_typedef.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/main.h
 
 c:/MRS_DATA/workspace/CH32V_LUA/Debug/debug.h:
@@ -146,6 +146,6 @@ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h:
 
 ../User/init.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_typedef.h:
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_typedef.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
