@@ -302,7 +302,7 @@ static lua_State *L1 = NULL;
 void vLuaTask( void * argument )
 {
    uint8_t data_buffer[5]={0,0,0,0,0};
- 
+   vSetBackLigthColor(WHITE);
     uint16_t counter = 0;
     lua_state = LUA_INIT;
     uint32_t ulWorkCicleIn10us;
@@ -377,7 +377,7 @@ void vLuaTask( void * argument )
                             vSetLedOn((i+1),temp_data);
                             break;
                         case 3:
-                            vSetBrigth(temp_data);
+                            vSetLedBrigth(temp_data);
                             break;
                         case 4:
                             vSetBackLigth(temp_data);

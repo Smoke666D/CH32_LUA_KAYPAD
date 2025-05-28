@@ -5,18 +5,20 @@
 #include "string.h"
 #include "hal_gpio.h"
 #include "hal_timers.h"
+#include "math.h"
 
 
-static uint8_t  LED_ON[SPI_PACKET_SIZE] 		=         { 0x00 , 0x00 , 0x00 };
-static uint8_t  LED_BLINK[SPI_PACKET_SIZE]    	=         { 0x00 , 0x00 , 0x00 };
+static uint8_t  LED_ON[SPI_PACKET_SIZE] 		= { 0x00 , 0x00 , 0x00 };
 static uint16_t backligch_brigth		        = 0x1F;
 static uint16_t led_brigth 				        = 0x3F;
 static uint8_t  color_div 				        = 1U;
 static uint8_t  brigth_color[SPI_PACKET_SIZE];
 static uint16_t led_brigth_counter 		        = 0;
-static uint16_t led_blink_counter 		        = 0;
-static uint8_t  BlinkON					        = 1;
 static uint8_t  data[SPI_PACKET_SIZE];
+
+
+static void vLedProcess( void );
+
 
 void LC()
 {
@@ -42,19 +44,19 @@ static uint16_t calcBrigt(uint8_t pbr)
  */
 INIT_FUNC_LOC void vLedDriverStart(void)
 {
-
-   DMA_INIT_t init;
+	
+    DMA_INIT_t init;
     init.stream = DMA1_CH5;
     init.direction = MTOP;
     init.mode  = DMA_Mode_Normal;
     init.paddr = (u32)&SPI2->DATAR;
     init.memadr = (u32)data;
-    init.dma_size = DMA_HWORD;
+    init.dma_size = DMA_BYTE;
     init.bufsize = SPI_PACKET_SIZE;
     init.prioroty = dma_VeryHigh;
     HAL_DMAInitIT(init, DMA1_CH5_PRIOR  , DMA1_CH5_SUBPRIOR , &LC  );
+	HAL_TIMER_InitIt( TIMER3, 10000000, 900, &vLedProcess,TIMER3_PRIOR,TIMER3_SUBPRIOR );
     HAL_TiemrEneblae(TIMER3);
-    HAL_TiemrEneblae(TIMER2);
     return;
 }
 /*
@@ -71,8 +73,6 @@ uint8_t uGetLedState( uint8_t Color )
 {
     return (LED_ON[Color-1]);
 }
-
-
 
 /*
  *
@@ -134,24 +134,11 @@ void vSetBackLigth(uint8_t brigth)
 {
 	backligch_brigth =calcBrigt( brigth);
 }
-void vSetBrigth(uint8_t brigth)
-{
-	if (brigth <= MAX_BRIGTH)
-	{
-	    /*
-	         * Яркость устанвл  ивается для каждого цвета отдельно. Возможно задавать индивидуалное соотношение яркостей цветов для получения
-	           * дополнительных переходных цветов, например  AMBER и YELLOW_GREEN
-	    */
-	    uint16_t pulse;
-	    pulse =  (uint16_t)( ( (float)(MAX_BRIGTH-brigth)/MAX_BRIGTH )* PWM_TIM_PERIOD )+1;
-	    HAL_TIMER_SetPWMPulse(TIMER2, TIM_CHANNEL_1 | TIM_CHANNEL_2 | TIM_CHANNEL_3 ,pulse);
-	    HAL_TIMER_EnablePWMCH(TIMER2);
-	}
-}
+
 /*
  *  Функция вывода данных в SPI, вызывается по прерыванию таймра №4
  */
-void vLedProcess( void )
+static void vLedProcess( void )
 {
 	/*Cбравысваем флаг тамера 4*/
 	uint8_t temp_led;
@@ -178,7 +165,3 @@ void vLedProcess( void )
     return;
 }
 
-void TimersCallback()
-{
-    vLedProcess();
-}
