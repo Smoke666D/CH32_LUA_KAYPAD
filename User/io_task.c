@@ -15,7 +15,6 @@ TaskHandle_t * xGetIOTaskHandle ()
     return  &IOTaskHandle ;
 }
 
-
 BitState_t fPortState (uint8_t i)
 {
     switch (i)

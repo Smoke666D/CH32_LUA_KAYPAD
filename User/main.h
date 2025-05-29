@@ -24,6 +24,8 @@
 //#define DMA1_CH7_ENABLE 0
 
 
+#define WDT_ENABLE
+
 #define TIM3_UP_ENABLE
 #define CAN_SFID_MASK                      ((uint32_t)0x000007FFU)      /*!< mask of standard identifier */
 

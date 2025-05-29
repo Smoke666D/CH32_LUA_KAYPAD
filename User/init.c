@@ -11,6 +11,7 @@
 //#include "hw_lib_can.h"
 #include "led_task.h"
 #include "hal_spi.h"
+#include "hal_wdt.h"
 
 INIT_FUNC_LOC void InitDevice()
 {
@@ -24,9 +25,9 @@ INIT_FUNC_LOC void InitDevice()
     HAL_InitGpioAF(SPI_Port,SPI_MOSI_Pin |  SPI_SCK_Pin ,0,GPIO_Mode_AF_PP);
     HAL_InitGpioOut(TIM2_CH1_2_Port,TIM2_CH1_Pin |  TIM2_CH2_Pin); 
     HAL_InitGpioOut(TIM2_CH3_Port  ,TIM2_CH3_Pin);
-
     HAL_SPI_InitDMA(HAL_SPI2, SPI_8bit);
     HW_TIMER_TimerInit(TIMER1,100000,10000);
     vLedDriverStart();
+    HAL_WDTInit();
 }
 

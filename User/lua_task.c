@@ -16,6 +16,7 @@
 #include "led_task.h"
 #include "io_task.h"
 #include "string.h"
+#include "hal_wdt.h"
 
 static TaskHandle_t  LuaTaskHandle;
 static LUA_STATE_t lua_state;
@@ -60,27 +61,12 @@ static int iCanSetConfig(lua_State *L)
 
 static int iCanSetNodeID(lua_State *L)
 {
-	if (lua_gettop(L) == TWO_ARGUMENTS)
+	if (lua_gettop(L) == ONE_ARGUMENT)
 	{
-		ConfigNodeID( (uint8_t) lua_tointeger( L, FIRST_ARGUMENT)); 
-   
-
+		  ConfigNodeID( (uint8_t) lua_tointeger( L, FIRST_ARGUMENT)); 
 	}
 	return ( NO_RESULT );
 }
-
-
-static int iSetBackLigthBrigth(lua_State *L)
-{
-   if (lua_gettop(L) == ONE_ARGUMENT)
-   {
-      vSetBackLigth((uint8_t) lua_tointeger( L, FIRST_ARGUMENT));
-   }
-   return ( NO_RESULT );
-}
-
-
-
 
 void vSendCanData(CAN_TX_FRAME_TYPE * frame )
 {
@@ -137,29 +123,30 @@ int iCanSendData( lua_State *L )
     }
 	  return ( NO_RESULT );
 }
+
+
 /*
 Функция отправки пакте по CAN, данные передаються таблицей
 */
 int iCanSendTable( lua_State *L )
 {
   CAN_TX_FRAME_TYPE frame;
-	if (lua_gettop(L)== CAN_SEND_TABLE_ARGUMENT_COUNT)  //Проверяем, что при вызове нам передали нужное число аргументов
+	if (lua_gettop(L)== 2)  //Проверяем, что при вызове нам передали нужное число аргументов
 	{
-		if ( lua_istable(L, CAN_TABLE_POS ) )  //Убеждаемся что нам передали таблицу данных
-		{
-			frame.DLC 	= (uint8_t) lua_tointeger(L, FRAME_SIZE_POS);  //Читаем рамер таблицы
+		
+      luaL_checktype(L, -1, LUA_TTABLE);
+      frame.ident = (uint32_t) lua_tointeger(L,-2);
+			frame.DLC 	 = luaL_len(L, -1);  //Читаем рамер таблицы
 			if  (frame.DLC  <= CAN_FRAME_SIZE )
 			{
 				for (uint8_t i = 0; i < frame.DLC ; i++)
 				{
-					lua_geti(L, CAN_TABLE_POS , i + 1);
-					frame.data[i]= lua_tointeger(L,-1);  //Вытаскиваем данные из таблицы
+					lua_geti(L, -1 , i +1 );
+					frame.data[i]=   lua_tointeger(L,-1);  //Вытаскиваем данные из таблицы
 					lua_pop(L,1);
 				}
-        frame.ident = lua_tointeger(L, FIRST_ARGUMENT );
 				 vSendCanData(&frame);
 			}
-		}
 	}
 	return (  NO_RESULT );
 }
@@ -241,7 +228,7 @@ int iCanGetMessage(lua_State *L )
 }
 
 
-static RESULT_t eIsLuaSkriptValid(const uint8_t* pcData, uint32_t size, uint32_t *real_size)
+static RESULT_t eIsLuaSkriptValid(const uint8_t* pcData, uint32_t size)
 {
 	uint8_t ucRes = RESULT_FALSE;
 	uint8_t ucEND = 0x00;
@@ -259,14 +246,14 @@ static RESULT_t eIsLuaSkriptValid(const uint8_t* pcData, uint32_t size, uint32_t
 				}
 				else
 				{
-          *real_size = ulIndex;
+
 					ucRes = RESULT_TRUE;
 					break;
 				}
 			}
 			else
 			{
-        *real_size = ulIndex;
+;
 				ucRes = RESULT_TRUE;
 				break;
 			}
@@ -301,14 +288,16 @@ static lua_State *L1 = NULL;
 
 void vLuaTask( void * argument )
 {
-   uint8_t data_buffer[5]={0,0,0,0,0};
-   vSetBackLigthColor(WHITE);
+   uint8_t data_buffer[6]={0,0,0,0,0,0};
+   
     uint16_t counter = 0;
     lua_state = LUA_INIT;
     uint32_t ulWorkCicleIn10us;
+    uint32_t max_clock = 0;
     while(1)
     {
-      vTaskDelay( 1 );
+        vTaskDelay( 1 );
+        HAL_WDTReset();
         switch (lua_state)
         {
             case LUA_INIT:
@@ -327,10 +316,9 @@ void vLuaTask( void * argument )
                lua_register(L1,"ConfigNodeID",      iCanSetNodeID);
                printf("Memory %d\r\n",lua_gc(L1,LUA_GCCOUNT,0)*1024);
                printf("scripth_hegth=%i\r\n",uFLASHgetLength());
-               uint32_t real_size;
-                if ( eIsLuaSkriptValid(uFLASHgetScript(), uFLASHgetLength()+1,&real_size) == RESULT_TRUE )
+                if ( eIsLuaSkriptValid(uFLASHgetScript(), uFLASHgetLength()+1) == RESULT_TRUE )
 	   	          {
-                     printf("Size=%i\r\n",real_size);
+                    
 	   	    	        res =luaL_loadbuffer(L1, uFLASHgetScript(), uFLASHgetLength() , uFLASHgetScript());  
                     if (res!=0)
                     {
@@ -356,16 +344,14 @@ void vLuaTask( void * argument )
 	   	          {
                   printf("File break\r\n");
 	   	   		       lua_state = LUA_ERROR;
-	   	          }
-	   	  
-              
+                }
                break;
             case LUA_RUN:
                 ulWorkCicleIn10us= HAL_GetTimerCnt(TIMER1);
                 lua_pushinteger(L1, ulWorkCicleIn10us);
                 lua_pushinteger(L1, getKeyData());
                 res = lua_resume(L1,0,2);
-                for (uint8_t i=0;i<5;i++)
+                for (uint8_t i=0;i<6;i++)
                 {
                     uint8_t temp_data = (uint8_t) lua_tointeger( L1,-(i+1));
                     if (data_buffer[i]!=temp_data)
@@ -382,6 +368,9 @@ void vLuaTask( void * argument )
                         case 4:
                             vSetBackLigth(temp_data);
                             break;
+                        case 5:
+                            vSetBackLigthColor(temp_data);
+                            break;
                       }
                     }
                 }  
@@ -389,15 +378,16 @@ void vLuaTask( void * argument )
                 if (counter == 1000)
                 {
                   counter=0;
-                  printf("data %i %i %i %i %i",data_buffer[0],data_buffer[1],data_buffer[2],data_buffer[3],data_buffer[4]);
-                  printf("timer = %i\r\n",ulWorkCicleIn10us);
+                  if( max_clock<ulWorkCicleIn10us) max_clock =ulWorkCicleIn10us;
+                  printf("timer = %i max_timer=%i\n",ulWorkCicleIn10us,max_clock);
+                  printf("Memory %d\r\n",lua_gc(L1,LUA_GCCOUNT,0)*1024);
                 }
                 HAL_TimerReset(TIMER1);
                 switch ( res)
                 {
                     case LUA_OK:
                     case LUA_YIELD:
-                         vTaskDelay( 1 );
+                         
                          break;
                     default:
 	   	   	            pcLuaErrorString =  (char *) lua_tostring( L1, LAST_ARGUMENT );

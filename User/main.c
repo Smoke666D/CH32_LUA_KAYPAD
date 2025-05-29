@@ -36,7 +36,6 @@ int main(void)
 	SystemCoreClockUpdate();
     InitDevice();
 	USART_Printf_Init(115200);
-    printf("SystemClk:%d\r\n",SystemCoreClock);
     vSYSqueueInit();
     vSYStaskInit();
     vTaskStartScheduler();

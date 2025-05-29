@@ -50,7 +50,8 @@ User/init.o: ../User/init.c ../User/init.h ../User/main.h \
  c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_gpio.h \
  c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_typedef.h \
  c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_timers.h ../User/led_task.h \
- c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_spi.h
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_spi.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_wdt.h
 
 ../User/init.h:
 
@@ -163,3 +164,5 @@ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_timers.h:
 ../User/led_task.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_spi.h:
+
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_wdt.h:

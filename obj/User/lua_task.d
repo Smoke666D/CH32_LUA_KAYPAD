@@ -62,7 +62,7 @@ User/lua_task.o: ../User/lua_task.c ../User/lua_task.h ../User/main.h \
  c:/MRS_DATA/workspace/CH32V_LUA/LIB/hw_lib_can.h \
  c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_can.h \
  c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_timers.h ../User/led_task.h \
- ../User/io_task.h
+ ../User/io_task.h c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_wdt.h
 
 ../User/lua_task.h:
 
@@ -197,3 +197,5 @@ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_timers.h:
 ../User/led_task.h:
 
 ../User/io_task.h:
+
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_wdt.h:
