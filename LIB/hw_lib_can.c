@@ -8,7 +8,7 @@ static uint16_t CANbitRate;
 static QueueHandle_t pCanRXHandle;
 static QueueHandle_t pCanTXHandle;
 static TaskHandle_t  CanRXTaskHandle;
-static uint8_t Answer_filter_id = 0;
+static uint8_t Answer_filter_id = 0xFF;
 
 
 TaskHandle_t * xGetCanRXTaskHandle ()
@@ -66,7 +66,11 @@ void vSetWaitFilter(uint32_t id)
  */
 uint8_t vCheckAnswer( void )
 {
+	if (Answer_filter_id!=0xFF)
+	{
 	 return ( (MailBoxBuffer[Answer_filter_id].new_data == 1) ? 1: 0 );
+	}
+	return 0;
 }
 
 uint8_t vCanChekMessage(uint32_t id)
@@ -95,17 +99,22 @@ uint8_t vCanChekMessage(uint32_t id)
 }
 uint8_t vCanGetAnsewerMessage(CAN_FRAME_TYPE * RXPacket)
 {
-	if (MailBoxBuffer[Answer_filter_id].new_data == 1)
+	uint8_t res = 0;
+	if (Answer_filter_id!=0xFF)
 	{
+		if (MailBoxBuffer[Answer_filter_id].new_data == 1)
+		{
 			RXPacket->DLC = MailBoxBuffer[Answer_filter_id].DLC;
 			for (int i =0; i < RXPacket->DLC;i++)
 			{
 				RXPacket->data[i] = MailBoxBuffer[Answer_filter_id].data[i];
 			}
-			vResetFilter(Answer_filter_id);
-
+			res =1;
+			eMailboxFilterReset(MailBoxBuffer[Answer_filter_id].ident);
+	
+		}
 	}
-
+	return (res);
 }
 
 uint8_t vCanGetMessage(CAN_FRAME_TYPE * RXPacket)
@@ -287,7 +296,7 @@ ERROR_TYPE_t eMailboxFilterSet(uint32_t id, CLIB_FILTER_TYPE is_answer_fiter)
 			if ( MailBoxBuffer[i].ident == 0U )
 			{
 				MailBoxBuffer[i].ident = id & (~CAN_EXT_FLAG);
-				if (is_answer_fiter == ANSWER_FILTER) Answer_filter_id  = i;
+				Answer_filter_id  =  (is_answer_fiter == ANSWER_FILTER) ? i:0xFF;
 				vFilterSetExtd(i);
 				eRes = ERROR_NO;
 				break;
@@ -340,19 +349,15 @@ void APPCANSEND(CAN_TX_FRAME_TYPE *buffer)
     }
 }
 
- void vResetFilter( int id)
-{
-        MailBoxBuffer[id].ident = 0U;
-		 MailBoxBuffer[id].new_data = 0U;
-         HAL_CANResetFiltesr(id);
 
-}
 
 static void vInitMailBoxBuffer( void )
 {
 	for (int i=0;i<MAILBOXSIZE;i++)
 	{
-		 vResetFilter(i);
+		  MailBoxBuffer[i].ident = 0U;
+		 MailBoxBuffer[i].new_data = 0U;
+         HAL_CANResetFiltesr(i);
 	}
 	return;
 }
@@ -364,7 +369,9 @@ if ( (id & CAN_EXT_FLAG ) == CAN_EXT_FLAG )   //圻扼抖我 ID 把忘扼扮我把快扶扶抑
 		{
 			if ( MailBoxBuffer[i].ident == (id & CAN_EXT_FLAG)  )
 			{
-				vResetFilter(i);
+				MailBoxBuffer[i].ident = 0;
+				MailBoxBuffer[i].new_data = 0;
+				vFilterSetExtd(i);
 				break;
 			}
 		}
@@ -375,7 +382,9 @@ if ( (id & CAN_EXT_FLAG ) == CAN_EXT_FLAG )   //圻扼抖我 ID 把忘扼扮我把快扶扶抑
 		{
 			if ( MailBoxBuffer[i].ident == id )
 			{
-				vResetFilter(i);
+				MailBoxBuffer[i].ident = 0;
+				MailBoxBuffer[i].new_data = 0;
+				vFilterSet(i);
 				break;
 			}
 		}

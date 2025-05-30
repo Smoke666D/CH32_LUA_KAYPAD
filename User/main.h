@@ -14,7 +14,7 @@
 
 #define V1  1
 #define V2  2
-#define V3  1
+#define V3  3
 
 #define DEBUG_PRINT
 
