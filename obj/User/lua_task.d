@@ -48,7 +48,9 @@ User/lua_task.o: ../User/lua_task.c ../User/lua_task.h ../User/main.h \
  c:/MRS_DATA/workspace/CH32V_LUA/LUA/lprefix.h \
  c:/MRS_DATA/workspace/CH32V_LUA/LUA/lua.h \
  c:/MRS_DATA/workspace/CH32V_LUA/LUA/luaconf.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/luaProjectConfig.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/LUA/luaeHeap.h \
  c:/MRS_DATA/workspace/CH32V_LUA/LUA/lauxlib.h \
  c:/MRS_DATA/workspace/CH32V_LUA/LUA/lua.h \
  c:/MRS_DATA/workspace/CH32V_LUA/LUA/lualib.h \
@@ -166,7 +168,11 @@ c:/MRS_DATA/workspace/CH32V_LUA/LUA/lua.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/LUA/luaconf.h:
 
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/luaProjectConfig.h:
+
 c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
+
+c:/MRS_DATA/workspace/CH32V_LUA/LUA/luaeHeap.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/LUA/lauxlib.h:
 

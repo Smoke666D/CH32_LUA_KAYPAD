@@ -44,6 +44,7 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 SECONDARY_FLASH += \
+CH32V3_LUA.bin \
 CH32V3_LUA.hex \
 
 SECONDARY_LIST += \
@@ -62,6 +63,8 @@ main-build: CH32V3_LUA.elf secondary-outputs
 # Tool invocations
 CH32V3_LUA.elf: $(OBJS) $(USER_OBJS)
 	@	riscv-none-embed-gcc -march=rv32imafcxw -mabi=ilp32f -msmall-data-limit=8 -msave-restore -fmax-errors=20 -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized -g -T "c:/MRS_DATA/workspace/CH32V_LUA/Ld/Link.ld" -nostartfiles -Xlinker --gc-sections -Xlinker --print-memory-usage -Xlinker -print-memory-usage -Wl,-Map,"CH32V3_LUA.map" --specs=nano.specs --specs=nosys.specs -o "CH32V3_LUA.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+CH32V3_LUA.bin: CH32V3_LUA.elf
+	@	riscv-none-embed-objcopy -O binary "CH32V3_LUA.elf" "CH32V3_LUA.bin"
 CH32V3_LUA.hex: CH32V3_LUA.elf
 	@	riscv-none-embed-objcopy -O ihex "CH32V3_LUA.elf" "CH32V3_LUA.hex"
 CH32V3_LUA.lst: CH32V3_LUA.elf

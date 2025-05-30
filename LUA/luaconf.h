@@ -10,8 +10,36 @@
 
 #include <limits.h>
 #include <stddef.h>
-#include "main.h"
 
+
+#include "luaProjectConfig.h"
+
+
+#ifndef DONT_USE_LUA_HEAP_MANAGEMENT_FUNCTIONS
+/*The lua heap (luaHeap.c) functions shall be used.*/
+
+#include "luaeHeap.h"
+
+#define luaMallocFunction(xWantedSize) luaMalloc(xWantedSize)
+#define luaFreeFunction(pv) luaFree(pv)
+
+#ifndef LUA_MEM_ENTER_CRITICAL_SECTION
+#define LUA_MEM_ENTER_CRITICAL_SECTION()
+#endif
+
+#ifndef LUA_MEM_LEAVE_CRITICAL_SECTION
+#define LUA_MEM_LEAVE_CRITICAL_SECTION()
+#endif
+
+#endif
+
+extern void luaAbort(void);
+
+
+
+#ifndef luaPointerSize_t
+#define luaPointerSize_t size_t
+#endif
 /*
 ** ===================================================================
 ** Search for "@@" to find all configurable definitions.

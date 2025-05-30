@@ -35,6 +35,7 @@ C_SRCS += \
 ../LUA/ltablib.c \
 ../LUA/ltm.c \
 ../LUA/lua.c \
+../LUA/luaeheap.c \
 ../LUA/lundump.c \
 ../LUA/lutf8lib.c \
 ../LUA/lvm.c \
@@ -71,6 +72,7 @@ C_DEPS += \
 ./LUA/ltablib.d \
 ./LUA/ltm.d \
 ./LUA/lua.d \
+./LUA/luaeheap.d \
 ./LUA/lundump.d \
 ./LUA/lutf8lib.d \
 ./LUA/lvm.d \
@@ -107,6 +109,7 @@ OBJS += \
 ./LUA/ltablib.o \
 ./LUA/ltm.o \
 ./LUA/lua.o \
+./LUA/luaeheap.o \
 ./LUA/lundump.o \
 ./LUA/lutf8lib.o \
 ./LUA/lvm.o \

@@ -1005,20 +1005,40 @@ LUALIB_API const char *luaL_gsub (lua_State *L, const char *s, const char *p,
 }
 
 
+#include "luaeheap.h"
+
 static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {
   (void)ud; (void)osize;  /* not used */
   if (nsize == 0) {
-    free(ptr);
+    luaFreeFunction(ptr);
     return NULL;
   }
-  else {  /* cannot fail when shrinking a block */
-    void *newptr = realloc(ptr, nsize);
-    if (newptr == NULL && ptr != NULL && nsize <= osize)
-      return ptr;  /* keep the original block */
-    else  /* no fail or not shrinking */
-     return newptr;  /* use the new block */
+  else {
+    void *newblock = luaMallocFunction(nsize);  /* alloc a new block */
+    if (newblock == NULL) return NULL;
+    if (ptr) {
+      size_t commonsize = (osize < nsize) ? osize : nsize;
+      memcpy(newblock, ptr, commonsize);
+      luaFreeFunction(ptr);
+    }
+    return newblock;
   }
 }
+
+//static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {
+//  (void)ud; (void)osize;  /* not used */
+//  if (nsize == 0) {
+//    free(ptr);
+//    return NULL;
+//  }
+//  else {  /* cannot fail when shrinking a block */
+//    void *newptr = realloc(ptr, nsize);
+//    if (newptr == NULL && ptr != NULL && nsize <= osize)
+//      return ptr;  /* keep the original block */
+//    else  /* no fail or not shrinking */
+//     return newptr;  /* use the new block */
+//  }
+//}
 
 
 static int panic (lua_State *L) {

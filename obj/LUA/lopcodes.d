@@ -1,8 +1,5 @@
 LUA/lopcodes.o: ../LUA/lopcodes.c ../LUA/lprefix.h ../LUA/lopcodes.h \
- ../LUA/llimits.h ../LUA/lua.h ../LUA/luaconf.h \
- c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
- c:/MRS_DATA/workspace/CH32V_LUA/User/system_init.h \
- c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
+ ../LUA/llimits.h ../LUA/lua.h ../LUA/luaconf.h ../LUA/luaProjectConfig.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/FreeRTOS.h \
  c:/MRS_DATA/workspace/CH32V_LUA/User/FreeRTOSConfig.h \
  c:/MRS_DATA/workspace/CH32V_LUA/Debug/debug.h \
@@ -39,16 +36,19 @@ LUA/lopcodes.o: ../LUA/lopcodes.c ../LUA/lprefix.h ../LUA/lopcodes.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/deprecated_definitions.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/portable/GCC/RISC-V/portmacro.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/mpu_wrappers.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/task.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/list.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/User/system_init.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/User/main.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/queue.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/task.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/list.h \
- c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/list.h \
- c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/task.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/semphr.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/queue.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h \
- c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h
+ c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h ../LUA/luaeHeap.h
 
 ../LUA/lprefix.h:
 
@@ -60,11 +60,7 @@ LUA/lopcodes.o: ../LUA/lopcodes.c ../LUA/lprefix.h ../LUA/lopcodes.h \
 
 ../LUA/luaconf.h:
 
-c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
-
-c:/MRS_DATA/workspace/CH32V_LUA/User/system_init.h:
-
-c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
+../LUA/luaProjectConfig.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/FreeRTOS.h:
 
@@ -138,15 +134,21 @@ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/portable/GCC/RISC-V/portmacro.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/mpu_wrappers.h:
 
+c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/task.h:
+
+c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/list.h:
+
+c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
+
+c:/MRS_DATA/workspace/CH32V_LUA/User/system_init.h:
+
+c:/MRS_DATA/workspace/CH32V_LUA/User/main.h:
+
 c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/queue.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/task.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/list.h:
-
-c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/list.h:
-
-c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/task.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/semphr.h:
 
@@ -157,3 +159,5 @@ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h:
 c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h:
+
+../LUA/luaeHeap.h:

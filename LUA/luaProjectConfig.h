@@ -36,7 +36,7 @@ extern void vPortFree( void *pv );
 #define LUA_MEM_LEAVE_CRITICAL_SECTION() xTaskResumeAll()
 #endif
 
-#define LUA_HEAP_SIZE (2 * VM_HEAP_SIZE)
+#define LUA_HEAP_SIZE (2 * 10600)
 
 
 #endif /* LUAPROJECTCONFIG_H_ */
