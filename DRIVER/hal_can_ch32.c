@@ -414,10 +414,10 @@ INIT_FUNC_LOC void HAL_CANSetFitersEX(uint8_t filter_index, uint32_t f1,uint32_t
 {
     if ((f1 !=0) || (f2!=0))
     {
-        u16 CAN_FilterIdLow       = ((f1 <<3) | 0x04) & 0xFFFF;
-        u16 CAN_FilterMaskIdHigh  = (f1 >>13) & 0xFFFF;
-        u16 CAN_FilterMaskIdLow   = ((f2 <<3) | 0x04) & 0xFFFF;
-        u16 CAN_FilterIdHigh      = (f2 >>13) & 0xFFFF;
+        u16 CAN_FilterId1Low       = ((f1 <<3) | 0x04) & 0xFFFF;
+        u16 CAN_FilterId1High  = (f1 >>13) & 0xFFFF;
+        u16 CAN_FilterId2Low   = ((f2 <<3) | 0x04) & 0xFFFF;
+        u16 CAN_FilterId2High      = (f2 >>13) & 0xFFFF;
         uint16_t CAN_FilterFIFOAssignment =  (FIFO  == FILTER_FIFO_0) ?  CAN_Filter_FIFO0 :  CAN_Filter_FIFO1 ;
         uint32_t filter_number_bit_pos = 0;
         filter_number_bit_pos = ((uint32_t)1) << filter_index;
@@ -425,11 +425,11 @@ INIT_FUNC_LOC void HAL_CANSetFitersEX(uint8_t filter_index, uint32_t f1,uint32_t
         CAN1->FWR &= ~(uint32_t)filter_number_bit_pos;
         CAN1->FSCFGR |= filter_number_bit_pos;
         CAN1->sFilterRegister[filter_index].FR1 =
-            ((0x0000FFFF & (uint32_t)CAN_FilterMaskIdLow) << 16) |
-                    (0x0000FFFF & (uint32_t)CAN_FilterIdLow);
+            ((0x0000FFFF & (uint32_t)CAN_FilterId1High) << 16) |
+                    (0x0000FFFF & (uint32_t)CAN_FilterId1Low ) ;
             CAN1->sFilterRegister[filter_index].FR2 =
-            ((0x0000FFFF & (uint32_t)CAN_FilterMaskIdHigh) << 16) |
-                    (0x0000FFFF & (uint32_t)CAN_FilterIdHigh);
+            ((0x0000FFFF & (uint32_t)CAN_FilterId2High) << 16) |
+                    (0x0000FFFF & (uint32_t)CAN_FilterId2Low);
         #if defined (CH32V20x_D6)||defined (CH32V20x_D8)
         if(((*(uint32_t *) 0x40022030) & 0x0F000000) == 0)
         {

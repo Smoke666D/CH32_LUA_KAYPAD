@@ -51,27 +51,7 @@ TaskHandle_t * xGetLuaTaskHandle ()
 
 
 
-/*
-Функия отправки запроса. В качестве парамеров передаються
-CAN_ID запроса, CAN_ID ответа, данные пакта запроса
-*/
-static int iCanSendRequest( lua_State *L )
-{
-  CAN_TX_FRAME_TYPE frame;
-	int arg_number = lua_gettop(L);
-	if (arg_number >= SEND_REQUEST_ARGUMENT_COUNT)  //Проверяем, что при вызове нам передали нужное число аргументов
-	{
-    eMailboxFilterSet(lua_tointeger( L, SECOND_ARGUMENT ),ANSWER_FILTER );
-		frame.DLC  = arg_number -2;
-		for (int i=0;i<frame.DLC;i++)
-		{
-			frame.data[i] = (uint8_t) lua_tointeger(L,-(arg_number-2-i)); //Третьем агрументом должно передоватьс время плавного старта в милисекундах
-		}
-     frame.ident = (uint32_t)lua_tointeger(L, FIRST_ARGUMENT);
-     vSendCanData(&frame);
-	}
-	return ( NO_RESULT );
-}
+
 
 
 
@@ -401,7 +381,7 @@ static int iCanGetResivedData(lua_State *L )
 	{
 	    if (lua_istable(L, LAST_ARGUMENT))   //Проверяем что в качестве аргумента передали таблицу
      { 
-	    RXPacket.ident = (uint32_t) lua_tointeger(L,-2);
+	    RXPacket.ident = (uint32_t) lua_tointeger(L,FIRST_ARGUMENT );
 	    if ( vCanGetMessage(&RXPacket) == 1)
 	    {
 	        n = luaL_len(L, -1);
@@ -425,7 +405,28 @@ static int iCanResetResiveFilter(lua_State *L )
 {
   if (lua_gettop(L) == ONE_ARGUMENT )  /*Проверяем, что при вызове нам передали нужное число аргументов*/
   {
-    eMailboxFilterReset( ( uint32_t ) lua_tointeger(L,FIRST_ARGUMENT));;
+    eMailboxFilterReset( ( uint32_t ) lua_tointeger(L,FIRST_ARGUMENT));
   }
   return ( NO_RESULT );
+}
+/*
+Функия отправки запроса. В качестве парамеров передаються
+CAN_ID запроса, CAN_ID ответа, данные пакта запроса
+*/
+static int iCanSendRequest( lua_State *L )
+{
+  CAN_TX_FRAME_TYPE frame;
+	int arg_number = lua_gettop(L);
+	if (arg_number >= SEND_REQUEST_ARGUMENT_COUNT)  //Проверяем, что при вызове нам передали нужное число аргументов
+	{
+    eMailboxFilterSet(lua_tointeger( L, SECOND_ARGUMENT ),ANSWER_FILTER );
+		frame.DLC  = arg_number -2;
+		for (int i=0;i<frame.DLC;i++)
+		{
+			frame.data[i] = (uint8_t) lua_tointeger(L,-(arg_number-2-i)); //Третьем агрументом должно передоватьс время плавного старта в милисекундах
+		}
+     frame.ident = (uint32_t)lua_tointeger(L, FIRST_ARGUMENT);
+     vSendCanData(&frame);
+	}
+	return ( NO_RESULT );
 }
