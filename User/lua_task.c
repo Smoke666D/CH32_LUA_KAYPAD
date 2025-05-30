@@ -395,11 +395,13 @@ static int iCanSetResiveFilter(lua_State *L )
 static int iCanGetResivedData(lua_State *L )
 {
 	uint8_t n;
+  uint8_t res = 0;
 	CAN_FRAME_TYPE  RXPacket;
-	if (lua_gettop(L)==2)
+	if (lua_gettop(L)==TWO_ARGUMENTS)
 	{
 	  
-	    luaL_checktype(L, -1, LUA_TTABLE);
+	        if (lua_istable(L, LAST_ARGUMENT))   //Проверяем что в качестве аргумента передали таблицу
+     { 
 	    RXPacket.ident = (uint32_t) lua_tointeger(L,-2);
 	    if ( vCanGetMessage(&RXPacket) == 1)
 	    {
@@ -409,13 +411,12 @@ static int iCanGetResivedData(lua_State *L )
 	    	  lua_pushnumber(L,RXPacket.data[i-1]);
 	    		lua_seti(L, -2, i);
 	      }
-	    	lua_pushnumber(L,1U );
+	    	res = 1U;
 	    }
-	    else
-	    {
-	      lua_pushnumber(L,0U );
-	    }
+     }
 	}
+  
+  lua_pushnumber(L,res );
 	return ( 1U );
 }
 /*

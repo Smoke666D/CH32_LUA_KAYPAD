@@ -352,23 +352,25 @@ uint8_t HAL_CANSend(CAN_TX_FRAME_TYPE *buffer)
 
 INIT_FUNC_LOC void HAL_CANSetFiters(uint8_t filter_index, uint32_t f1,uint32_t f2,uint32_t f3,uint32_t f4, HAL_CAN_FILTER_FIFO_t FIFO)
 {
-    u16 CAN_FilterIdLow       = f1 <<5;
-    u16 CAN_FilterIdHigh      = f3 <<5;
-    u16 CAN_FilterMaskIdLow   = f2 <<5;
-    u16 CAN_FilterMaskIdHigh  = f4 <<5;
-    uint16_t CAN_FilterFIFOAssignment =  (FIFO  == FILTER_FIFO_0) ?  CAN_Filter_FIFO0 :  CAN_Filter_FIFO1 ;
-    uint32_t filter_number_bit_pos = 0;
-    filter_number_bit_pos = ((uint32_t)1) << filter_index;
-    CAN1->FCTLR |= FCTLR_FINIT;
-    CAN1->FWR &= ~(uint32_t)filter_number_bit_pos;
-    CAN1->FSCFGR &= ~(uint32_t)filter_number_bit_pos;
-    CAN1->sFilterRegister[filter_index].FR1 =
+    if  ( (f1!=0) || (f2!=0) || (f3!=0) || (f4!=0))
+    {
+        u16 CAN_FilterIdLow       = f1 <<5;
+        u16 CAN_FilterIdHigh      = f3 <<5;
+        u16 CAN_FilterMaskIdLow   = f2 <<5;
+        u16 CAN_FilterMaskIdHigh  = f4 <<5;
+        uint16_t CAN_FilterFIFOAssignment =  (FIFO  == FILTER_FIFO_0) ?  CAN_Filter_FIFO0 :  CAN_Filter_FIFO1 ;
+        uint32_t filter_number_bit_pos = 0;
+        filter_number_bit_pos = ((uint32_t)1) << filter_index;
+        CAN1->FCTLR |= FCTLR_FINIT;
+        CAN1->FWR &= ~(uint32_t)filter_number_bit_pos;
+        CAN1->FSCFGR &= ~(uint32_t)filter_number_bit_pos;
+        CAN1->sFilterRegister[filter_index].FR1 =
             ((0x0000FFFF & (uint32_t)CAN_FilterMaskIdLow) << 16) |
                     (0x0000FFFF & (uint32_t)CAN_FilterIdLow);
             CAN1->sFilterRegister[filter_index].FR2 =
             ((0x0000FFFF & (uint32_t)CAN_FilterMaskIdHigh) << 16) |
                     (0x0000FFFF & (uint32_t)CAN_FilterIdHigh);
-    #if defined (CH32V20x_D6)||defined (CH32V20x_D8)
+        #if defined (CH32V20x_D6)||defined (CH32V20x_D8)
         if(((*(uint32_t *) 0x40022030) & 0x0F000000) == 0)
         {
             uint32_t i;
@@ -377,19 +379,23 @@ INIT_FUNC_LOC void HAL_CANSetFiters(uint8_t filter_index, uint32_t f1,uint32_t f
                 *(__IO uint16_t *)(0x40006000 + 512 + 4 * i) = *(__IO uint16_t *)(0x40006000 + 768 + 4 * i);
             }
         }
-    #endif
-    CAN1->FMCFGR |= (uint32_t)filter_number_bit_pos;
-    if (CAN_FilterFIFOAssignment == CAN_Filter_FIFO0)
-    {
-        CAN1->FAFIFOR &= ~(uint32_t)filter_number_bit_pos;
+        #endif
+        CAN1->FMCFGR |= (uint32_t)filter_number_bit_pos;
+        if (CAN_FilterFIFOAssignment == CAN_Filter_FIFO0)
+        {
+            CAN1->FAFIFOR &= ~(uint32_t)filter_number_bit_pos;
+        }
+        else
+        {
+            CAN1->FAFIFOR |= (uint32_t)filter_number_bit_pos;
+        }
+        CAN1->FWR |= filter_number_bit_pos;
+        CAN1->FCTLR &= ~FCTLR_FINIT;
     }
-    else
+    else 
     {
-        CAN1->FAFIFOR |= (uint32_t)filter_number_bit_pos;
+      HAL_CANResetFiltesr(filter_index);
     }
-    CAN1->FWR |= filter_number_bit_pos;
-    CAN1->FCTLR &= ~FCTLR_FINIT;
-
 }
 /*
 Функция выключения фильтра
@@ -406,24 +412,25 @@ INIT_FUNC_LOC void HAL_CANResetFiltesr( uint8_t filter_index)
 
 INIT_FUNC_LOC void HAL_CANSetFitersEX(uint8_t filter_index, uint32_t f1,uint32_t f2, HAL_CAN_FILTER_FIFO_t FIFO)
 {
-    u16 CAN_FilterIdLow       = ((f1 <<3) | 0x04) & 0xFFFF;
-    u16 CAN_FilterMaskIdHigh  = (f1 >>13) & 0xFFFF;
-    u16 CAN_FilterMaskIdLow   = ((f2 <<3) | 0x04) & 0xFFFF;
-    u16 CAN_FilterIdHigh      = (f2 >>13) & 0xFFFF;
-
-    uint16_t CAN_FilterFIFOAssignment =  (FIFO  == FILTER_FIFO_0) ?  CAN_Filter_FIFO0 :  CAN_Filter_FIFO1 ;
-    uint32_t filter_number_bit_pos = 0;
-    filter_number_bit_pos = ((uint32_t)1) << filter_index;
-    CAN1->FCTLR |= FCTLR_FINIT;
-    CAN1->FWR &= ~(uint32_t)filter_number_bit_pos;
-    CAN1->FSCFGR |= filter_number_bit_pos;
-    CAN1->sFilterRegister[filter_index].FR1 =
+    if ((f1 !=0) || (f2!=0))
+    {
+        u16 CAN_FilterIdLow       = ((f1 <<3) | 0x04) & 0xFFFF;
+        u16 CAN_FilterMaskIdHigh  = (f1 >>13) & 0xFFFF;
+        u16 CAN_FilterMaskIdLow   = ((f2 <<3) | 0x04) & 0xFFFF;
+        u16 CAN_FilterIdHigh      = (f2 >>13) & 0xFFFF;
+        uint16_t CAN_FilterFIFOAssignment =  (FIFO  == FILTER_FIFO_0) ?  CAN_Filter_FIFO0 :  CAN_Filter_FIFO1 ;
+        uint32_t filter_number_bit_pos = 0;
+        filter_number_bit_pos = ((uint32_t)1) << filter_index;
+        CAN1->FCTLR |= FCTLR_FINIT;
+        CAN1->FWR &= ~(uint32_t)filter_number_bit_pos;
+        CAN1->FSCFGR |= filter_number_bit_pos;
+        CAN1->sFilterRegister[filter_index].FR1 =
             ((0x0000FFFF & (uint32_t)CAN_FilterMaskIdLow) << 16) |
                     (0x0000FFFF & (uint32_t)CAN_FilterIdLow);
             CAN1->sFilterRegister[filter_index].FR2 =
             ((0x0000FFFF & (uint32_t)CAN_FilterMaskIdHigh) << 16) |
                     (0x0000FFFF & (uint32_t)CAN_FilterIdHigh);
-    #if defined (CH32V20x_D6)||defined (CH32V20x_D8)
+        #if defined (CH32V20x_D6)||defined (CH32V20x_D8)
         if(((*(uint32_t *) 0x40022030) & 0x0F000000) == 0)
         {
             uint32_t i;
@@ -432,19 +439,23 @@ INIT_FUNC_LOC void HAL_CANSetFitersEX(uint8_t filter_index, uint32_t f1,uint32_t
                 *(__IO uint16_t *)(0x40006000 + 512 + 4 * i) = *(__IO uint16_t *)(0x40006000 + 768 + 4 * i);
             }
         }
-    #endif
-    CAN1->FMCFGR |= (uint32_t)filter_number_bit_pos;
-    if (CAN_FilterFIFOAssignment == CAN_Filter_FIFO0)
-    {
-        CAN1->FAFIFOR &= ~(uint32_t)filter_number_bit_pos;
+        #endif
+        CAN1->FMCFGR |= (uint32_t)filter_number_bit_pos;
+        if (CAN_FilterFIFOAssignment == CAN_Filter_FIFO0)
+        {
+            CAN1->FAFIFOR &= ~(uint32_t)filter_number_bit_pos;
+        }
+        else
+        {
+            CAN1->FAFIFOR |= (uint32_t)filter_number_bit_pos;
+        }
+        CAN1->FWR |= filter_number_bit_pos;
+        CAN1->FCTLR &= ~FCTLR_FINIT;
     }
     else
-    {
-        CAN1->FAFIFOR |= (uint32_t)filter_number_bit_pos;
-    }
-    CAN1->FWR |= filter_number_bit_pos;
-    CAN1->FCTLR &= ~FCTLR_FINIT;
-
+     {
+        HAL_CANResetFiltesr(filter_index);
+     }
 }
 
 
