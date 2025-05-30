@@ -72,10 +72,9 @@ uint8_t vCheckAnswer( void )
 uint8_t vCanChekMessage(uint32_t id)
 {
 	uint8_t ucRes = 0;
-	uint8_t max_data = MAILBOXSIZE;
-	for (int k=0;k < max_data;k++)
+	for (int k=0;k < MAILBOXSIZE;k++)
 	{
-		if ((MailBoxBuffer[k].new_data == 1) && (MailBoxBuffer[k].ident = id  & (~CAN_EXT_FLAG)))
+		if ((MailBoxBuffer[k].new_data == 1) && (MailBoxBuffer[k].ident ==( id  & (~CAN_EXT_FLAG))))
 		{
 				ucRes = 1U;
 				break;

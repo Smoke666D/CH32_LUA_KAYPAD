@@ -100,7 +100,7 @@ int iCanCheckData(lua_State *L )
         uiRes = vCheckAnswer();
         break;
      case 1:
-		    uiRes = vCanChekMessage( lua_tointeger(L, CAN_ID_POS) );
+		    uiRes = vCanChekMessage( lua_tointeger(L, FIRST_ARGUMENT) );
         break;
       default:
         break;
@@ -399,8 +399,7 @@ static int iCanGetResivedData(lua_State *L )
 	CAN_FRAME_TYPE  RXPacket;
 	if (lua_gettop(L)==TWO_ARGUMENTS)
 	{
-	  
-	        if (lua_istable(L, LAST_ARGUMENT))   //Проверяем что в качестве аргумента передали таблицу
+	    if (lua_istable(L, LAST_ARGUMENT))   //Проверяем что в качестве аргумента передали таблицу
      { 
 	    RXPacket.ident = (uint32_t) lua_tointeger(L,-2);
 	    if ( vCanGetMessage(&RXPacket) == 1)
