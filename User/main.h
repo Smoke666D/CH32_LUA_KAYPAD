@@ -13,6 +13,8 @@
 #define __SECTION(x)
 
 
+#define DEBUG_PRINT
+
 #define DMA1_CH5_PRIOR    0
 #define DMA1_CH5_SUBPRIOR 2
 //#define DMA1_CH1_ENABLE 0

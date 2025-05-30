@@ -18,6 +18,8 @@
 #define SUCSESS    1U
 #define ERROR	   0U
 
+#define MAX_SCRIPT_SIZE  20000
+
 #define CAN_FRAME_SIZE  				8U
 #define CAN_ID_POS					    1U
 #define FRAME_SIZE_POS					2U

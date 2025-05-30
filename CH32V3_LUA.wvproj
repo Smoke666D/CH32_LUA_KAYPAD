@@ -18,6 +18,11 @@
 				"parentLogicPath": "",
 				"type": "file",
 				"name": "*.wvproj"
+			},
+			{
+				"parentLogicPath": "LUA",
+				"type": "file",
+				"name": "luac.c"
 			}
 		],
 		"projectName": "CH32V3_LUA",
@@ -84,7 +89,8 @@
 					"${project}/DRIVER/hal_dac.h",
 					"${project}/DRIVER/system_config.h",
 					"${project}/DRIVER/hal_usart.c",
-					"${project}/DRIVER/hal_usart.h"
+					"${project}/DRIVER/hal_usart.h",
+					"${project}/LUA/luac.c"
 				],
 				"riscvTargetProcessor": {
 					"architecture": "rv32i",

@@ -127,25 +127,6 @@ static void laction (int i) {
 }
 
 
-static void print_usage (const char *badoption) {
-  lua_writestringerror("%s: ", progname);
-  if (badoption[1] == 'e' || badoption[1] == 'l')
-    lua_writestringerror("'%s' needs argument\n", badoption);
-  else
-    lua_writestringerror("unrecognized option '%s'\n", badoption);
-  lua_writestringerror(
-  "usage: %s [options] [script [args]]\n"
-  "Available options are:\n"
-  "  -e stat  execute string 'stat'\n"
-  "  -i       enter interactive mode after executing 'script'\n"
-  "  -l name  require library 'name' into global 'name'\n"
-  "  -v       show version information\n"
-  "  -E       ignore environment variables\n"
-  "  --       stop handling options\n"
-  "  -        stop handling options and execute stdin\n"
-  ,
-  progname);
-}
 
 
 /*
@@ -532,65 +513,10 @@ static int runargs (lua_State *L, char **argv, int n) {
 
 
 
-static int handle_luainit (lua_State *L) {
-  const char *name = "=" LUA_INITVARVERSION;
-  const char *init = getenv(name + 1);
-  if (init == NULL) {
-    name = "=" LUA_INIT_VAR;
-    init = getenv(name + 1);  /* try alternative name */
-  }
-  if (init == NULL) return LUA_OK;
-  else if (init[0] == '@')
-    return dofile(L, init+1);
-  else
-    return dostring(L, init, name);
-}
 
 
-/*
-** Main body of stand-alone interpreter (to be called in protected mode).
-** Reads the options and handles them all.
-*/
-static int pmain (lua_State *L) {
-  int argc = (int)lua_tointeger(L, 1);
-  char **argv = (char **)lua_touserdata(L, 2);
-  int script;
-  int args = collectargs(argv, &script);
-  luaL_checkversion(L);  /* check that interpreter has correct version */
-  if (argv[0] && argv[0][0]) progname = argv[0];
-  if (args == has_error) {  /* bad arg? */
-    print_usage(argv[script]);  /* 'script' has index of bad arg. */
-    return 0;
-  }
-  if (args & has_v)  /* option '-v'? */
-    print_version();
-  if (args & has_E) {  /* option '-E'? */
-    lua_pushboolean(L, 1);  /* signal for libraries to ignore env. vars. */
-    lua_setfield(L, LUA_REGISTRYINDEX, "LUA_NOENV");
-  }
-  luaL_openlibs(L);  /* open standard libraries */
-  createargtable(L, argv, argc, script);  /* create table 'arg' */
-  if (!(args & has_E)) {  /* no option '-E'? */
-    if (handle_luainit(L) != LUA_OK)  /* run LUA_INIT */
-      return 0;  /* error running LUA_INIT */
-  }
-  if (!runargs(L, argv, script))  /* execute arguments -e and -l */
-    return 0;  /* something failed */
-  if (script < argc &&  /* execute main script (if there is one) */
-      handle_script(L, argv + script) != LUA_OK)
-    return 0;
-  if (args & has_i)  /* -i option? */
-    doREPL(L);  /* do read-eval-print loop */
-  else if (script == argc && !(args & (has_e | has_v))) {  /* no arguments? */
-    if (lua_stdin_is_tty()) {  /* running in interactive mode? */
-      print_version();
-      doREPL(L);  /* do read-eval-print loop */
-    }
-    else dofile(L, NULL);  /* executes stdin as a file */
-  }
-  lua_pushboolean(L, 1);  /* signal no errors */
-  return 1;
-}
+
+
 
 
 

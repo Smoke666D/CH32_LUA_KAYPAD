@@ -131,7 +131,7 @@
 to exclude the API function. */
 #define INCLUDE_vTaskPrioritySet			1
 #define INCLUDE_uxTaskPriorityGet			1
-#define INCLUDE_vTaskDelete					1
+#define INCLUDE_vTaskDelete					0
 #define INCLUDE_vTaskCleanUpResources		1
 #define INCLUDE_vTaskSuspend				1
 #define INCLUDE_vTaskDelayUntil				1
@@ -145,7 +145,7 @@ to exclude the API function. */
 
 /* Normal assert() semantics without relying on the provision of an assert.h
 header file. */
-#define configASSERT( x ) if( ( x ) == 0 ) { taskDISABLE_INTERRUPTS(); printf("err at line %d of file \"%s\". \r\n ",__LINE__,__FILE__); while(1); }
+//#define configASSERT( x ) if( ( x ) == 0 ) { taskDISABLE_INTERRUPTS(); printf("err at line %d of file \"%s\". \r\n ",__LINE__,__FILE__); while(1); }
 
 /* Map to the platform printf function. */
 #define configPRINT_STRING( pcString )  printf( pcString )
