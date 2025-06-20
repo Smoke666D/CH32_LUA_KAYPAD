@@ -1,5 +1,5 @@
 ################################################################################
-# MRS Version: 1.9.2
+# MRS Version: 2.1.0
 # Automatically-generated file. Do not edit!
 ################################################################################
 
@@ -32,34 +32,6 @@ C_SRCS += \
 ../Peripheral/src/ch32v30x_usart.c \
 ../Peripheral/src/ch32v30x_wwdg.c 
 
-OBJS += \
-./Peripheral/src/ch32v30x_adc.o \
-./Peripheral/src/ch32v30x_bkp.o \
-./Peripheral/src/ch32v30x_can.o \
-./Peripheral/src/ch32v30x_crc.o \
-./Peripheral/src/ch32v30x_dac.o \
-./Peripheral/src/ch32v30x_dbgmcu.o \
-./Peripheral/src/ch32v30x_dma.o \
-./Peripheral/src/ch32v30x_dvp.o \
-./Peripheral/src/ch32v30x_eth.o \
-./Peripheral/src/ch32v30x_exti.o \
-./Peripheral/src/ch32v30x_flash.o \
-./Peripheral/src/ch32v30x_fsmc.o \
-./Peripheral/src/ch32v30x_gpio.o \
-./Peripheral/src/ch32v30x_i2c.o \
-./Peripheral/src/ch32v30x_iwdg.o \
-./Peripheral/src/ch32v30x_misc.o \
-./Peripheral/src/ch32v30x_opa.o \
-./Peripheral/src/ch32v30x_pwr.o \
-./Peripheral/src/ch32v30x_rcc.o \
-./Peripheral/src/ch32v30x_rng.o \
-./Peripheral/src/ch32v30x_rtc.o \
-./Peripheral/src/ch32v30x_sdio.o \
-./Peripheral/src/ch32v30x_spi.o \
-./Peripheral/src/ch32v30x_tim.o \
-./Peripheral/src/ch32v30x_usart.o \
-./Peripheral/src/ch32v30x_wwdg.o 
-
 C_DEPS += \
 ./Peripheral/src/ch32v30x_adc.d \
 ./Peripheral/src/ch32v30x_bkp.d \
@@ -88,9 +60,36 @@ C_DEPS += \
 ./Peripheral/src/ch32v30x_usart.d \
 ./Peripheral/src/ch32v30x_wwdg.d 
 
+OBJS += \
+./Peripheral/src/ch32v30x_adc.o \
+./Peripheral/src/ch32v30x_bkp.o \
+./Peripheral/src/ch32v30x_can.o \
+./Peripheral/src/ch32v30x_crc.o \
+./Peripheral/src/ch32v30x_dac.o \
+./Peripheral/src/ch32v30x_dbgmcu.o \
+./Peripheral/src/ch32v30x_dma.o \
+./Peripheral/src/ch32v30x_dvp.o \
+./Peripheral/src/ch32v30x_eth.o \
+./Peripheral/src/ch32v30x_exti.o \
+./Peripheral/src/ch32v30x_flash.o \
+./Peripheral/src/ch32v30x_fsmc.o \
+./Peripheral/src/ch32v30x_gpio.o \
+./Peripheral/src/ch32v30x_i2c.o \
+./Peripheral/src/ch32v30x_iwdg.o \
+./Peripheral/src/ch32v30x_misc.o \
+./Peripheral/src/ch32v30x_opa.o \
+./Peripheral/src/ch32v30x_pwr.o \
+./Peripheral/src/ch32v30x_rcc.o \
+./Peripheral/src/ch32v30x_rng.o \
+./Peripheral/src/ch32v30x_rtc.o \
+./Peripheral/src/ch32v30x_sdio.o \
+./Peripheral/src/ch32v30x_spi.o \
+./Peripheral/src/ch32v30x_tim.o \
+./Peripheral/src/ch32v30x_usart.o \
+./Peripheral/src/ch32v30x_wwdg.o 
+
+
 
 # Each subdirectory must supply rules for building sources it contributes
 Peripheral/src/%.o: ../Peripheral/src/%.c
-	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\Debug" -I"C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER" -I"C:\Users\i.dymov\Documents\SYSTEM_LIB\PROTOCOLS" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\Core" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\User" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\Peripheral\inc" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\portable\Common" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\portable\GCC\RISC-V" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\portable\GCC\RISC-V\chip_specific_extensions\RV32I_PFIC_no_extensions" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\portable\MemMang" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\USB_Device" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\UART" -std=gnu99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -c -o "$@" "$<"
-	@	@
-
+	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -fmax-errors=20 -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized -g -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Debug" -I"c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER" -I"c:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Core" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/User" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/Common" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/GCC/RISC-V" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/GCC/RISC-V/chip_specific_extensions/RV32I_PFIC_no_extensions" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/MemMang" -std=gnu99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -c -o "$@" "$<"

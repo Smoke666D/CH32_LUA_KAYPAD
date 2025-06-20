@@ -12,7 +12,7 @@
 
 #define CAN_SFID_MASK                      ((uint32_t)0x000007FFU)      /*!< mask of standard identifier */
 
-#define INIT_FUNC_LOC //__attribute__((section(".stext")))
+#define INIT_FUNC_LOC __attribute__((section(".stext")))
 
 #define WCH32V3   2
 #define WCH32V2   1

@@ -1,5 +1,5 @@
 ################################################################################
-# MRS Version: 1.9.2
+# MRS Version: 2.1.0
 # Automatically-generated file. Do not edit!
 ################################################################################
 
@@ -13,15 +13,6 @@ C_SRCS += \
 ../FreeRTOS/tasks.c \
 ../FreeRTOS/timers.c 
 
-OBJS += \
-./FreeRTOS/croutine.o \
-./FreeRTOS/event_groups.o \
-./FreeRTOS/list.o \
-./FreeRTOS/queue.o \
-./FreeRTOS/stream_buffer.o \
-./FreeRTOS/tasks.o \
-./FreeRTOS/timers.o 
-
 C_DEPS += \
 ./FreeRTOS/croutine.d \
 ./FreeRTOS/event_groups.d \
@@ -31,9 +22,17 @@ C_DEPS += \
 ./FreeRTOS/tasks.d \
 ./FreeRTOS/timers.d 
 
+OBJS += \
+./FreeRTOS/croutine.o \
+./FreeRTOS/event_groups.o \
+./FreeRTOS/list.o \
+./FreeRTOS/queue.o \
+./FreeRTOS/stream_buffer.o \
+./FreeRTOS/tasks.o \
+./FreeRTOS/timers.o 
+
+
 
 # Each subdirectory must supply rules for building sources it contributes
 FreeRTOS/%.o: ../FreeRTOS/%.c
-	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\Debug" -I"C:\Users\i.dymov\Documents\SYSTEM_LIB\HAL_DRIVER" -I"C:\Users\i.dymov\Documents\SYSTEM_LIB\PROTOCOLS" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\Core" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\User" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\Peripheral\inc" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\include" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\portable\Common" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\portable\GCC\RISC-V" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\portable\GCC\RISC-V\chip_specific_extensions\RV32I_PFIC_no_extensions" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\FreeRTOS\portable\MemMang" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\USB_Device" -I"C:\MRS_DATA\workspace\CH32V3_CAN_HACKER\UART" -std=gnu99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -c -o "$@" "$<"
-	@	@
-
+	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -fmax-errors=20 -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized -g -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Debug" -I"c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER" -I"c:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Core" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/User" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/Common" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/GCC/RISC-V" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/GCC/RISC-V/chip_specific_extensions/RV32I_PFIC_no_extensions" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/MemMang" -std=gnu99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -c -o "$@" "$<"

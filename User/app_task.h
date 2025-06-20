@@ -10,7 +10,7 @@
 
 #include "main.h"
 #include "system_init.h"
-
+#include "hal_can.h"
 
 
 
@@ -42,19 +42,20 @@
 #define CANHACKER_WRITE_REG       'W'   // write register content to SJA1000
 #define CANHACKER_LISTEN_ONLY     'L' // switch to listen only mode
 
-typedef enum
-{
-    CANHACKER_TIMESTAMP_DISABLED = 0x00,
-    CANHACKER_TIMESTAMP_ENABLED  = 0x01,
 
-} CanHacker_TimestampTypeDef;
+
+#define UART_RX_BUFFER 256
 
 typedef struct
 {
-    CanHacker_TimestampTypeDef timestamp;
-} CanHacker_HandleTypeDef;
+    uint8_t buffer[UART_RX_BUFFER];
+    uint8_t readed;
+    uint8_t filled;
+    int offset;
+} UART_DMA_RX_Buffer;
 
-
+void APPCANSEND(CAN_TX_FRAME_TYPE *buffer);
+QueueHandle_t * xTXQueue( void );
 MessageBufferHandle_t * xTXMessage(void);
 TaskHandle_t * xGetCanTaskHandle ();
 TaskHandle_t * xGetAppTaskHandle ();

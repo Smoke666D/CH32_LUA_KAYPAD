@@ -20,8 +20,10 @@ static StackType_t uxIdleTaskStack[ configMINIMAL_STACK_SIZE ];
 static StackType_t uxTimerTaskStack[ configTIMER_TASK_STACK_DEPTH ];
 static StackType_t AppTaskBuffer[ APP_STK_SIZE ];
 static StackType_t CanTaskBuffer[ CAN_STK_SIZE ];
-uint8_t ucQueueStorageArea[  16U  ];
+uint8_t ucQueueStorageArea[  16U *sizeof(LAWICEL_CAN_MSG_t) ];
+uint8_t ucTXQueueStorageArea[  16U *sizeof(CAN_TX_FRAME_TYPE) ];
 static StaticQueue_t xStaticQueue;
+static StaticQueue_t xStaticTXQueue;
 /*
  * 妤快把快技快扶扶抑快
  */
@@ -54,18 +56,6 @@ INIT_FUNC_LOC  void vSYStaskInit ( void )
     (* xGetCanTaskHandle ())
              = xTaskCreateStatic( vCanTask, "ProcessTask", CAN_STK_SIZE , ( void * ) 1, CAN_TASK_PRIO  ,
                                      (StackType_t * const ) CanTaskBuffer, &xCanTaskTCB );
- /* (* xCanOpenPeriodicTaskHandle ())
-  = xTaskCreateStatic( vCanOpenPeriodicProcess, "CanOpenPeriodic", PERIODIC_CAN_STK_SIZE , ( void * ) 1, PERIODIC_CAN_TASK_PRIO ,
-                     (StackType_t * const )CanOpnePeriodicTaskBuffer, &CanOpnePeriodicTaskControlBlock );
-  (* xCanOpenProcessTaskHandle())
-  = xTaskCreateStatic( vCanOpenProcess, "CanOpenProcessTask", CAN_OPEN_STK_SIZE , ( void * ) 1, CAN_OPEN_TASK_PRIO ,
-  (StackType_t * const )CanOpneProccesTaskBuffer, &CanOpneProccesTaskControlBlock );
- (* getInputsTaskHandle()) =   xTaskCreateStatic( vInputsTask, "InputsTask", INPUTS_TASK_STACK_SIZE , ( void * ) 1, INPUT_TASK_PRIO, (StackType_t * const )InputsTaskBuffer, &InputsTaskControlBlock );
-  DefautTask_Handler = xTaskCreateStatic( StartDefaultTask, "DefTask", DEFAULT_TASK_STACK_SIZE , ( void * ) 1, DEFAULT_TASK_PRIOR, (StackType_t * const )defaultTaskBuffer, &defaultTaskControlBlock );
-  vTaskSuspend(* xProcessTaskHandle ());
-  vTaskSuspend( *xCanOpenPeriodicTaskHandle ());
-  vTaskSuspend( *xCanOpenProcessTaskHandle());
-  vTaskSuspend(* getInputsTaskHandle());*/
   return;
 }
 
@@ -76,7 +66,8 @@ INIT_FUNC_LOC void vSYSqueueInit ( void )
            ucTXMessageBufferStorage,
            &xTXMessageBufferStruct );
 
-   * (xRXQueue()) = xQueueCreateStatic( 16U, 1,ucQueueStorageArea, &xStaticQueue );
+   * (xRXQueue()) = xQueueCreateStatic( 16U, sizeof(LAWICEL_CAN_MSG_t),ucQueueStorageArea, &xStaticQueue );
+   * (xTXQueue()) = xQueueCreateStatic( 16U, sizeof(CAN_TX_FRAME_TYPE),ucTXQueueStorageArea, &xStaticTXQueue );
 }
 /*----------------------------------------------------------------------------*/
 void vSYSeventInit ( void )

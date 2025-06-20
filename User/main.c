@@ -15,7 +15,7 @@
  *task1 and task2 alternate printing
  */
 
-#include "debug.h"
+
 #include "FreeRTOS.h"
 #include "task.h"
 #include "system_init.h"
