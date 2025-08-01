@@ -11,7 +11,7 @@
 #include "hal_dma.h"
 #include "hal_can.h"
 #include "hal_timers.h"
-
+#include "UART.h"
 
 
 #define UART_RX_BUFFERS_COUNT 2
@@ -154,7 +154,6 @@ void vAppInit()
    xRXStreamBuffer = xStreamBufferCreateStatic(STREAM_BUFFER_SIZE_BYTES,1,ucRXStreamBufferStorage,&xRXStreamBufferStruct );
    LAWICEL_Init(&xCANRXMessageBuffer);
    HAL_CANToInitMode();
-
    RCC_GetClocksFreq(&RCC_ClocksStatus);
    HAL_CANSetRXCallback(&MsgFromCan);
    HAL_CANSetERRCallback(&vCallBack);
@@ -172,25 +171,7 @@ void vAppInit()
                             CAN_FilterInitSturcture.CAN_FilterActivation = ENABLE;
                             CAN_FilterInit( &CAN_FilterInitSturcture );
                           *///  HAL_CANToInitMode();
-   DMA_INIT_t init;
-   init.stream = DMA1_CH2;
-   init.direction = MTOP;
-   init.mode  = DMA_Normal;
-   init.paddr = (u32)(&USART3->DATAR);
-   init.memadr = (u32)dma_buff;
-   init.dma_size = DMA_BYTE;
-   init.bufsize = 2;
-   init.prioroty = dma_Medium;
-   HAL_DMAInitIT(init,  0 , 1, &DMA_Callback );
-   init.direction = PTOM;
-   init.stream = DMA1_CH3;
-   init.memadr = (u32)uartRxBuffer[0].buffer;
-   init.bufsize = UART_RX_BUFFER;
-   init.prioroty = DMA_Priority_VeryHigh;
-   HAL_DMAInitIT(init,  0 , 1, &DMA_RX_Callback );
-   HALUSARTInit(HAL_USART3,115200,HAL_StopBits_1,HAL_Parity_No,UART_WORDLENGTH_8B);
-   HALUSARTEnable(HAL_USART3);
-   USART_DMACmd(USART3,  USART_DMAReq_Tx | USART_DMAReq_Rx, ENABLE);
+   
    HAL_TIMER_InitIt(TIMER1,100000,99,&MSTimrCallBack,1,0);
    HAL_TiemrEneblae(TIMER1);
 }
@@ -272,11 +253,15 @@ void vAppTask( void * argument )
     startUartDmaReceive( &uartRxBuffer[currentUartRxBuffer]);
     while(1)
     {
-        int itemsProcessed = processUartDmaBuffer( &uartRxBuffer[currentUartRxBufferToRead]);
-        if (!itemsProcessed)
-        {
-                    vTaskDelay(1);
-        }
+
+        UART2_DataRx_Deal( );
+        UART2_DataTx_Deal( );
+        vTaskDelay(1);
+       // int itemsProcessed = processUartDmaBuffer( &uartRxBuffer[currentUartRxBufferToRead]);
+       // if (!itemsProcessed)
+        //{
+                    
+       // }
     }
 }
 /*

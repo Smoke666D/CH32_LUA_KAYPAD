@@ -36,6 +36,11 @@ int main(void)
 {
 	SystemCoreClockUpdate();
     InitDevice();
+    USART_Printf_Init( 115200) ;
+    printf( "SystemClk:%d\r\n", SystemCoreClock );
+	printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
+    printf( "Simulate USB-CDC/HID Device running on USBFS Controller\r\n" );
+  
     vSYSqueueInit();
     vSYStaskInit();
     vTaskStartScheduler();

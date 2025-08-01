@@ -50,7 +50,11 @@ User/app_task.o: ../User/app_task.c ../User/app_task.h ../User/main.h \
  c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_usart.h \
  c:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS/lawicel.h \
  c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_dma.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_timers.h
+ c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_timers.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/UART/UART.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/ch32v30x_usbfs_device.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/usb_desc.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc/ch32v30x_usb.h
 
 ../User/app_task.h:
 
@@ -159,3 +163,11 @@ c:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS/lawicel.h:
 c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_dma.h:
 
 c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_timers.h:
+
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/UART/UART.h:
+
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/ch32v30x_usbfs_device.h:
+
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/usb_desc.h:
+
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc/ch32v30x_usb.h:

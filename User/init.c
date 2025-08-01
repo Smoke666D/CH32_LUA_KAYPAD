@@ -9,18 +9,21 @@
 #include "app_task.h"
 #include "hal_gpio.h"
 #include "hal_timers.h"
-
+#include "UART.h"
 
 
 INIT_FUNC_LOC void InitDevice()
 {
+   
     HAL_InitGPO();
     HAL_InitGpioAF(CAN_Port,CAN_TX_Pin,GPIO_Remap1_CAN1,GPIO_Mode_AF_PP);
     HAL_InitGpioAF(CAN_Port,CAN_RX_Pin,GPIO_Remap1_CAN1,GPIO_Mode_IPU);
-    HAL_InitGpioAF(RS_Port,RS_TX_Pin,0,GPIO_Mode_AF_PP);
-    HAL_InitGpioIn(RS_Port,RS_RX_Pin);
-    vAppInit();
-    FLASH_ReadOutProtection(ENABLE);
+  //  HAL_InitGpioAF(RS_Port,RS_TX_Pin,0,GPIO_Mode_AF_PP);
+   // HAL_InitGpioIn(RS_Port,RS_RX_Pin);
+   vAppInit();
+    USBFS_RCC_Init( );
+    USBFS_Device_Init( ENABLE );
+   // FLASH_ReadOutProtection(ENABLE);
 }
 
 

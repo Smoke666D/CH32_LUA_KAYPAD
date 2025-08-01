@@ -1,5 +1,5 @@
 ################################################################################
-# MRS Version: 2.1.0
+# MRS Version: 2.2.0
 # Automatically-generated file. Do not edit!
 ################################################################################
 
@@ -89,7 +89,37 @@ OBJS += \
 ./Peripheral/src/ch32v30x_wwdg.o 
 
 
+EXPANDS += \
+./Peripheral/src/ch32v30x_adc.c.234r.expand \
+./Peripheral/src/ch32v30x_bkp.c.234r.expand \
+./Peripheral/src/ch32v30x_can.c.234r.expand \
+./Peripheral/src/ch32v30x_crc.c.234r.expand \
+./Peripheral/src/ch32v30x_dac.c.234r.expand \
+./Peripheral/src/ch32v30x_dbgmcu.c.234r.expand \
+./Peripheral/src/ch32v30x_dma.c.234r.expand \
+./Peripheral/src/ch32v30x_dvp.c.234r.expand \
+./Peripheral/src/ch32v30x_eth.c.234r.expand \
+./Peripheral/src/ch32v30x_exti.c.234r.expand \
+./Peripheral/src/ch32v30x_flash.c.234r.expand \
+./Peripheral/src/ch32v30x_fsmc.c.234r.expand \
+./Peripheral/src/ch32v30x_gpio.c.234r.expand \
+./Peripheral/src/ch32v30x_i2c.c.234r.expand \
+./Peripheral/src/ch32v30x_iwdg.c.234r.expand \
+./Peripheral/src/ch32v30x_misc.c.234r.expand \
+./Peripheral/src/ch32v30x_opa.c.234r.expand \
+./Peripheral/src/ch32v30x_pwr.c.234r.expand \
+./Peripheral/src/ch32v30x_rcc.c.234r.expand \
+./Peripheral/src/ch32v30x_rng.c.234r.expand \
+./Peripheral/src/ch32v30x_rtc.c.234r.expand \
+./Peripheral/src/ch32v30x_sdio.c.234r.expand \
+./Peripheral/src/ch32v30x_spi.c.234r.expand \
+./Peripheral/src/ch32v30x_tim.c.234r.expand \
+./Peripheral/src/ch32v30x_usart.c.234r.expand \
+./Peripheral/src/ch32v30x_wwdg.c.234r.expand 
+
+
 
 # Each subdirectory must supply rules for building sources it contributes
 Peripheral/src/%.o: ../Peripheral/src/%.c
-	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -fmax-errors=20 -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized -g -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Debug" -I"c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER" -I"c:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Core" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/User" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/Common" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/GCC/RISC-V" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/GCC/RISC-V/chip_specific_extensions/RV32I_PFIC_no_extensions" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/MemMang" -std=gnu99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -c -o "$@" "$<"
+	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -fmax-errors=20 -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized -g -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Debug" -I"c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER" -I"c:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Core" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/User" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/Common" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/GCC/RISC-V" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/GCC/RISC-V/chip_specific_extensions/RV32I_PFIC_no_extensions" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/portable/MemMang" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device" -I"c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/UART" -std=gnu99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -c -o "$@" "$<"
+

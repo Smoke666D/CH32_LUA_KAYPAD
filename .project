@@ -24,12 +24,12 @@
     <link>
       <name>PROTOCOLS</name>
       <type>2</type>
-      <locationURI>c:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS</locationURI>
+      <location>PARENT-3-PROJECT_LOC/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS</location>
     </link>
     <link>
       <name>HAL_DRIVER</name>
       <type>2</type>
-      <locationURI>c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER</locationURI>
+      <location>PARENT-3-PROJECT_LOC/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER</location>
     </link>
   </linkedResources>
   <filteredResources>

@@ -2,6 +2,8 @@ Vendor=WCH
 Toolchain=RISC-V
 Series=CH32V307
 RTOS=FreeRTOS
+CalibrateSupport=false
+CalibrateCommand=
 MCU=CH32V307-FreeRTOS
 Link=WCH-Link
 PeripheralVersion==2.6
