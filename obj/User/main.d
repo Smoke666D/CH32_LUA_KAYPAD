@@ -49,7 +49,11 @@ User/main.o: ../User/main.c \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/User/main.h \
  c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h \
  ../User/app_task.h ../User/init.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_typedef.h
+ c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_typedef.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/UART/UART.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/ch32v30x_usbfs_device.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/usb_desc.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc/ch32v30x_usb.h
 
 c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include/FreeRTOS.h:
 
@@ -156,3 +160,11 @@ c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h:
 ../User/init.h:
 
 c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_typedef.h:
+
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/UART/UART.h:
+
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/ch32v30x_usbfs_device.h:
+
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/usb_desc.h:
+
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc/ch32v30x_usb.h:

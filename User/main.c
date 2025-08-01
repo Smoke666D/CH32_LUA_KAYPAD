@@ -22,7 +22,7 @@
 #include "lawicel.h"
 #include "app_task.h"
 #include "init.h"
-
+#include "UART.h"
 
 
 /*********************************************************************
@@ -35,16 +35,16 @@
 int main(void)
 {
 	SystemCoreClockUpdate();
+    Delay_Init( );
     InitDevice();
     USART_Printf_Init( 115200) ;
     printf( "SystemClk:%d\r\n", SystemCoreClock );
 	printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     printf( "Simulate USB-CDC/HID Device running on USBFS Controller\r\n" );
-  
     vSYSqueueInit();
     vSYStaskInit();
+    SetBuff();
     vTaskStartScheduler();
-
 	while(1)
 	{
 

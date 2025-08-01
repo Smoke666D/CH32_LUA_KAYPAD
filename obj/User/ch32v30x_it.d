@@ -27,7 +27,11 @@ User/ch32v30x_it.o: ../User/ch32v30x_it.c ../User/ch32v30x_it.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc/ch32v30x_usart.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc/ch32v30x_wwdg.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/User/ch32v30x_it.h \
- c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc/ch32v30x_misc.h
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc/ch32v30x_misc.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/UART/UART.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/ch32v30x_usbfs_device.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/usb_desc.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc/ch32v30x_usb.h
 
 ../User/ch32v30x_it.h:
 
@@ -88,3 +92,11 @@ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc/ch32v30x_wwdg.h:
 c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/User/ch32v30x_it.h:
 
 c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc/ch32v30x_misc.h:
+
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/UART/UART.h:
+
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/ch32v30x_usbfs_device.h:
+
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/usb_desc.h:
+
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Peripheral/inc/ch32v30x_usb.h:

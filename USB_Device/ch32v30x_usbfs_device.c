@@ -50,7 +50,7 @@ volatile uint8_t  USBFS_Endp_Busy[ DEF_UEP_NUM ];
 
 /******************************************************************************/
 /* Interrupt Service Routine Declaration*/
-void USBFS_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void USBFS_IRQHandler(void) __attribute__((interrupt()));//__attribute__((interrupt("WCH-Interrupt-fast")));
 
 /*********************************************************************
  * @fn      USBFS_RCC_Init
@@ -941,7 +941,7 @@ void USBFS_IRQHandler( void )
     {
 
         USBFSD->INT_FG = USBFS_UIF_SUSPEND;
-        Delay_Us(10);
+       // Delay_Us(10);
         /* usb suspend interrupt processing */
         if ( USBFSD->MIS_ST & USBFS_UMS_SUSPEND )
         {

@@ -5,7 +5,6 @@
  *      Author: i.dymov
  */
 #include "app_task.h"
-
 #include "hal_usart.h"
 #include "lawicel.h"
 #include "hal_dma.h"
@@ -180,18 +179,7 @@ void vAppInit()
 
 static void SendDataToSerial( uint8_t * data_buffer, uint8_t data_size)
 {
-    if ( !tx_data_transfer )
-    {
-        tx_data_transfer = 1;
-        memcpy(dma_buff,data_buffer,data_size);
-        HAL_DMA_Disable(DMA1_CH2);
-        ulTaskNotifyTake(0,0);
-        HAL_DMA_Start(DMA1_CH2,data_size,(u32)dma_buff);
-    }
-    else
-    {
-        xMessageBufferSend(USART_TX_Message,( void * ) data_buffer, data_size, 1);
-    }
+    xMessageBufferSend(USART_TX_Message,( void * ) data_buffer, data_size, 1);
 }
 
 
@@ -250,18 +238,17 @@ void vAppTask( void * argument )
 {
     currentUartRxBuffer = 0;
     currentUartRxBufferToRead = 0;
-    startUartDmaReceive( &uartRxBuffer[currentUartRxBuffer]);
     while(1)
     {
 
         UART2_DataRx_Deal( );
-        UART2_DataTx_Deal( );
-        vTaskDelay(1);
-       // int itemsProcessed = processUartDmaBuffer( &uartRxBuffer[currentUartRxBufferToRead]);
-       // if (!itemsProcessed)
-        //{
-                    
-       // }
+       if ( UART2_DataTx_Deal( uartRxBuffer[0].buffer ) == 1)
+       {
+            processUartDmaBuffer( &uartRxBuffer[0]);
+       }
+       else 
+      vTaskDelay(1);
+       
     }
 }
 /*
@@ -270,6 +257,7 @@ void vAppTask( void * argument )
 void vCanTask( void * argument )
 {
     LAWICEL_CAN_MSG_t msg;
+    uint8_t data[10]="0123456789";
     while(1)
     {
         //§¨§Õ§Ö§Þ §á§à§Ü§Ñ §Ó §à§é§Ö§â§Ö§Õ§Ú §ß§Ö §á§à§ñ§Ó§Ú§ä§ã§ñ §á§Ñ§Ü§Ö§ä
@@ -277,7 +265,10 @@ void vCanTask( void * argument )
         //§°§ä§á§â§Ñ§Ó§Ý§ñ§Ö§Þ §Ö§Ô§à §ß§Ñ §à§Ò§â§Ñ§Ò§à§ä§Ü§å, §Ó §Ü§Ñ§é§Ö§ä§ã§Ó§Ö §á§Ñ§â§Ñ§Þ§Ö§ä§â§Ñ callback §ß§Ñ §æ§å§ß§Ü§Ú§ð §á§Ö§â§Ö§Õ§Ñ§é§Ú
         //§Õ§Ñ§ß§ß§í§ç §á§à USART DMA
         ParseCanMessage(msg,&SendDataToSerial);
-        vTaskDelay(1);
+
+       // xMessageBufferSend(USART_TX_Message,data,10,1);
+       // printf("tasl1\r\n");
+       // vTaskDelay(500);
 
     }
 }
