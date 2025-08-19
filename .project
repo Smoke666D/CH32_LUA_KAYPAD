@@ -20,18 +20,7 @@
     <nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
     <nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
   </natures>
-  <linkedResources>
-    <link>
-      <name>PROTOCOLS</name>
-      <type>2</type>
-      <location>PARENT-3-PROJECT_LOC/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS</location>
-    </link>
-    <link>
-      <name>HAL_DRIVER</name>
-      <type>2</type>
-      <location>PARENT-3-PROJECT_LOC/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER</location>
-    </link>
-  </linkedResources>
+  <linkedResources/>
   <filteredResources>
     <filter>
       <name/>

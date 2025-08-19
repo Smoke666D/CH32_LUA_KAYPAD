@@ -46,14 +46,6 @@
 
 #define UART_RX_BUFFER 256
 
-typedef struct
-{
-    uint8_t buffer[UART_RX_BUFFER];
-    uint8_t readed;
-    uint8_t filled;
-    int offset;
-} UART_DMA_RX_Buffer;
-
 void APPCANSEND(CAN_TX_FRAME_TYPE *buffer);
 QueueHandle_t * xTXQueue( void );
 MessageBufferHandle_t * xTXMessage(void);

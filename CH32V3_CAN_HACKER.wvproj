@@ -14,16 +14,7 @@
 			"calibrateSupport": false,
 			"calibrateCommand": ""
 		},
-		"linkedFolders": [
-			{
-				"name": "PROTOCOLS",
-				"location": "../../../Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS"
-			},
-			{
-				"name": "HAL_DRIVER",
-				"location": "../../../Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER"
-			}
-		],
+		"linkedFolders": [],
 		"removedResources": [
 			{
 				"parentLogicPath": "",

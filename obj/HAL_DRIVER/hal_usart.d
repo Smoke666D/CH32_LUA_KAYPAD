@@ -1,6 +1,5 @@
-HAL_DRIVER/hal_usart.o: \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_usart.c \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_usart.h \
+HAL_DRIVER/hal_usart.o: ../HAL_DRIVER/hal_usart.c \
+ ../HAL_DRIVER/hal_usart.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/User/main.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/User/system_init.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/User/main.h \
@@ -49,9 +48,9 @@ HAL_DRIVER/hal_usart.o: \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include/queue.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include/stream_buffer.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_irq.h
+ ../HAL_DRIVER/hal_irq.h
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_usart.h:
+../HAL_DRIVER/hal_usart.h:
 
 c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/User/main.h:
 
@@ -149,4 +148,4 @@ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include/message_buffer.h:
 
 c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include/stream_buffer.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_irq.h:
+../HAL_DRIVER/hal_irq.h:

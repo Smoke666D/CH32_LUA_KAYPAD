@@ -45,11 +45,11 @@ User/main.o: ../User/main.c \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include/queue.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include/stream_buffer.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS/lawicel.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/PROTOCOLS/lawicel.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/User/main.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/HAL_DRIVER/hal_can.h \
  ../User/app_task.h ../User/init.h \
- c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_typedef.h \
+ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/HAL_DRIVER/hal_typedef.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/UART/UART.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/ch32v30x_usbfs_device.h \
  c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/USB_Device/usb_desc.h \
@@ -149,17 +149,17 @@ c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include/message_buffer.h:
 
 c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/FreeRTOS/include/stream_buffer.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/PROTOCOLS/lawicel.h:
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/PROTOCOLS/lawicel.h:
 
 c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/User/main.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_can.h:
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/HAL_DRIVER/hal_can.h:
 
 ../User/app_task.h:
 
 ../User/init.h:
 
-c:/Users/i.dymov/Documents/SYSTEM_LIB/HAL_DRIVER/hal_typedef.h:
+c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/HAL_DRIVER/hal_typedef.h:
 
 c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/UART/UART.h:
 

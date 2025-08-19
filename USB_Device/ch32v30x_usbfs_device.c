@@ -50,7 +50,7 @@ volatile uint8_t  USBFS_Endp_Busy[ DEF_UEP_NUM ];
 
 /******************************************************************************/
 /* Interrupt Service Routine Declaration*/
-void USBFS_IRQHandler(void) __attribute__((interrupt()));//__attribute__((interrupt("WCH-Interrupt-fast")));
+void USBFS_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
 /*********************************************************************
  * @fn      USBFS_RCC_Init

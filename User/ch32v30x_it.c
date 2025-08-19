@@ -48,7 +48,7 @@ void TIM2_IRQHandler( void )
     /* Test IO */
   
     /* uart timeout counts */
-    Uart.Rx_TimeOut++;
+   // Uart.Rx_TimeOut++;
     Uart.USB_Up_TimeOut++;
 
     /* clear status */

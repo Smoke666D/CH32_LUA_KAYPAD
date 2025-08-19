@@ -49,9 +49,7 @@ extern "C" {
 typedef struct __attribute__((packed)) _UART_CTL
 {
     uint16_t Rx_LoadPtr;                                                         /* Serial x data receive buffer load pointer */
-    uint16_t Rx_DealPtr;                                                         /* Pointer to serial x data receive buffer processing */
-    volatile uint16_t Rx_RemainLen;                                              /* Remaining unprocessed length of the serial x data receive buffer */
-    uint8_t  Rx_TimeOut;                                                         /* Serial x data receive timeout */
+    uint16_t Rx_DealPtr;                                                         /* Pointer to serial x data receive buffer processing */                                       
     uint8_t  Rx_TimeOutMax;                                                      /* Serial x data receive timeout maximum */
 
     volatile uint16_t Tx_LoadNum;                                                /* Serial x data send buffer load number */
@@ -89,7 +87,6 @@ extern __attribute__ ((aligned(4))) uint8_t UART2_Rx_Buf[ DEF_UARTx_RX_BUF_LEN ]
 /* Function extensibility */
 extern uint8_t RCC_Configuration( void );
 extern void TIM2_Init( void );
-extern void UART2_CfgInit( uint32_t baudrate, uint8_t stopbits, uint8_t parity ); /* UART1 initialization */
 extern void UART2_ParaInit( uint8_t mode );                                       /* Serial port parameter initialization */
 extern void UART2_DMAInit( uint8_t type, uint8_t *pbuf, uint32_t len );           /* Serial port 1-related DMA initialization */
 extern void UART2_Init( uint8_t mode, uint32_t baudrate, uint8_t stopbits, uint8_t parity ); /* Serial port 1 initialization */
