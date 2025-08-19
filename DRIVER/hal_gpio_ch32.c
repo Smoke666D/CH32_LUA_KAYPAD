@@ -186,8 +186,7 @@ INIT_FUNC_LOC void HAL_InitGpioOut( PortName_t PORT, uint16_t Pin  )
 /*
  * Инициализация порта в режиме аналогового входа
  */
-INIT_FUNC_LOC void HAL_InitGpioAIN(PortName_t PORT, uint16_t Pin )
-{
+INIT_FUNC_LOC void HAL_InitGpioAIN (PortName_t PORT, uint16_t Pin) {
     HAL_InitGPIO( PORT, Pin,GPIO_Speed_50MHz, GPIO_Mode_AIN );
 }
 

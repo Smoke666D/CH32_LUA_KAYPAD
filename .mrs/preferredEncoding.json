@@ -71,6 +71,10 @@
 		{
 			"file": "LUA/luaconf.h",
 			"encoding": "utf8"
+		},
+		{
+			"file": "DRIVER/hal_dma_ch32.c",
+			"encoding": "utf8"
 		}
 	]
 }

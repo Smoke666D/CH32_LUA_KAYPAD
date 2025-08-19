@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//Core/core_riscv.h=GBK
+encoding//DRIVER/hal_typedef.h=GBK
 encoding//Debug/debug.c=GBK
 encoding//Debug/debug.h=GBK
 encoding//FreeRTOS/include/message_buffer.h=GBK
@@ -19,6 +20,7 @@ encoding//User/ch32v30x_conf.h=GBK
 encoding//User/ch32v30x_it.c=GBK
 encoding//User/init.c=GBK
 encoding//User/init.h=GBK
+encoding//User/io_task.c=GBK
 encoding//User/lua_task.h=GBK
 encoding//User/main.c=GBK
 encoding//User/main.h=GBK

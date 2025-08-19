@@ -41,81 +41,13 @@ static int iCanSendRequest( lua_State *L );
 static int iCanSetResiveFilter(lua_State *L );
 static int iCanGetResivedData(lua_State *L );
 static int iCanResetResiveFilter(lua_State *L );
-
+static int iCanGetMessage(lua_State *L );
+static int iCanCheckData(lua_State *L );
 
 TaskHandle_t * xGetLuaTaskHandle ()
 {
     return  &LuaTaskHandle ;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-Функция проерки пришле ли нужный пакет
-В качестве параметра передается CAN_ID для проверки. В случае если параметров не переадно,
-проверяеться фильтр, установленный ранее функцией iCanSendRequest
-*/
-int iCanCheckData(lua_State *L )
-{
-	uint32_t uiRes = 0U;
-	switch (lua_gettop(L)) 
-  {
-     case 0:
-        uiRes = vCheckAnswer();
-        break;
-     case 1:
-		    uiRes = vCanChekMessage( lua_tointeger(L, FIRST_ARGUMENT) );
-        break;
-      default:
-        break;
-	}
-	lua_pushnumber(L, uiRes );
-	return ( 1U );
-}
-
-
-int iCanGetMessage(lua_State *L )
-{
-	uint8_t n = 0;
-	CAN_FRAME_TYPE  RXPacket;
-	switch (lua_gettop(L) )
-	{
-    case 1:
-			luaL_checktype(L, 1, LUA_TNUMBER);
-			RXPacket.ident = (uint32_t) lua_tointeger(L,1);
-			n= vCanGetMessage(&RXPacket);
-      break;
-    case 0:
-      vCanGetAnsewerMessage(&RXPacket);
-      break;
-	}
-	if (n!=0)
-	{
-		n = RXPacket.DLC;
-		for (int i = 0; i <n;i++)
-		{
-			lua_pushnumber(L,RXPacket.data[i]);
-		}
-	}
-	return ( n );
-}
-
 
 static RESULT_t eIsLuaSkriptValid(const uint8_t* pcData, uint32_t size, uint32_t * real_size)
 {
@@ -171,8 +103,6 @@ void vLuaTask( void * argument )
     uint16_t counter = 0;
     uint32_t max_clock = 0;
 #endif
-
-
     while(1)
     {
         vTaskDelay( 1 );
@@ -429,4 +359,52 @@ static int iCanSendRequest( lua_State *L )
      vSendCanData(&frame);
 	}
 	return ( NO_RESULT );
+}
+/*
+Функция проерки пришле ли нужный пакет
+В качестве параметра передается CAN_ID для проверки. В случае если параметров не переадно,
+проверяеться фильтр, установленный ранее функцией iCanSendRequest
+*/
+static int iCanCheckData(lua_State *L )
+{
+	uint32_t uiRes = 0U;
+	switch (lua_gettop(L)) 
+  {
+     case 0:
+        uiRes = vCheckAnswer();
+        break;
+     case 1:
+		    uiRes = vCanChekMessage( lua_tointeger(L, FIRST_ARGUMENT) );
+        break;
+      default:
+        break;
+	}
+	lua_pushnumber(L, uiRes );
+	return ( 1U );
+}
+
+
+static int iCanGetMessage(lua_State *L )
+{
+	uint8_t n = 0;
+	CAN_FRAME_TYPE  RXPacket;
+	switch (lua_gettop(L) )
+	{
+    case 1:
+			RXPacket.ident = (uint32_t) lua_tointeger(L,1);
+			n= vCanGetMessage(&RXPacket);
+      break;
+    case 0:
+      vCanGetAnsewerMessage(&RXPacket);
+      break;
+	}
+	if (n!=0)
+	{
+		n = RXPacket.DLC;
+		for (int i = 0; i <n;i++)
+		{
+			lua_pushnumber(L,RXPacket.data[i]);
+		}
+	}
+	return ( n );
 }
