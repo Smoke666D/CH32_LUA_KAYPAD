@@ -31,6 +31,19 @@
 #endif
 
 
+typedef enum 
+{
+  CAN_1MBS =   0,
+  CAN_800KBS = 1,
+  CAN_500KBS = 2,
+  CAN_250KBS = 3,
+  CAN_125KBS = 4,
+  CAN_100KBS = 5,
+  CAN_50KBS =  6,
+  CAN_20KBS =  7,
+  CAN_10KBS =  8,
+} CAN_BOUNDRATE;
+
 typedef enum
 {
 	FILTER_FIFO_0,
@@ -132,7 +145,7 @@ uint8_t HAL_CAN_MSG_SEND(CAN_TX_FRAME_TYPE *buffer);
 void HAL_CANSetTXCallback(void (* f) ( void ));
 void HAL_CANSetRXCallback(void (* f) ( HAL_CAN_RX_FIFO_NUMBER_t));
 void HAL_CANSetERRCallback(void (* f) ( void ));
-void HAL_CANIntIT(  uint8_t   CANbitRate, uint8_t prior, uint8_t subprior);
+void HAL_CANIntIT(   CAN_BOUNDRATE    CANbitRate, uint8_t prior, uint8_t subprior);
 uint8_t HAL_CANToInitMode();
 uint8_t HAL_CANToOperatingMode();
 uint8_t HAL_CANSend(CAN_TX_FRAME_TYPE *buffer);

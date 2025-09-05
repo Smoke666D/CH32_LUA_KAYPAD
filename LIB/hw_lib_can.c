@@ -187,17 +187,32 @@ void vCANBoudInit( uint16_t boudrate )
     switch (boudrate )
     {
         case 1000:
-            CANbitRate = 0;
+            CANbitRate = CAN_1MBS;
             break;
         case 500:
-            CANbitRate = 1;
+            CANbitRate = CAN_500KBS;
             break;
         case 250:
-            CANbitRate = 2;
+            CANbitRate = CAN_250KBS;
             break;
-        case 125:
-            CANbitRate = 3;
+        default:
+            CANbitRate = CAN_125KBS;
             break;    
+		case 800:
+			CANbitRate = CAN_800KBS;
+			break;
+		case 100:
+			CANbitRate = CAN_100KBS;
+			break;
+		case 50:
+			CANbitRate = CAN_50KBS;
+			break;
+		case 20:
+			CANbitRate = CAN_20KBS;
+			break;
+		case 10:
+			CANbitRate = CAN_10KBS;
+			break;
     }
 	if (CANbitRate!=vGetBitrate() ) vSetBitrate(CANbitRate);
     HAL_CANSetTXCallback(&CAN_SendMessage);

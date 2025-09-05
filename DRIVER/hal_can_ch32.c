@@ -21,10 +21,10 @@ static HAL_CAN_t CAN;
 #define TMIDxR_TXRQ                  ((uint32_t)0x00000001)
 /* CAN FCTLR Register bits */
 #define FCTLR_FINIT                  ((uint32_t)0x00000001)
-void   USB_HP_CAN1_TX_IRQHandler(void) __attribute__((interrupt()));  /* USB HP and CAN1 TX */
+void   USB_HP_CAN1_TX_IRQHandler(void)  __attribute__((interrupt())); /* USB HP and CAN1 TX */
 void   USB_LP_CAN1_RX0_IRQHandler(void) __attribute__((interrupt())); /* USB LP and CAN1RX0 */
-void   CAN1_RX1_IRQHandler(void) __attribute__((interrupt()));        /* CAN1 RX1 */
-void   CAN1_SCE_IRQHandler(void) __attribute__((interrupt()));       /* CAN1 SCE */
+void   CAN1_RX1_IRQHandler(void)        __attribute__((interrupt())); /* CAN1 RX1 */
+void   CAN1_SCE_IRQHandler(void)        __attribute__((interrupt())); /* CAN1 SCE */
 
 
 void HAL_CANSetTXCallback(void (* f) ( void ))
@@ -47,9 +47,6 @@ void HAL_CANSetERRCallback(void (* f) ( void ))
 INIT_FUNC_LOC void HAL_CANInt(  uint8_t   CANbitRate)
 {
      u16 CAN_Prescaler;
-
-
-
      /* Configure CAN timing */
       switch (CANbitRate)
       {
@@ -72,17 +69,13 @@ INIT_FUNC_LOC void HAL_CANInt(  uint8_t   CANbitRate)
               break;
       }
 
-
       uint32_t wait_ack = 0x00000000;
-
       CAN1->CTLR &= (~(uint32_t)CAN_CTLR_SLEEP);
       CAN1->CTLR |= CAN_CTLR_INRQ ;
-
       while (((CAN1->STATR & CAN_STATR_INAK) != CAN_STATR_INAK) && (wait_ack != INAK_TIMEOUT))
       {
          wait_ack++;
       }
-
       if ((CAN1->STATR & CAN_STATR_INAK) == CAN_STATR_INAK)
       {
           CAN1->CTLR &= ~(uint32_t)CAN_CTLR_TTCM;
@@ -103,49 +96,54 @@ INIT_FUNC_LOC void HAL_CANInt(  uint8_t   CANbitRate)
           {
                   wait_ack++;
           }
-
       }
 }
 
 
-INIT_FUNC_LOC void HAL_CANIntIT(  uint8_t   CANbitRate, uint8_t prior, uint8_t subprior)
+
+
+
+
+INIT_FUNC_LOC void HAL_CANIntIT(   CAN_BOUNDRATE  CANbitRate, uint8_t prior, uint8_t subprior)
 {
      u16 CAN_Prescaler;
+      uint8_t bs1 = CAN_BS1_12tq;
+     uint8_t bs2 = CAN_BS2_5tq;
      HAL_InitAPB1(RCC_APB1Periph_CAN1);
      uint8_t mul = SystemCoreClock == (144000000)? 2 : 1;
      /* Configure CAN timing */
-      switch (CANbitRate)
+       switch (CANbitRate)
       {
-          case 0: CAN_Prescaler  = 2;
+          case CAN_1MBS:    CAN_Prescaler  = 2;
+                            break;
+          case CAN_800KBS:
+                            CAN_Prescaler  = 3;
+                            bs1 = CAN_BS1_10tq;
+                            bs2 = CAN_BS2_4tq;
+                            break;
+          case CAN_500KBS:  CAN_Prescaler = 4;
                   break;
-          case 1:  CAN_Prescaler = 4;
+          case CAN_250KBS:  CAN_Prescaler = 8;
                   break;
-          case 2:  CAN_Prescaler = 8;
-                  break;
-         default:
-          case 3:  CAN_Prescaler = 16;
+          case CAN_125KBS:  CAN_Prescaler = 16;
                  break;
-         case 4:  CAN_Prescaler = 20;
+         case CAN_100KBS:  CAN_Prescaler = 20;
                 break;
-         case 5:  CAN_Prescaler = 120;
+         case CAN_50KBS :  CAN_Prescaler = 40;
                 break;
-         case 6:  CAN_Prescaler = 300;
+         case CAN_20KBS:  CAN_Prescaler = 100;
                break;
-          case 7:  CAN_Prescaler = 600;
+          case CAN_10KBS:  CAN_Prescaler = 200;
               break;
       }
-
-
       uint32_t wait_ack = 0x00000000;
 
       CAN1->CTLR &= (~(uint32_t)CAN_CTLR_SLEEP);
       CAN1->CTLR |= CAN_CTLR_INRQ ;
-
       while (((CAN1->STATR & CAN_STATR_INAK) != CAN_STATR_INAK) && (wait_ack != INAK_TIMEOUT))
       {
          wait_ack++;
       }
-
       if ((CAN1->STATR & CAN_STATR_INAK) == CAN_STATR_INAK)
       {
           CAN1->CTLR &= ~(uint32_t)CAN_CTLR_TTCM;
@@ -155,10 +153,11 @@ INIT_FUNC_LOC void HAL_CANIntIT(  uint8_t   CANbitRate, uint8_t prior, uint8_t s
           CAN1->CTLR &= ~(uint32_t)CAN_CTLR_RFLM;
           CAN1->CTLR &= ~(uint32_t)CAN_CTLR_TXFP;
 
+   
           CAN1->BTIMR = (uint32_t)((uint32_t)CAN_Mode_Normal << 30) | \
                                       ((uint32_t)CAN_SJW_4tq << 24) | \
-                                      ((uint32_t)CAN_BS1_12tq << 16) | \
-                                      ((uint32_t)CAN_BS2_5tq << 20) | \
+                                      ((uint32_t)bs1 << 16) | \
+                                      ((uint32_t)bs2<< 20) | \
                                       ((uint32_t)(CAN_Prescaler*mul - 1));
           CAN1->CTLR &= ~(uint32_t)CAN_CTLR_INRQ;
           wait_ack = 0;

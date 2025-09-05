@@ -42,7 +42,8 @@ static int iCanSetResiveFilter(lua_State *L );
 static int iCanGetResivedData(lua_State *L );
 static int iCanResetResiveFilter(lua_State *L );
 static int iCanGetMessage(lua_State *L );
-static int iCanCheckData(lua_State *L );
+static int iCanCheckData( lua_State *L );
+static int iSetCanNodeID( lua_State *L );
 
 TaskHandle_t * xGetLuaTaskHandle ()
 {
@@ -114,16 +115,17 @@ void vLuaTask( void * argument )
                L1  = luaL_newstate();  //Созадем состояние LUA, занимет 2К оперативной памяти
                luaL_openlibs(L1);      //Подлючаем библиотеки
                //Регестрируем пользовательские функции
-               lua_register(L1,"CanSend",           iCanSendData);
-               lua_register(L1,"CanTable",          iCanSendTable);
-               lua_register(L1,"CheckCanId",        iCanCheckData );
-               lua_register(L1,"GetRequest",        iCanGetMessage);
-               lua_register(L1,"sendCandRequest",   iCanSendRequest);
-	             lua_register(L1,"GetCanMessage",     iCanGetMessage) ;
-               lua_register(L1,"setCanFilter",      iCanSetResiveFilter );
+               lua_register(L1,"CanSend",           iCanSendData          );
+               lua_register(L1,"CanTable",          iCanSendTable         );
+               lua_register(L1,"CheckCanId",        iCanCheckData         );
+               lua_register(L1,"GetRequest",        iCanGetMessage        );
+               lua_register(L1,"sendCandRequest",   iCanSendRequest       );
+	             lua_register(L1,"GetCanMessage",     iCanGetMessage        );
+               lua_register(L1,"setCanFilter",      iCanSetResiveFilter   );
                lua_register(L1,"ResetCanFilter",    iCanResetResiveFilter );
-	             lua_register(L1,"GetCanToTable",     iCanGetResivedData);
-	             lua_register(L1,"ConfigCan",         iCanSetConfig);
+	             lua_register(L1,"GetCanToTable",     iCanGetResivedData    );
+	             lua_register(L1,"ConfigCan",         iCanSetConfig         );
+               lua_register(L1,"SetNodeID",         iSetCanNodeID         );
                uint32_t real_size;
               if ( eIsLuaSkriptValid(uFLASHgetScript(), uFLASHgetLength()+1,&real_size) == RESULT_TRUE )
 	   	         {     
@@ -263,13 +265,34 @@ static int iCanSendTable( lua_State *L )
 */
 static int iCanSetConfig(lua_State *L)
 {
-	if (lua_gettop(L) == TWO_ARGUMENTS)
+
+  uint16_t brate = 0;
+  switch (lua_gettop(L))
+  {
+    case TWO_ARGUMENTS:
+      brate =  SECOND_ARGUMENT;
+      break;
+    case ONE_ARGUMENT:
+      brate =   FIRST_ARGUMENT;
+      break;
+    default:
+      return ( NO_RESULT );
+  }
+	vCANBoudInit( (uint16_t)lua_tointeger( L, brate) );
+	return ( NO_RESULT );
+}
+/*
+Инициализация контрллера CAN
+*/
+static int iSetCanNodeID(lua_State *L)
+{
+	if (lua_gettop(L) == ONE_ARGUMENT)
 	{
-    vCANBoudInit( (uint16_t)lua_tointeger( L, FIRST_ARGUMENT) );
-    ConfigNodeID( (uint8_t) lua_tointeger( L, SECOND_ARGUMENT )); 
+    ConfigNodeID( (uint8_t) lua_tointeger( L, FIRST_ARGUMENT)); 
 	}
 	return ( NO_RESULT );
 }
+
 /*
 Функция отправки даннх по CAN
 */
