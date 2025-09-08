@@ -34,7 +34,7 @@
 #define TIM3_UP_ENABLE
 #define CAN_SFID_MASK                      ((uint32_t)0x000007FFU)      /*!< mask of standard identifier */
 
-#define INIT_FUNC_LOC __attribute__((section(".stext"))) __attribute__((optimize(3)))
+#define INIT_FUNC_LOC //__attribute__((section(".stext"))) __attribute__((optimize(3)))
 #define LUA_FUNC_LOC  INIT_FUNC_LOC
 
 #define WCH32V3   2

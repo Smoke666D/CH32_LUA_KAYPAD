@@ -115,7 +115,7 @@ void vLuaTask( void * argument )
                L1  = luaL_newstate();  //Созадем состояние LUA, занимет 2К оперативной памяти
                luaL_openlibs(L1);      //Подлючаем библиотеки
                //Регестрируем пользовательские функции
-               lua_register(L1,"CanSend",           iCanSendData          );
+             /*  lua_register(L1,"CanSend",           iCanSendData          );
                lua_register(L1,"CanTable",          iCanSendTable         );
                lua_register(L1,"CheckCanId",        iCanCheckData         );
                lua_register(L1,"GetRequest",        iCanGetMessage        );
@@ -125,16 +125,14 @@ void vLuaTask( void * argument )
                lua_register(L1,"ResetCanFilter",    iCanResetResiveFilter );
 	             lua_register(L1,"GetCanToTable",     iCanGetResivedData    );
 	             lua_register(L1,"ConfigCan",         iCanSetConfig         );
-               lua_register(L1,"SetNodeID",         iSetCanNodeID         );
+               lua_register(L1,"SetNodeID",         iSetCanNodeID         );*/
                uint32_t real_size;
               if ( eIsLuaSkriptValid(uFLASHgetScript(), uFLASHgetLength()+1,&real_size) == RESULT_TRUE )
 	   	         {     
 	   	    	      if (luaL_loadbuffer(L1, uFLASHgetScript(), real_size , uFLASHgetScript())==0 )  
                   {
-                   
                     if  (lua_pcall(L1, 0, LUA_MULTRET, 0) == 0 )
                     {
-                        lua_getglobal(L1, "main");
 #ifdef DEBUG_PRINT
                             printf("Memory %d\r\n",lua_gc(L1,LUA_GCCOUNT,0)*1024);
 #endif

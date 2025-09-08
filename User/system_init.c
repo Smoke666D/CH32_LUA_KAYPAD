@@ -52,10 +52,10 @@ void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer,
 
 INIT_FUNC_LOC  void vSYStaskInit ( void )
 {
- (* xGetCanRXTaskHandle ())= xTaskCreateStatic( vCanRXTask, "CanrxTask", CANRX_STK_SIZE , ( void * ) 1, CANRX_TASK_PRIO  ,
+ /*(* xGetCanRXTaskHandle ())= xTaskCreateStatic( vCanRXTask, "CanrxTask", CANRX_STK_SIZE , ( void * ) 1, CANRX_TASK_PRIO  ,
       (StackType_t * const )CANRXTaskBuffer, &xCANRXTaskTCB );
  (* xGetIOTaskHandle ())= xTaskCreateStatic( vIOTask, "IOTask", IO_STK_SIZE , ( void * ) 1, IO_TASK_PRIO  ,
-    (StackType_t * const )IOTaskBuffer, &xIOTaskTCB );
+    (StackType_t * const )IOTaskBuffer, &xIOTaskTCB );*/
  (* xGetLuaTaskHandle()) = xTaskCreateStatic( vLuaTask, "LuaTask", LUA_STK_SIZE , ( void * ) 1, LUA_TASK_PRIO  ,
       (StackType_t * const )LuaTaskBuffer, &xLuaTaskTCB );
   return;
