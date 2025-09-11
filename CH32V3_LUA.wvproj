@@ -32,9 +32,9 @@
 				"name": "cpp_can_lib.cpp"
 			},
 			{
-				"name": "cpp_can_lib.h",
 				"parentLogicPath": "LIB",
-				"type": "file"
+				"type": "file",
+				"name": "cpp_can_lib.h"
 			}
 		],
 		"projectName": "CH32V3_LUA",
@@ -105,7 +105,7 @@
 					"${project}/LUA/luac.c"
 				],
 				"optimization": {
-					"level": "size",
+					"level": "more",
 					"message_length": true,
 					"char_is_signed": true,
 					"function_sections": true,

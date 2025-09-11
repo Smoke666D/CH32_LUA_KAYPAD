@@ -21,11 +21,30 @@ static HAL_CAN_t CAN;
 #define TMIDxR_TXRQ                  ((uint32_t)0x00000001)
 /* CAN FCTLR Register bits */
 #define FCTLR_FINIT                  ((uint32_t)0x00000001)
-void   USB_HP_CAN1_TX_IRQHandler(void)  __attribute__((interrupt())); /* USB HP and CAN1 TX */
-void   USB_LP_CAN1_RX0_IRQHandler(void) __attribute__((interrupt())); /* USB LP and CAN1RX0 */
-void   CAN1_RX1_IRQHandler(void)        __attribute__((interrupt())); /* CAN1 RX1 */
-void   CAN1_SCE_IRQHandler(void)        __attribute__((interrupt())); /* CAN1 SCE */
-
+void   USB_HP_CAN1_TX_IRQHandler(void)
+ #ifdef CAN_FAST
+  __attribute__((interrupt("WCH-Interrupt-fast")));
+  #else 
+ __attribute__((interrupt())); 
+ #endif/* USB HP and CAN1 TX */
+void   USB_LP_CAN1_RX0_IRQHandler(void) 
+ #ifdef CAN_FAST
+  __attribute__((interrupt("WCH-Interrupt-fast")));
+  #else 
+ __attribute__((interrupt())); 
+ #endif
+void   CAN1_RX1_IRQHandler(void)     
+  #ifdef CAN_FAST
+  __attribute__((interrupt("WCH-Interrupt-fast")));
+  #else 
+ __attribute__((interrupt())); 
+ #endif
+void   CAN1_SCE_IRQHandler(void)      
+#ifdef CAN_FAST
+  __attribute__((interrupt("WCH-Interrupt-fast")));
+  #else 
+ __attribute__((interrupt())); 
+ #endif
 
 void HAL_CANSetTXCallback(void (* f) ( void ))
 {
@@ -116,11 +135,11 @@ INIT_FUNC_LOC void HAL_CANIntIT(   CAN_BOUNDRATE  CANbitRate, uint8_t prior, uin
       {
           case CAN_1MBS:    CAN_Prescaler  = 2;
                             break;
-          case CAN_800KBS:
+         /* case CAN_800KBS:
                             CAN_Prescaler  = 3;
                             bs1 = CAN_BS1_10tq;
                             bs2 = CAN_BS2_4tq;
-                            break;
+                            break;*/
           case CAN_500KBS:  CAN_Prescaler = 4;
                   break;
           case CAN_250KBS:  CAN_Prescaler = 8;

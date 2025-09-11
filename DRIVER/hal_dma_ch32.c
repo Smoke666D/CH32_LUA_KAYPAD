@@ -43,7 +43,12 @@ void     DMA1_Channel3_IRQHandler(void)   __attribute__((interrupt()));
 void     DMA1_Channel4_IRQHandler(void)   __attribute__((interrupt()));
 #endif
 #ifdef DMA1_CH5_ENABLE
-void     DMA1_Channel5_IRQHandler(void)   __attribute__((interrupt()));
+void     DMA1_Channel5_IRQHandler(void)   
+ #ifdef DMA1_CH5_FAST
+  __attribute__((interrupt("WCH-Interrupt-fast")));
+  #else 
+ __attribute__((interrupt())); 
+ #endif
 #endif
 #ifdef DMA1_CH6_ENABLE
 void     DMA1_Channel6_IRQHandler(void)   __attribute__((interrupt()));

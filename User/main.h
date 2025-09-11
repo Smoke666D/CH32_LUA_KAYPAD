@@ -18,8 +18,7 @@
 
 #define DEBUG_PRINT
 
-#define DMA1_CH5_PRIOR    0
-#define DMA1_CH5_SUBPRIOR 2
+
 //#define DMA1_CH1_ENABLE 0
 //#define DMA1_CH2_ENABLE 0
 //#define DMA1_CH3_ENABLE 0
@@ -34,13 +33,14 @@
 #define TIM3_UP_ENABLE
 #define CAN_SFID_MASK                      ((uint32_t)0x000007FFU)      /*!< mask of standard identifier */
 
-#define INIT_FUNC_LOC __attribute__((section(".stext"))) __attribute__((optimize(3)))
+#define INIT_FUNC_LOC //__attribute__((section(".stext"))) __attribute__((optimize(3)))
 #define LUA_FUNC_LOC  INIT_FUNC_LOC
 
 #define WCH32V3   2
 #define WCH32V2   1
 
-
+#define DMA1_CH5_PRIOR    0
+#define DMA1_CH5_SUBPRIOR 2
 #define TIMER3_PRIOR      1
 #define TIMER3_SUBPRIOR   3
 #define CAN1_PRIOR        1

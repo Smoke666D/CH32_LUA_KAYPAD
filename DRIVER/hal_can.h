@@ -34,14 +34,14 @@
 typedef enum 
 {
   CAN_1MBS =   0,
-  CAN_800KBS = 1,
-  CAN_500KBS = 2,
-  CAN_250KBS = 3,
-  CAN_125KBS = 4,
-  CAN_100KBS = 5,
-  CAN_50KBS =  6,
-  CAN_20KBS =  7,
-  CAN_10KBS =  8,
+  CAN_800KBS = 0,
+  CAN_500KBS = 1,
+  CAN_250KBS = 2,
+  CAN_125KBS = 3,
+  CAN_100KBS = 4,
+  CAN_50KBS =  5,
+  CAN_20KBS =  6,
+  CAN_10KBS =  7,
 } CAN_BOUNDRATE;
 
 typedef enum

@@ -96,17 +96,19 @@ uint32_t uFLASHgetLength ( void )
 void vLuaTask( void * argument )
 {
     int res ;
+    TickType_t xLastWakeTime;
     static lua_State *L1 = NULL;
     uint8_t data_buffer[6]={0,0,0,0,0,0};
     static LUA_STATE_t lua_state = LUA_INIT;
     uint32_t ulWorkCicleIn10us;
+    xLastWakeTime = xTaskGetTickCount();
 #ifdef DEBUG_PRINT
     uint16_t counter = 0;
     uint32_t max_clock = 0;
 #endif
     while(1)
     {
-        vTaskDelay( 1 );
+        vTaskDelayUntil( &xLastWakeTime,1 );
         HAL_WDTReset();
         switch (lua_state)
         {
@@ -270,7 +272,7 @@ static int iCanSetConfig(lua_State *L)
   switch (lua_gettop(L))
   {
     case TWO_ARGUMENTS:
-      brate =  SECOND_ARGUMENT;
+      brate =  FIRST_ARGUMENT;
       break;
     case ONE_ARGUMENT:
       brate =   FIRST_ARGUMENT;
