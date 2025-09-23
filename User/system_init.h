@@ -26,7 +26,7 @@
 #define LUA_TASK_PRIO               6  //ДОЛЖЕН БЫТЬ САМЫ ВЫСОКИЙ
 #define LUA_STK_SIZE                700
 #define CANRX_TASK_PRIO             5 //ДОЛЖЕН БЫТЬ САМЫ ВЫСОКИЙ
-#define CANRX_STK_SIZE              128
+#define CANRX_STK_SIZE             256
 #define IO_TASK_PRIO                5 //ДОЛЖЕН БЫТЬ САМЫ ВЫСОКИЙ
 #define IO_STK_SIZE                 128
 

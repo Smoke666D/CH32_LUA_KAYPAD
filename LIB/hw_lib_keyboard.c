@@ -6,16 +6,16 @@
  */
 #include "hw_lib_keyboard.h"
 
-static QueueHandle_t    pKeyboardQueue;
+
 static KeybaordStruct_t Keyboard;
+static MessageBufferHandle_t pKeyboardMessageBuffer;
 
 
-QueueHandle_t * xKeyboardQueue( void )
+
+MessageBufferHandle_t * xKeyboardMessageBuffer()
 {
-  return  (&pKeyboardQueue);
+     return  (&pKeyboardMessageBuffer);
 }
-
-
 
 uint16_t HW_LIB_GetKeyboardPeriod()
 {
@@ -40,7 +40,7 @@ KEYBOARD_INIT_CODES eKeyboardInit( KeybaordStruct_t * kis )
     Keyboard.STATUS   = kis->STATUS;
     memset(Keyboard.COUNTERS,0, Keyboard.KEYBOARD_COUNT);
     res = KEYBOARD_INIT_OK;
-    xQueueReset( pKeyboardQueue );
+ 
     return (res);
 }
 
@@ -52,7 +52,7 @@ static void vPostState( uint8_t key, uint8_t state)
     TEvent.KeyCode = key;
     TEvent.Status  = state;
     Keyboard.COUNTERS[key]    = 0U;
-    xQueueSend( pKeyboardQueue, &TEvent, portMAX_DELAY );
+    xMessageBufferSend(pKeyboardMessageBuffer,&TEvent,sizeof(KeyEvent), portMAX_DELAY);
     if ( state == MAKECODE ) delay_timeout = 0;
 }
 

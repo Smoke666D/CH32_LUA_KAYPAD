@@ -83,8 +83,7 @@ typedef enum
 
 /*----------------------------- Functions ------------------------------------*/
 KEYBOARD_INIT_CODES eKeyboardInit( KeybaordStruct_t * kis );
-QueueHandle_t * xKeyboardQueue( void );
 uint16_t HW_LIB_GetKeyboardPeriod();
 void HW_LIB_KeyboradFSM();
-
+MessageBufferHandle_t * xKeyboardMessageBuffer();
 #endif /* HW_LIB_HW_LIB_KEYBOARD_H_ */

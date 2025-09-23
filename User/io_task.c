@@ -7,7 +7,7 @@
 static TaskHandle_t  IOTaskHandle;
 static uint8_t  STATUS[KEY_COUNT];
 static uint8_t  COUNTERS[KEY_COUNT];
-static QueueHandle_t     pKeyboard        = NULL;
+static MessageBufferHandle_t pKeyboardMessageBuffer;
 static KeyEvent          TempEvent        = { 0U };
 
 TaskHandle_t * xGetIOTaskHandle ()
@@ -67,14 +67,13 @@ void vIOTask(void *argument)
 {
  static uint8_t key_mask;
    vInitKeybord();
-   pKeyboard = *( xKeyboardQueue());
+   pKeyboardMessageBuffer= *(xKeyboardMessageBuffer());
 	while(1)
 	{  
 		vTaskDelay(1); 
         HW_LIB_KeyboradFSM();
-        if ( uxQueueMessagesWaiting(pKeyboard) != 0)
+        if ( xMessageBufferReceive(pKeyboardMessageBuffer,&TempEvent,sizeof(KeyEvent),0) != 0)
 		{
-			xQueueReceive( pKeyboard, &TempEvent,portMAX_DELAY );
 			switch (TempEvent.KeyCode)
 			{
 				case kl1_key:

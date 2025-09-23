@@ -20,12 +20,16 @@ static StackType_t uxTimerTaskStack[ configTIMER_TASK_STACK_DEPTH ];
 static StackType_t CANRXTaskBuffer[ CANRX_STK_SIZE ];
 static StackType_t LuaTaskBuffer[ LUA_STK_SIZE ];
 static StackType_t IOTaskBuffer[ IO_STK_SIZE ];
-static uint8_t canRXBuffer[ CANRX_QUEUE_SIZE * sizeof( CAN_FRAME_TYPE )  ];
-static uint8_t canTXBuffer[ CANTX_QUEUE_SIZE * sizeof( CAN_FRAME_TYPE ) ];
-uint8_t ucQueueStorageArea[  16U  ];
-static StaticQueue_t xStaticQueue;
-static StaticQueue_t xcanTXqueue;
-static StaticQueue_t xcanRXqueue;
+static StaticMessageBuffer_t xMessageBufferStruct;
+static StaticMessageBuffer_t xKeyboardMessageBufferStruct;
+static StaticMessageBuffer_t xTXCanMessageBufferStruct;
+static uint8_t ucMessageBufferStorage[ CANRX_QUEUE_SIZE * sizeof( CAN_FRAME_TYPE ) ];
+static uint8_t ucTXCanMessageBufferStorage[ CANRX_QUEUE_SIZE * sizeof( CAN_TX_FRAME_TYPE) ];
+static uint8_t ucKeyboardMessageBufferStorage[ 16 * sizeof( KeyEvent ) ];
+
+
+
+
 /*
  * 妤快把快技快扶扶抑快
  */
@@ -63,9 +67,17 @@ INIT_FUNC_LOC  void vSYStaskInit ( void )
 
 INIT_FUNC_LOC void vSYSqueueInit ( void )
 {
- *( xKeyboardQueue()) = xQueueCreateStatic( 16U, sizeof( KeyEvent ),ucQueueStorageArea, &xStaticQueue );
- *( pCANRXgetQueue() ) = xQueueCreateStatic( CANRX_QUEUE_SIZE, sizeof( CAN_FRAME_TYPE), ( uint8_t* )canRXBuffer, &xcanRXqueue );
- *( pCANTXgetQueue() ) = xQueueCreateStatic( CANTX_QUEUE_SIZE, sizeof( CAN_TX_FRAME_TYPE ), ( uint8_t* )canTXBuffer, &xcanTXqueue );
+   *(xGetCanRXMessageBufffer()) = xMessageBufferCreateStatic( sizeof( ucMessageBufferStorage ),
+                                                 ucMessageBufferStorage,
+                                                 &xMessageBufferStruct );
+
+ * (xGetCanTXMessageBufffer())= xMessageBufferCreateStatic( sizeof( ucTXCanMessageBufferStorage ),
+                                                 ucTXCanMessageBufferStorage,
+                                                 &xTXCanMessageBufferStruct );
+
+ * (xKeyboardMessageBuffer()) =  xMessageBufferCreateStatic( sizeof( ucKeyboardMessageBufferStorage ),
+                                                 ucKeyboardMessageBufferStorage,
+                                                 &xKeyboardMessageBufferStruct );
 }
 /*----------------------------------------------------------------------------*/
 void vSYSeventInit ( void )

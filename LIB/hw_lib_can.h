@@ -45,9 +45,8 @@ void APPCANSEND(CAN_TX_FRAME_TYPE *buffer);
 uint8_t vCanGetMessage(CAN_FRAME_TYPE * RXPacket);
 uint8_t vCanGetRequest(CAN_FRAME_TYPE * RXPacket);
 uint8_t vCanChekMessage(uint32_t id);
-QueueHandle_t* pCANRXgetQueue ( void );
-QueueHandle_t* pCANTXgetQueue ( void );
 TaskHandle_t * xGetCanRXTaskHandle ();
-
+MessageBufferHandle_t * xGetCanRXMessageBufffer();
+MessageBufferHandle_t * xGetCanTXMessageBufffer();
 
 #endif
