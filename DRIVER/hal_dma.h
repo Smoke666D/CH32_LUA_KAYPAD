@@ -8,7 +8,7 @@
 #ifndef HAL_HAL_DMA_H_
 #define HAL_HAL_DMA_H_
 
-#include "main.h"
+#include "system_config.h"
 //#include "system_init.h"
 
 

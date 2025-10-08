@@ -8,15 +8,21 @@
 #include "hw_lib_din.h"
 #include "hal_timers.h"
 
-static DinConfig_t 				 xDinConfig[ DIN_COUNT] __SECTION(RAM_SECTION_CCMRAM);
+
+#if DOUT_COUNT>0 
+static DinConfig_t 				 xDinConfig[ DIN_COUNT];
+#endif
+#if DOUT_COUNT>0 && RPM_CHANNEL_COUNT>0
 static median_filter_data_t      RPM_MIDIAN_FILTER_STRUC[RPM_CHANNEL_COUNT];
 static aver_filter_data_t        RPM_AVER_FILTER_STRUC  [RPM_CHANNEL_COUNT];
-static RPM_Struct                RPM[RPM_CHANNEL_COUNT] __SECTION(RAM_SECTION_CCMRAM);;
+static RPM_Struct                RPM[RPM_CHANNEL_COUNT];
+#endif
+#if DOUT_COUNT>0
 static DoutCinfig_t              xDoutConfig[DOUT_COUNT] __SECTION(RAM_SECTION_CCMRAM);;
+#endif
 
 
-
-
+#if DOUT_COUNT>0
 void InitDinStcurt()
 {
 	for (uint8_t i = 0; i <DIN_COUNT; i++)
@@ -42,8 +48,9 @@ void vRecinfigDin(  DIN_INPUT_NAME ucCh, DinConfig_t * config    )
 		xDinConfig[ucCh].ucTempValue = xDinConfig[ucCh].ucValue;
 	}
 }
+#endif
 
-
+#if DOUT_COUNT>0 && RPM_CHANNEL_COUNT>0
 void InitFilters()
 {
 	for (uint8_t i = 0; i < RPM_CHANNEL_COUNT; i++)
@@ -66,9 +73,9 @@ void vSetRPMConfig(uint8_t ch, float coof, float filter_coof)
 	}
 
 }
+#endif
 
-
-
+#if DOUT_COUNT>0
 DIN_FUNCTION_ERROR_t eDOUTConfigWtihStruct(OUT_NAME_TYPE ucCh, DoutCinfig_t * config)
 {
     DIN_FUNCTION_ERROR_t eRes = DIN_CONFIG_OK;
@@ -109,6 +116,7 @@ DIN_FUNCTION_ERROR_t eSetDUT(OUT_NAME_TYPE ucCh, uint8_t state )
     #endif
         return ( eRes );
 }
+#endif
 
 void xSetOut( uint8_t * data_mask)
 {
@@ -146,7 +154,7 @@ void xGetOut( uint8_t * data_mask)
 
 }
 
-
+#if DOUT_COUNT>0
 uint8_t eGetDOUT(OUT_NAME_TYPE ucCh )
 {
     return ( xDoutConfig[ucCh].ucValue) ;
@@ -170,9 +178,11 @@ uint8_t eGrtDUT(OUT_NAME_TYPE ucCh)
           }
     #endif
 }
+#endif
 /*
  *
  */
+  #if DIN_COUNT>0
 INIT_FUNC_LOC DIN_FUNCTION_ERROR_t eDinConfigWtihStruct(DIN_INPUT_NAME ucCh, DinConfig_t * config)
 {
     DIN_FUNCTION_ERROR_t eRes = DIN_WRONG_CHANNEL_NUMBER ;
@@ -191,6 +201,7 @@ INIT_FUNC_LOC DIN_FUNCTION_ERROR_t eDinConfigWtihStruct(DIN_INPUT_NAME ucCh, Din
 /*
  * Функция возващает текущие значение дискрентого вохода
  */
+
 uint8_t uGetDIN(DIN_INPUT_NAME ucCh)
 {
     return (xDinConfig[ucCh].ucValue);
@@ -207,10 +218,11 @@ DIN_FUNCTION_ERROR_t xGetDIN(DIN_INPUT_NAME ucCh, uint8_t * state)
     return (DIN_NOT_CHANGE);
 
 }
-
+#endif
 /*
  *
  */
+  #if DIN_COUNT>0 && RPM_CHANNEL_COUNT>0
 u16 * uGetRPMBuffer(DIN_INPUT_NAME ucCh)
 {
     return (xDinConfig[ucCh].RPMDATA->Data);
@@ -285,6 +297,7 @@ void RMPDataConvert(DIN_INPUT_NAME ucCh)
 /*
  *
  */
+
 static void vCheckRPM( DIN_INPUT_NAME ucCh )
 {
     xDinConfig[ucCh].ucValue++;
@@ -302,7 +315,8 @@ static void vCheckRPM( DIN_INPUT_NAME ucCh )
    }
    return;
 }
-
+#endif
+#if DIN_COUNT>0
 /*
  *
  */
@@ -321,9 +335,11 @@ uint16_t GetRPM( DIN_INPUT_NAME ucCh )
 
     return (  usTemp  );
 }
+#endif
 /*
  *
  */
+ #if DIN_COUNT>0 && RPM_CHANNEL_COUNT>0
 DIN_FUNCTION_ERROR_t xGetRPM( DIN_INPUT_NAME ucCh, uint16_t * data)
 {
 
@@ -336,9 +352,11 @@ DIN_FUNCTION_ERROR_t xGetRPM( DIN_INPUT_NAME ucCh, uint16_t * data)
     }
     return (DIN_NOT_CHANGE);
 }
+#endif
 /*
  *
  */
+#if DIN_COUNT>0
 void vDinInitStateProcess()
 {
 
@@ -359,6 +377,7 @@ void vDinInitStateProcess()
 /*
  *
  */
+
 void vDinDoutProcess()
 {
     for (uint8_t i = 0; i <DIN_COUNT; i++)
@@ -431,9 +450,11 @@ void xGetDins( uint8_t * data_mask)
     }
 
 }
+#endif
 
-
+#if DIN_COUNT>0 && RPM_CHANNEL_COUNT>0
 u16 * getCaputreBuffer(DIN_INPUT_NAME ucCh )
 {
     return xDinConfig[ucCh].RPMDATA->Data;
 }
+#endif

@@ -8,7 +8,7 @@
 #ifndef HAL_TYPEDEF_H_
 #define HAL_TYPEDEF_H_
 
-#include "main.h"
+#include "system_config.h"
 
 #define HAL_SET   1
 #define HAL_RESET 0

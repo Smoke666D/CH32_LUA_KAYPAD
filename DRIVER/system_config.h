@@ -9,82 +9,75 @@
 #define SYSTEM_CONFIG_H_
 
 
-
-
-
-/****************************************************************/
-
-
-
-#define WCH32V3   2
+#define WCH32V3   2 
 #define WCH32V2   1
-/*
- *
- * §¬§à§æ§Ú§ß§å§Ñ§è§Ú§ñ §ñ§Õ§â§Ñ
- *
- */
+
+
 #define CORE WCH32V3
 
+#define INIT_FUNC_LOC //__attribute__((section(".stext"))) __attribute__((optimize(3)))
 
-#define __SECTION(x)
+#if CORE == WCH32V2
+    #include "ch32v20x_i2c.h"
+    #include "ch32v20x_dma.h"
+    #include "ch32v20x_adc.h"
+    #include "ch32v20x_rcc.h"
+    #include "ch32v20x_can.h"
+    #include "ch32v20x_iwdg.h"
+    #include "ch32v20x_spi.h"
+    #include "ch32v20x_gpio.h"
+    #include "ch32v20x_dac.h"
+    #include "ch32v20x_usart.h"
+    #include "ch32v20x.h"
+#else
+    #include "ch32v30x_i2c.h"
+    #include "ch32v30x_adc.h"
+    #include "ch32v30x_dma.h"
+    #include "ch32v30x_rcc.h"
+    #include "ch32v30x_can.h"
+    #include "ch32v30x_iwdg.h"
+    #include "ch32v30x_spi.h"
+    #include "ch32v30x_gpio.h"
+    #include "ch32v30x_dac.h"
+    #include "ch32v30x_usart.h"
+    #include "ch32v30x.h"
+#endif
 
-/****************************DMA*******************************/
-#define DMA1_CH1_ENABLE
-#define DMA1_CH2_ENABLE
-//#define DMA1_CH3_ENABLE
-#define DMA1_CH4_ENABLE
-#define DMA1_CH5_ENABLE
-//#define DMA1_CH6_ENABLE
-//#define DMA1_CH7_ENABLE
-//#define DMA2_CH1_ENABLE
-//#define DMA2_CH2_ENABLE
-//#define DMA2_CH3_ENABLE
-//#define DMA2_CH4_ENABLE
-//#define DMA2_CH5_ENABLE
-//#define DMA2_CH6_ENABLE
-//#define DMA2_CH7_ENABLE
-/****************************ADC**********************************/
-#define ADC_1_ENABLE
-#define ADC_2_ENABLE
-#define ADC_1_IT_ENABLE
-#define ADC_2_IT_ENABLE
-/***************************watchdog***************************/
-//§¡§Ü§ä§Ú§Ó§Ú§â§à§Ó§Ñ§ä§î §Ó§Ñ§ä§é§Õ§à§Ô
-#define WDT_ENABLE
-/****************************RTC**************************/
-#define RTC_IRQ_ENABLE
-/***************************SPI*****************************/
-//#define SPI1_IT_ENABLE
-#define SPI2_IT_ENABLE
-//#define SPI3_IT_ENABLE
-/************************USART**********************************/
+
+
+#include "hal_irq.h"
+
+
+//#define DMA1_CH1_ENABLE 0
+//#define DMA1_CH2_ENABLE 0
+//#define DMA1_CH3_ENABLE 0
+//#define DMA1_CH4_ENABLE 0
+#define DMA1_CH5_ENABLE 1
+//#define DMA1_CH6_ENABLE 0
+//#define DMA1_CH7_ENABLE 0
+
+/*§±§â§Ö§â§í§Ó§Ñ§ß§Ú§Ö RTC*/
+//#define RTC_IRQ_ENABLE
+
+#define DMA1_CH5_PRIOR    0
+#define DMA1_CH5_SUBPRIOR 2
+#define TIMER3_PRIOR      1
+#define TIMER3_SUBPRIOR   3
+#define CAN1_PRIOR        1
+#define CAN1_SUBPRIOR     0
+
+
 //#define USART1_IT_ENABLE
-#define USART2_IT_ENABLE
-//#define USART3_IT_ENABLE
-#define USART4_IT_ENABLE
-/************************I2C************************************/
-#define I2C1_ENABLE
-#define I2C2_ENABLE
-//#define I2C1_IT_ENABLE
-//#define I2C2_IT_ENABLE
-/***********************TIME**********************************/
-//#define TIM1_UP_ENABLE 0
-//#define TIM2_UP_ENABLE 0
-//#define TIM3_UP_ENABLE 0
-#define TIM4_UP_ENABLE
-#define TIM5_UP_ENABLE
-//#define TIM6_UP_ENABLE 0
-//#define TIM7_UP_ENABLE 0
-#define TIM8_UP_ENABLE
-//#define TIM9_UP_ENABLE 0
+//#define  USART2_IT_ENABLE
+//#define  USART3_IT_ENABLE
+//#define  USART4_IT_ENABLE
 
-/*********************************************/
-#define AIN_NUMBER  5
-#define DAC_NUMBER  4
-#define ADC1_CHANNELS  1
-#define ADC2_CHANNELS  3
-#define ADC3_CHANNELS  0
-#define RR 10
-/*********************************************/
+#define TIM3_UP_ENABLE
+
+#define WDT_ENABLE
+
+//#define ADC_1_IT_ENABLE
+//#define ADC_2_IT_ENABLE
 
 #endif /* SYSTEM_CONFIG_H_ */
+

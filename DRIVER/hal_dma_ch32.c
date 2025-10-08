@@ -6,23 +6,19 @@
  */
 
 #include "hal_dma.h"
-#include "hal_irq.h"
+
 
 
 
 
 #if CORE == WCH32V2
-    #include "ch32v20x_dma.h"
-    #include "ch32v20x_adc.h"
-    #include "ch32v20x_rcc.h"
+
 
     DMA_CFG_t DMA_CALLback[7];
     DMA_Channel_TypeDef * DMACH[]={DMA1_Channel1,DMA1_Channel2,DMA1_Channel3,DMA1_Channel4,DMA1_Channel5,DMA1_Channel6,DMA1_Channel7};
 #endif
 #if CORE == WCH32V3
-    #include "ch32v30x_dma.h"
-    #include "ch32v30x_adc.h"
-    #include "ch32v30x_rcc.h"
+  
     DMA_CFG_t DMA_CALLback[14];
     DMA_Channel_TypeDef * DMACH[]={DMA1_Channel1,DMA1_Channel2,DMA1_Channel3,DMA1_Channel4,DMA1_Channel5,DMA1_Channel6,DMA1_Channel7,
                                DMA2_Channel1,DMA2_Channel2,DMA2_Channel3,DMA2_Channel4,DMA2_Channel5,DMA2_Channel6,DMA2_Channel7,

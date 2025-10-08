@@ -10,8 +10,15 @@
 
 #include "hal_spi.h"
 #include "hal_dma.h"
-#include "main.h"
+#include "lib_config.h"
 #include "hal_timers.h"
+#include "system_config.h"
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "list.h"
+#include "task.h"
+#include "semphr.h"
+#include "message_buffer.h"
 
 #define WREN_COMMAND  0x06  //ENABLE WRITE OPERATION COMMAND
 #define WRDI_COONAND  0x04  //DISABLE WRITE OPERATION COMMAND

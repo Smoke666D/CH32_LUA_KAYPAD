@@ -8,7 +8,6 @@
 #include "init.h"
 #include "hal_gpio.h"
 #include "hal_timers.h"
-//#include "hw_lib_can.h"
 #include "led_task.h"
 #include "hal_spi.h"
 #include "hal_wdt.h"

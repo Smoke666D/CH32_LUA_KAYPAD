@@ -8,12 +8,6 @@
 #include "hal_adc.h"
 #include "hal_irq.h"
 
-#if CORE == WCH32V2
-
-#include "ch32v20x_adc.h"
-#else
-#include "ch32v30x_adc.h"
-#endif
 
 ADC_CF_t ADC_Callback[2];
 ADC_t adcs;
@@ -58,7 +52,7 @@ static inline void ADC_RESET_CAL( ADC_NUMBER_t adc  )  { ADCS[adc]->CTLR2 |= CTL
 static inline void ADC_START_CAL ( ADC_NUMBER_t adc  )     {ADCS[adc]->CTLR2 |= CTLR2_CAL_Set; }
 
 
-#ifdef ADC_1_IT_ENABLE || ADC_2_IT_ENABLE
+#if defined(ADC_1_IT_ENABLE) || defined(ADC_2_IT_ENABLE)
 
 void ADC1_2_IRQHandler(void) __attribute__((interrupt()));
 
@@ -287,7 +281,7 @@ void HAL_ADC_ContiniusScanCinvertionDMA( ADC_NUMBER_t adc, uint8_t channel_count
         HAL_InitAPB2( RCC_APB2Periph_ADC2);
     }
 #endif
-#ifdef ADC_1_ENABLE || #ifdef ADC_2_ENABLE
+#if defined(ADC_1_ENABLE) || defined( ADC_2_ENABLE)
      uint32_t tmpreg = 0;
      tmpreg = RCC->CFGR0;
      tmpreg &= CFGR0_ADCPRE_Reset_Mask;

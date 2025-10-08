@@ -48,7 +48,10 @@ LUA/lmathlib.o: ../LUA/lmathlib.c ../LUA/lprefix.h ../LUA/lua.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/queue.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h \
- c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h ../LUA/luaeHeap.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/system_config.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_irq.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/system_config.h ../LUA/luaeHeap.h \
  ../LUA/lauxlib.h ../LUA/lualib.h
 
 ../LUA/lprefix.h:
@@ -156,6 +159,12 @@ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h:
 c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h:
+
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/system_config.h:
+
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_irq.h:
+
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/system_config.h:
 
 ../LUA/luaeHeap.h:
 

@@ -8,11 +8,8 @@
 #ifndef HAL_HAL_TIMERS_H_
 #define HAL_HAL_TIMERS_H_
 
-#include "main.h"
-#if CORE == APM32
-	#include "apm32f4xx_tmr.h"
-	#include "apm32f4xx_rcm.h"
-#endif
+#include "system_config.h"
+
 #define EDGE 3
 
 #define TIM_CHANNEL_1  0x01
@@ -54,20 +51,15 @@ typedef enum {
 } TimerName_t;
 
 
-#if CORE == APM32
-#define TimerRef_t TMR_T*
-#define TIMERS_COUNT  14
-#endif
-#if CORE == WCH32V2 || CORE == WCH32V3
+
+
 #define TimerRef_t TIM_TypeDef *
 
-#endif
+
 #if CORE == WCH32V2
 #define TIMERS_COUNT  4
 #endif
-#if CORE == APM32
-#define TIMERS_COUNT  6
-#endif
+
 #if  CORE == WCH32V3
 #define TIMERS_COUNT  9
 #endif

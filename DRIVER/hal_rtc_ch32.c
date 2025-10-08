@@ -9,9 +9,8 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-#if CORE == WCH32V2 || CORE == WCH32V3
 
-#include "hal_irq.h"
+
 /* RTC_Private_Defines */
 #define RTC_LSB_MASK     ((uint32_t)0x0000FFFF) /* RTC LSB Mask */
 #define PRLH_MSB_MASK    ((uint32_t)0x000F0000) /* RTC Prescaler MSB Mask */
@@ -214,4 +213,3 @@ uint8_t HAL_RTC_ConfigDate( HAL_DateConfig_T* dateConfig)
     return 0;
 }
 
-#endif

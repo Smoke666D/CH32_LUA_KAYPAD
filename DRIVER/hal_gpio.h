@@ -9,7 +9,7 @@
 #define HAL_HAL_GPIO_H_
 
 
-#include "main.h"
+#include "system_config.h"
 #include "hal_typedef.h"
 
 #define TIMER1_PWM_AF GPIO_AF_TMR1
@@ -42,30 +42,18 @@ typedef enum
 
 typedef enum
 {
-#if CORE == APM32
-  HAL_BIT_RESET = BIT_RESET,
-  HAL_BIT_SET   = BIT_SET,
-#endif
-#if CORE == WCH32V2 || WCH32V3
   HAL_BIT_RESET = Bit_RESET,
   HAL_BIT_SET   = Bit_SET,
-#endif
 } BitState_t;
 
 
 
 typedef enum
 {
-#if CORE == APM32
-	MODE_OUT_PP = GPIO_OTYPE_PP,   /*!< GPIO push-pull mode */
-	MODE_OUT_OD = GPIO_OTYPE_OD,
-#endif
-#if CORE == WCH32V2 || WCH32V3
 	MODE_OUT_PP =  GPIO_Mode_AF_PP,   /*!< GPIO push-pull mode */
 	MODE_OUT_OD =  GPIO_Mode_AF_OD ,
 	MODE_IN_PU  =  GPIO_Mode_IPU,
 	MODE_IN_PD  =  GPIO_Mode_IPD
-#endif
 } GPIO_MODE_t;
 
 void HAL_InitGPO();

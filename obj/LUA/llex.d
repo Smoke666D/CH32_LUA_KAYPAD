@@ -48,7 +48,10 @@ LUA/llex.o: ../LUA/llex.c ../LUA/lprefix.h ../LUA/lua.h ../LUA/luaconf.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/queue.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h \
  c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h \
- c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h ../LUA/luaeHeap.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/system_config.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_irq.h \
+ c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/system_config.h ../LUA/luaeHeap.h \
  ../LUA/lctype.h ../LUA/llimits.h ../LUA/ldebug.h ../LUA/lstate.h \
  ../LUA/lobject.h ../LUA/ltm.h ../LUA/lzio.h ../LUA/lmem.h ../LUA/ldo.h \
  ../LUA/lgc.h ../LUA/llex.h ../LUA/lparser.h ../LUA/lstring.h \
@@ -159,6 +162,12 @@ c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/message_buffer.h:
 c:/MRS_DATA/workspace/CH32V_LUA/FreeRTOS/include/stream_buffer.h:
 
 c:/MRS_DATA/workspace/CH32V_LUA/User/lua_task.h:
+
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/system_config.h:
+
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/hal_irq.h:
+
+c:/MRS_DATA/workspace/CH32V_LUA/DRIVER/system_config.h:
 
 ../LUA/luaeHeap.h:
 

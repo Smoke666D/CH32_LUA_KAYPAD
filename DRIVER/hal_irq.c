@@ -16,7 +16,7 @@
 #include "hal_irq.h"
 
 
-#if CORE == WCH32V2 || CORE == WCH32V3
+
 INIT_FUNC_LOC void HAL_InitAPB1(uint32_t apbmask)
 {
     RCC->APB1PCENR |= apbmask;
@@ -66,4 +66,4 @@ void PFIC_IRQ_ENABLE_PG2(IRQn_Type irq, u8 prior, u8 subprior)
     NVIC_EnableIRQ(irq);
  }
 #endif
-#endif
+

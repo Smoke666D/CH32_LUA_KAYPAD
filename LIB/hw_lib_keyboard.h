@@ -8,6 +8,7 @@
 #ifndef HW_LIB_HW_LIB_KEYBOARD_H_
 #define HW_LIB_HW_LIB_KEYBOARD_H_
 
+#include "system_init.h"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "semphr.h"

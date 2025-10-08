@@ -8,7 +8,7 @@
 #ifndef HAL_HAL_RTC_H_
 #define HAL_HAL_RTC_H_
 
-#include "main.h"
+#include "system_config.h"
 
 
 typedef enum
@@ -73,21 +73,18 @@ typedef enum
   HAL_RTC_NORMAL_INIT = 1,
 } HAL_RTC_INIT_t;
 
-#if CORE == APM32
 
-void vRTCInit();
-#endif
 
 uint8_t HAL_RTC_ConfigTime( HAL_TimeConfig_T* timeConfig);
 uint8_t HAL_RTC_ConfigDate( HAL_DateConfig_T* dateConfig);
 void HAL_RTC_ReadTime( HAL_TimeConfig_T* time);
 void HAL_RTC_ReadDate(HAL_DateConfig_T* date);
 
-#if CORE == WCH32V2 || CORE == WCH32V3
+
 #ifdef RTC_IRQ_ENABLE
 void RTC_IRQHandler ( void );
 #endif
 void HAL_RTC_IT_Init(  void (* rtc_it_callback) ( void ), uint8_t prior, uint8_t subprior ,uint8_t reset);
-#endif
+
 
 #endif /* HAL_HAL_RTC_H_ */

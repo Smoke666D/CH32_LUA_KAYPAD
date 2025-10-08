@@ -7,14 +7,11 @@
 
 
 #include "hal_timers.h"
-#include "hal_irq.h"
-
-
 
 #if CORE == WCH32V2
-static void  HAL_TIMER_BaseTimerInit(TimerName_t TimerName , u16 ClockDiv, u16 Div, u16 Period );
+    static void  HAL_TIMER_BaseTimerInit(TimerName_t TimerName , u16 ClockDiv, u16 Div, u16 Period );
 #else
-void HW_TIMER_BaseTimerInit(TimerName_t TimerName  );
+    void HW_TIMER_BaseTimerInit(TimerName_t TimerName  );
 #endif
 static void vTimerInitRCC(TimerName_t TimerName);
 
@@ -33,9 +30,6 @@ static uint32_t getTimerFreq(  )
 {
                 return  ( SystemCoreClock );
 }
-
-
-#if CORE == WCH32V2 || CORE == WCH32V3
 
 
 void HAL_TiemrEneblae( TimerName_t TimerName )
@@ -102,7 +96,6 @@ static void vTimerInitRCC(TimerName_t TimerName)
     }
 }
 
-#endif
 
 #if CORE == WCH32V3
 
@@ -125,7 +118,7 @@ void HW_TIMER_SelectOutTrigger( TimerName_t TimerName, u32 trigger_source)
 
 
 
-#if CORE == WCH32V2 || CORE == WCH32V3
+
 
 #ifdef TIM1_UP_ENABLE
 void TIM1_UP_IRQHandler(void) __attribute__((interrupt()));
@@ -545,7 +538,7 @@ void HAL_TIMER_EnablePWMCH(TimerName_t TimerName  )
     timers[TimerName]->BDTR |= TIM_MOE;
 
 }
-#endif
+
 
 
 

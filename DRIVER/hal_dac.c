@@ -11,10 +11,6 @@
 #if  CORE == WCH32V3
 
 
-#include "ch32v30x_dac.h"
-
-#include "hal_irq.h"
-
 uint32_t dac_ch[]={ DAC_Channel_1,DAC_Channel_2 };
 
 void HAL_DAC_Init(HAL_DAC_InitTypeDef * init)

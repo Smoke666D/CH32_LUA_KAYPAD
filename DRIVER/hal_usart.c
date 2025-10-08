@@ -9,9 +9,7 @@
 #include "hal_usart.h"
 
 
-#if CORE == WCH32V2 || CORE == WCH32V3
 
-#include "hal_irq.h"
 
 #define USART_IT_RXNE_MASK  0x20
 #define USART_IT_TC_MASK    0x40
@@ -33,13 +31,7 @@ void UART4_IRQHandler( void )   __attribute__((interrupt()));
 USART_CallBack_t CallBackFunction[2];
 
 
-#if  CORE == WCH32V3
-#include "ch32v30x_usart.h"
-#include "ch32v30x.h"
-#else
-#include "ch32v20x_usart.h"
-#include "ch32v20x.h"
-#endif
+
 
 #define CTLR1_UE_Set              ((uint16_t)0x2000) /* USART Enable Mask */
 
@@ -188,4 +180,4 @@ void UART4_IRQHandler( void )
 }
 #endif
 
-#endif
+

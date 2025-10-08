@@ -1,9 +1,15 @@
 #ifndef HW_LIB_EEPROM_I2C_H_
 #define HW_LIB_EEPROM_I2C_H_
 
-#include "main.h"
-
-#include "C:/MRS_DATA/workspace/DASH/DRIVER/hal_i2c.h"
+#include "lib_config.h"
+#include "system_config.h"
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "list.h"
+#include "task.h"
+#include "semphr.h"
+#include "message_buffer.h"
+#include "hal_i2c.h"
 
 
 #define EEPROM_ADRESS_TYPE uint16_t

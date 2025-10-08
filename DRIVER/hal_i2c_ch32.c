@@ -8,15 +8,9 @@
 
 
 
-#if CORE == WCH32V2 || CORE == WCH32V3
 
-#if CORE == WCH32V3
-#include "ch32v30x_i2c.h"
-#include "ch32v30x.h"
-#else
-#include "ch32v20x_i2c.h"
-#include "ch32v20x.h"
-#endif
+
+
 #include "hal_gpio.h"
 #include "hal_irq.h"
 
@@ -55,9 +49,10 @@ static I2C_TypeDef * I2C[]={I2C1,I2C2};
 #define FLAG_Mask                ((uint32_t)0x00FFFFFF)
 
 
+#if defined(I2C1_IT_ENABLE) || defined(I2C2_IT_ENABLE) 
 
 static HAL_I2C_t   I2C_Callback[2];
-
+#endif
 
 
 #ifdef I2C1_IT_ENABLE
@@ -235,4 +230,4 @@ void I2C2_ER_IRQHandler ( void )
 }
 #endif
 
-#endif
+

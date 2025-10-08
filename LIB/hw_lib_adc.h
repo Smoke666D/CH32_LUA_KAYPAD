@@ -9,7 +9,15 @@
 #define HW_LIB_HW_LIB_ADC_H_
 
 
-#include "main.h"
+
+#include "lib_config.h"
+#include "system_config.h"
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "list.h"
+#include "task.h"
+#include "semphr.h"
+#include "message_buffer.h"
 #include "filters.h"
 
 

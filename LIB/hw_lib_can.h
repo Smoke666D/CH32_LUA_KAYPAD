@@ -1,8 +1,16 @@
 #ifndef HW_LIB_CAN_H_
 #define HW_LIB_CAN_H_
 
-#include "main.h"
+
 #include "hal_can.h"
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "list.h"
+#include "task.h"
+#include "semphr.h"
+#include "message_buffer.h"
+#include "portmacro.h"
+
 
 #define CAN_FILTER_COUNT              16
 #define HALF_CAN_FILTER_COUNT		  (CAN_FILTER_COUNT/2)

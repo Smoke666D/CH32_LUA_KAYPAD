@@ -8,14 +8,7 @@
 #ifndef HAL_HAL_I2C_H_
 #define HAL_HAL_I2C_H_
 
-#include "main.h"
-
-
-#if CORE == APM32
-#include "apm32f4xx_i2c.h"
-
-#endif
-
+#include "system_config.h"
 
 #define MODE_DMA 1
 #define MODE_IT  2
@@ -45,12 +38,6 @@ typedef struct
 
 
 
-#if CORE == APM32
-#define I2C_1  I2C1
-#define I2C_2  I2C2
-#define  I2C_NAME_t I2C_T*
-#endif
-#if CORE == WCH32V2 || CORE == WCH32V3
 typedef enum
       {
     I2C_1  =0,
@@ -64,8 +51,6 @@ typedef enum
 #define STAR1_TXE_FLAG    0x0080
 #define STAR1_RXNE_FLAG    0x0040
 #define STAR2_BUSY_FLAG   0x0002
-
-#endif
 
 
  typedef enum {

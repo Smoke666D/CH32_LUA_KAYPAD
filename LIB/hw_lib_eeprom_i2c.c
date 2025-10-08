@@ -1,16 +1,15 @@
 #include "hw_lib_eeprom_i2c.h"
-
 #include "hal_wdt.h"
 
 
-static EEPOROM Dev                                          __SECTION(RAM_SECTION_RAM);
+static EEPOROM Dev;
 
 
 
 INIT_FUNC_LOC  void vInitEEPROM_I2C(EEPROM_I2C_CH_t i2c, uint8_t prior, uint8_t subprior)
 {
 
-    Dev.dev = (i2c == EEPROM_I2C1) ? HAL_I2C_1 : HAL_I2C_2;
+    Dev.dev = (i2c == EEPROM_I2C1) ? I2C_1 : I2C_2;
     Dev.DevAdrres = Device_ADD;
     HAL_I2C_InitTypeDef  I2C_InitTSturcture = {0};
 
@@ -25,7 +24,7 @@ INIT_FUNC_LOC  void vInitEEPROM_I2C(EEPROM_I2C_CH_t i2c, uint8_t prior, uint8_t 
 }
 
 
-static EEPOROM Dev                                          __SECTION(RAM_SECTION_RAM);
+static EEPOROM Dev ;
 
 
  void I2C_FSM()

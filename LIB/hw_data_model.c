@@ -6,7 +6,9 @@
  */
 #include "hw_data_model.h"
 
+#if TOTAL_REGISTER_COUNT>0
 static uint8_t DATA_MODEL_REGISTER[TOTAL_REGISTER_COUNT];
+
 
 
 
@@ -88,3 +90,4 @@ void setRegFloat( u16 reg_adress, float data)
     DATA_MODEL_REGISTER[ reg_adress + 2] =  pdata[2];
     DATA_MODEL_REGISTER[ reg_adress + 3] =  pdata[3];
 }
+#endif

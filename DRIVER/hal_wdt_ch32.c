@@ -6,22 +6,6 @@
  */
 
 #include "hal_wdt.h"
-#include "main.h"
-
-#if CORE == WCH32V2 || CORE == WCH32V3
-
-#if CORE == WCH32V2
-    #include "ch32v20x_iwdg.h"
-#endif
-#if CORE  == WCH32V3
-   #include "ch32v30x_iwdg.h"
-#endif
-
-
-
-#define CTLR_KEY_Reload    ((uint16_t)0xAAAA)
-#define CTLR_KEY_Enable    ((uint16_t)0xCCCC)
-#define CTLR_KEY_Modify    ((uint16_t)0x5555)
 
 INIT_FUNC_LOC void HAL_WDT_Init( uint32_t period_in_3_2ms)
 {
@@ -36,7 +20,6 @@ INIT_FUNC_LOC void HAL_WDT_Init( uint32_t period_in_3_2ms)
 #endif
 
 }
-
 
 INIT_FUNC_LOC 
 void HAL_WDTInit()
@@ -64,7 +47,6 @@ INIT_FUNC_LOC void
 HAL_WDT_Init1s()
 {
 #ifdef WDT_ENABLE
-
     IWDG->CTLR = IWDG_WriteAccess_Enable;
     IWDG->PSCR = IWDG_Prescaler_64;
     IWDG->RLDR =  625;
@@ -73,4 +55,4 @@ HAL_WDT_Init1s()
 
 #endif
 }
-#endif
+

@@ -8,7 +8,7 @@
 #ifndef HAL_HAL_DAC_H_
 #define HAL_HAL_DAC_H_
 
-#include "main.h"
+#include "system_config.h"
 
 typedef enum
 {

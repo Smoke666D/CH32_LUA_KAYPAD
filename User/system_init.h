@@ -18,7 +18,6 @@
 #include "message_buffer.h"
 #include "portmacro.h"
 #include "stdbool.h"
-
 #include "lua_task.h"
 
 #define APP_TASK_PRIO               6  //ДОЛЖЕН БЫТЬ САМЫ ВЫСОКИЙ

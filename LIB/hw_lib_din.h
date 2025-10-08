@@ -8,19 +8,15 @@
 #ifndef HW_LIB_HW_LIB_DIN_H_
 #define HW_LIB_HW_LIB_DIN_H_
 
-#include "main.h"
+#include "lib_config.h"
+#include "system_config.h"
 #include "string.h"
 #include "init.h"
 #include "filters.h"
 
 #define DIN_PARAM_CHECK 0
-
-
-#if PLATFORM == APM32
-   #define BIT_t   uint8_t
-   #define FLAG_t  uint8_t
-#endif
-
+#define BIT_t   uint8_t
+#define FLAG_t  uint8_t
 
 #define CC_BUFFER_SIZE 21
 

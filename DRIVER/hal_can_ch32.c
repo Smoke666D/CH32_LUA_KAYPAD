@@ -8,8 +8,7 @@
 #include "string.h"
 
 
-#if CORE == WCH32V2 || CORE ==  WCH32V3
-#include "hal_irq.h"
+
 
 static HAL_CAN_t CAN;
 
@@ -123,7 +122,7 @@ INIT_FUNC_LOC void HAL_CANInt(  uint8_t   CANbitRate)
 
 
 
-INIT_FUNC_LOC void HAL_CANIntIT(   CAN_BOUNDRATE  CANbitRate, uint8_t prior, uint8_t subprior)
+INIT_FUNC_LOC void HAL_CANIntIT( CAN_BOUNDRATE  CANbitRate, uint8_t prior, uint8_t subprior)
 {
      u16 CAN_Prescaler = 8;
       uint8_t bs1 = CAN_BS1_12tq;
@@ -504,4 +503,4 @@ void   CAN1_SCE_IRQHandler(void)
 }
 
 
-#endif
+

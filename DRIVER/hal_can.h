@@ -8,11 +8,11 @@
 #ifndef HAL_HAL_CAN_H_
 #define HAL_HAL_CAN_H_
 
-
-#include "main.h"
+#include "system_config.h"
 
 #define CAN_EXT_FLAG   0x80000000
 /* CAN masks for identifiers */
+#define CAN_SFID_MASK                      ((uint32_t)0x000007FFU)      /*!< mask of standard identifier */
 #define CANID_MASK                              0x07FF  /*!< CAN standard ID mask */
 #define FLAG_RTR                                0x8000  /*!< RTR flag, part of identifier */
 #define CAN_STD_ID_TYPE  0x00
@@ -20,14 +20,6 @@
 #define CAN_DATA_TYPE    0x00
 #define CAN_RTR_TYPE     0x02
 
-#if CORE == WCH32V2
-#include "ch32v20x_can.h"
-#include "ch32v20x_rcc.h"
-#endif
-#if CORE == WCH32V3
-#include "ch32v30x_can.h"
-#include "ch32v30x_rcc.h"
-#endif
 
 
 typedef enum 

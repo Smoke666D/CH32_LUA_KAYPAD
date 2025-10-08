@@ -9,15 +9,9 @@
 #include "hal_spi.h"
 #include "hal_typedef.h"
 
-#if CORE == WCH32V2 || CORE == WCH32V3
-#include "hal_irq.h"
 
-#if CORE == WCH32V2
-#include "ch32v20x_dma.h"
-#endif
-#if CORE == WCH32V3
-#include "ch32v30x_spi.h"
-#endif
+
+
 
 #ifdef SPI1_IT_ENABLE
 void SPI1_IRQHandler ( void )  __attribute__((interrupt()));
@@ -241,4 +235,4 @@ void SPI3_IRQHandler ( void )
 
 #endif
 
-#endif
+

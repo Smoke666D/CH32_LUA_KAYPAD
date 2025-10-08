@@ -279,7 +279,7 @@
             </toolChain>
           </folderInfo>
           <sourceEntries>
-            <entry excluding="FreeRTOS/portable/Common/mpu_wrappers.c|Startup/startup_ch32v30x_D8.S|USB_Device|UART|HAL_LIB/EEPROM_25C.c|HAL_LIB/EEPROM_25C.h|HAL_LIB/filters.c|HAL_LIB/filters.h|HAL_LIB/hw_data_model.c|HAL_LIB/hw_data_model.h|HAL_LIB/hw_timeout.h|HAL_LIB/hw_timeout.c|HAL_LIB/hw_lib_eeprom_i2c.h|HAL_LIB/hw_lib_eeprom_i2c.c|HAL_LIB/hw_lib_din.h|HAL_LIB/hw_lib_din.c|Peripheral/HAL_LIB|HAL_LIB/hw_lib_adc.c|HAL_LIB/hw_lib_adc.h|LIB/EEPROM_25C.c|LIB/EEPROM_25C.h|LIB/filters.c|LIB/filters.h|LIB/hw_lib_adc.c|LIB/hw_lib_adc.h|LIB/hw_lib_din.c|LIB/hw_lib_din.h|LIB/hw_lib_eeprom_i2c.c|LIB/hw_lib_eeprom_i2c.h|LIB/hw_timeout.c|LIB/hw_timeout.h|LIB/hw_data_model.h|LIB/hw_data_model.c|DRIVER/hal_adc_ch32.c|DRIVER/hal_adc.c|DRIVER/hal_adc.h|DRIVER/hal_rtc_ch32.c|DRIVER/hal_rtc.h|DRIVER/hal_i2c_ch32.c|DRIVER/hal_i2c.h|DRIVER/hal_dac.c|DRIVER/hal_dac.h|DRIVER/system_config.h|DRIVER/hal_usart.c|DRIVER/hal_usart.h|LUA/luac.c|build|cmake" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+            <entry excluding="FreeRTOS/portable/Common/mpu_wrappers.c|Startup/startup_ch32v30x_D8.S|USB_Device|UART|HAL_LIB/EEPROM_25C.c|HAL_LIB/EEPROM_25C.h|HAL_LIB/filters.c|HAL_LIB/filters.h|HAL_LIB/hw_data_model.c|HAL_LIB/hw_data_model.h|HAL_LIB/hw_timeout.h|HAL_LIB/hw_timeout.c|HAL_LIB/hw_lib_eeprom_i2c.h|HAL_LIB/hw_lib_eeprom_i2c.c|HAL_LIB/hw_lib_din.h|HAL_LIB/hw_lib_din.c|Peripheral/HAL_LIB|HAL_LIB/hw_lib_adc.c|HAL_LIB/hw_lib_adc.h|DRIVER/hal_adc.c|LUA/luac.c|build|cmake" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
           </sourceEntries>
         </configuration>
       </storageModule>

@@ -11,6 +11,8 @@
 #include "init.h"
 #include "hal_gpio.h"
 
+#ifdef EEPROM_25
+
 static EEPROM_25C_t SPI_EEPROM;
 
 
@@ -332,5 +334,5 @@ EERPOM_ERROR_CODE_t WriteEEPROM(  u16 data_adress, u8 * data, u16 data_size, u32
     }
     return (res);
 }
-
+#endif
 

@@ -8,7 +8,8 @@
 #ifndef HW_DATA_MODEL_H_
 #define HW_DATA_MODEL_H_
 
-#include "main.h"
+#include "system_config.h"
+#include "lib_config.h"
 
 uint8_t * GetDataRegister();
 void ClearDataModel();

@@ -8,17 +8,7 @@
 #ifndef HAL_HAL_SPI_H_
 #define HAL_HAL_SPI_H_
 
-#include "main.h"
-
-#if CORE == WCH32V2 || CORE == WCH32V3
-
-#if CORE == WCH32V2
-#include "ch32v20x_spi.h"
-#endif
-#if CORE == WCH32V3
-
-#include "ch32v30x_spi.h"
-#endif
+#include "system_config.h"
 
 typedef enum
 {
@@ -35,7 +25,6 @@ typedef enum
 } SPI_DATA_Size_t;
 
 
-#endif
 
 typedef struct
 {

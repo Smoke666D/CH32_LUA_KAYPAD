@@ -8,7 +8,7 @@
 #ifndef HAL_HAL_USART_H_
 #define HAL_HAL_USART_H_
 
-#include "main.h"
+#include "system_config.h"
 
 
 typedef enum
@@ -26,7 +26,7 @@ typedef struct
 
 } USART_CallBack_t;
 
-#if CORE == WCH32V2 || CORE == WCH32V3
+
 
 typedef enum
 {
@@ -49,8 +49,6 @@ typedef enum
     UART_WORDLENGTH_9B  =USART_WordLength_9b,
 } HAL_USART_WL_t;
 
-
-#endif
 
 void HALUSARTInit(HAL_USART_t usart, uint32_t USART_BaudRate, HAL_USART_STOP_BIT_t USART_StopBits ,HAL_USART_PARITY_t USART_Parity ,HAL_USART_WL_t USART_wordlength   );
 void HALUSARTEnable(HAL_USART_t usart);

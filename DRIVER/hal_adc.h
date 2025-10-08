@@ -9,7 +9,7 @@
 #define HAL_HAL_ADC_H_
 
 
-#include "main.h"
+#include "system_config.h"
 
 
 #include "hal_dma.h"

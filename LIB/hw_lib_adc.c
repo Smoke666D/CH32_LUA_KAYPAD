@@ -6,29 +6,44 @@
  */
 
 #include "hw_lib_adc.h"
-//#include "system_init.h"
 
 
 
+#if AIN_NUMBER>0
 static AIN_DATA_t xAinData[AIN_NUMBER] 							__SECTION(RAM_SECTION_CCMRAM);
+static uint16_t muRawVData[AIN_NUMBER + 2]  					__SECTION(RAM_SECTION_CCMRAM);
+static uint16_t muRawOldVData[AIN_NUMBER + 2]					__SECTION(RAM_SECTION_CCMRAM);
+static LIN_COOF   xKoofData[ MAX_COOF_COUNT] 					__SECTION(RAM_SECTION_CCMRAM);
+#endif
+
+#if DAC_NUMBER>0
 static AIN_DATA_t xDacData[DAC_NUMBER];
 static uint16_t muRawDacData[DAC_NUMBER]                      __SECTION(RAM_SECTION_CCMRAM);
 static uint16_t muRawDacVData[DAC_NUMBER]                   __SECTION(RAM_SECTION_CCMRAM);
 static uint16_t usDacMaxIndex;
-
-static LIN_COOF   xKoofData[ MAX_COOF_COUNT] 					__SECTION(RAM_SECTION_CCMRAM);
 static LIN_COOF   xDacKoofData[ MAX_DAC_COOF_COUNT ]                    __SECTION(RAM_SECTION_CCMRAM);
-static uint16_t usCurMaxIndex 									__SECTION(RAM_SECTION_CCMRAM);
+#endif
+
+
+
+
 #ifdef IPS_OUTS
+static uint16_t usCurMaxIndex 									__SECTION(RAM_SECTION_CCMRAM);
 	static uint16_t muRawCurData[OUT_COUNT] 					__SECTION(RAM_SECTION_CCMRAM);
 	static uint16_t muRawOldOutCurData[OUT_COUNT] 				__SECTION(RAM_SECTION_CCMRAM);
 #endif
-static uint16_t muRawVData[AIN_NUMBER + 2]  					__SECTION(RAM_SECTION_CCMRAM);
-static uint16_t muRawOldVData[AIN_NUMBER + 2]					__SECTION(RAM_SECTION_CCMRAM);
-int16_t            ADC1_IN_Buffer[ADC_FRAME_SIZE*ADC1_CHANNELS] __SECTION(RAM_SECTION_RAM );  //ADC1 input data buffer
-int16_t            ADC2_IN_Buffer[ADC_FRAME_SIZE*ADC2_CHANNELS] __SECTION(RAM_SECTION_RAM );   //ADC2 input data buffer
-int16_t            ADC3_IN_Buffer[ADC_FRAME_SIZE*ADC3_CHANNELS] __SECTION(RAM_SECTION_RAM );
 
+#if ADC1_CHANNEL>0
+int16_t            ADC1_IN_Buffer[ADC_FRAME_SIZE*ADC1_CHANNELS]; 
+#endif
+#if ADC2_CHANNEL>0
+int16_t            ADC2_IN_Buffer[ADC_FRAME_SIZE*ADC2_CHANNELS] __SECTION(RAM_SECTION_RAM );   //ADC2 input data buffer
+#endif
+#if ADC3_CHANNEL>0
+int16_t            ADC3_IN_Buffer[ADC_FRAME_SIZE*ADC3_CHANNELS] __SECTION(RAM_SECTION_RAM );
+#endif
+
+#if AIN_NUMBER>0
 INIT_FUNC_LOC void vAINInit()
 {
     for (uint8_t i = 0; i < AIN_NUMBER; i++)
@@ -51,7 +66,9 @@ INIT_FUNC_LOC void vAINInit()
     usCurMaxIndex = 0;
     return;
 }
+#endif
 
+#if DAC_NUMBER>0
 void vDacInit()
 {
     for (uint8_t i = 0; i < DAC_NUMBER; i++)
@@ -68,6 +85,7 @@ void vDacInit()
         usDacMaxIndex = 0;
         return;
 }
+#endif
 
 #ifdef IPS_OUTS
 uint16_t ucGetRawData( uint8_t ch, uint8_t filter)
@@ -83,6 +101,7 @@ uint16_t ucGetRawData( uint8_t ch, uint8_t filter)
 /*
  * Функция преобразования данных аналогово канала по клаиборвочым коофициентам
  */
+ #if AIN_NUMBER>0
 static float fConvertCalData( AIN_NAME_t name, float in_data )
 {
     float out_data = 0;
@@ -158,10 +177,12 @@ CAL_ERROR_CODE  eAinCalDataConfig(AIN_NAME_t name, uint8_t cal_point_count )
     }
     return ( res );
 }
+#endif
 
 /*
  * Настройка количества калибровочных точек для DAC
  */
+ #if DAC_NUMBER>0
 CAL_ERROR_CODE  eDacCalDataConfig(DAC_NAME_t name, uint8_t cal_point_count )
 {
     CAL_ERROR_CODE res = CAL_SUCCESS;
@@ -234,9 +255,11 @@ float fGetDacCalData( DAC_NAME_t name, float raw_data)
      }
      return ( out_data );
 }
+#endif
 /*
  *
  */
+  #if AIN_NUMBER>0
 CAL_ERROR_CODE  eSetAinCalPoint(AIN_NAME_t name, POINT_t * cal_point, uint16_t PointNumber )
 {
 	CAL_ERROR_CODE res = CAL_SUCCESS;
@@ -254,8 +277,8 @@ CAL_ERROR_CODE  eSetAinCalPoint(AIN_NAME_t name, POINT_t * cal_point, uint16_t P
 	}
 	return (res);
 }
-
-
+#endif
+ #if DAC_NUMBER>0
 CAL_ERROR_CODE  eSetDacCalPoint(DAC_NAME_t name, POINT_t * cal_point, uint16_t PointNumber )
 {
     CAL_ERROR_CODE res = CAL_SUCCESS;
@@ -277,6 +300,7 @@ CAL_ERROR_CODE  eSetDacCalPoint(DAC_NAME_t name, POINT_t * cal_point, uint16_t P
     }
     return (res);
 }
+#endif
 /*
  *
  */
@@ -293,6 +317,7 @@ void vABLineKoofFinde(float * k, float * b,  float x1, float x2, float y1, float
 
 /* Напряжение на аналогвом входе
 */
+ #if AIN_NUMBER>0
 float fAinGetState ( AIN_NAME_t channel )
 {
 
@@ -366,7 +391,7 @@ void vInitADCDATA()
 		   muRawOldVData[i] = 0;
 	   }
 }
-
+#endif
 #ifdef IPS_OUTS
 void vDataConvertToFloat( void)
 {

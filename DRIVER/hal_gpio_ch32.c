@@ -7,17 +7,9 @@
 
 #include "hal_gpio.h"
 
-#if CORE == WCH32V2 || CORE==WCH32V3
 
-#include "hal_irq.h"
-#if CORE == WCH32V2
-    #include "ch32v20x_rcc.h"
-    #include "ch32v20x_gpio.h"
-#endif
-#if CORE == WCH32V3
-    #include "ch32v30x_rcc.h"
-    #include "ch32v30x_gpio.h"
-#endif
+
+
 
 #if CORE == WCH32V2
 
@@ -304,4 +296,4 @@ INIT_FUNC_LOC  void HAL_InitGPO()
      }
  }
 
-#endif
+
