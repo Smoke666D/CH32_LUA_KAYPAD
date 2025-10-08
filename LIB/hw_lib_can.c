@@ -5,8 +5,6 @@ CANRX MailBoxBuffer[MAILBOXSIZE];
 static void vInitMailBoxBuffer( void );
 static uint16_t CANbitRate;
 
-
-
 static TaskHandle_t  CanRXTaskHandle;
 static MessageBufferHandle_t pCanRXMessageBuffer;
 static MessageBufferHandle_t pCanTXMessageBuffer;
@@ -44,7 +42,6 @@ TaskHandle_t * xGetCanRXTaskHandle ()
 
  void vRestartNode( void )
 {
-
     return;
 }
 

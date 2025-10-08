@@ -102,7 +102,9 @@
 					"${project}/DRIVER/system_config.h",
 					"${project}/DRIVER/hal_usart.c",
 					"${project}/DRIVER/hal_usart.h",
-					"${project}/LUA/luac.c"
+					"${project}/LUA/luac.c",
+					"${project}/build",
+					"${project}/cmake"
 				],
 				"optimization": {
 					"level": "more",

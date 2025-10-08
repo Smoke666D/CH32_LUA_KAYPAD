@@ -11,15 +11,14 @@
 
 #include "main.h"
 
-
-
-
-
 #define CAN_EXT_FLAG   0x80000000
 /* CAN masks for identifiers */
 #define CANID_MASK                              0x07FF  /*!< CAN standard ID mask */
 #define FLAG_RTR                                0x8000  /*!< RTR flag, part of identifier */
-
+#define CAN_STD_ID_TYPE  0x00
+#define CAN_EXTD_ID_TYPE 0x01
+#define CAN_DATA_TYPE    0x00
+#define CAN_RTR_TYPE     0x02
 
 #if CORE == WCH32V2
 #include "ch32v20x_can.h"
@@ -50,15 +49,6 @@ typedef enum
 	FILTER_FIFO_1,
 } HAL_CAN_FILTER_FIFO_t;
 
-#if CORE==APM32
-
-#include "apm32f4xx_can.h"
-typedef enum
-{
-    HAL_RX_FIFO0 = CAN_RX_FIFO_0,
-    HAL_RX_FIFO1 = CAN_RX_FIFO_1,
-} HAL_CAN_RX_FIFO_NUMBER_t;
-#endif
 
 #if CORE == WCH32V2 || CORE == WCH32V3
 typedef enum
@@ -68,22 +58,23 @@ typedef enum
 } HAL_CAN_RX_FIFO_NUMBER_t;
 #endif
 
+
+
 typedef enum
 {
-   HAL_CAN_STD_ID = 0,
-   HAL_CAN_EXTD_ID = 1,
-} HAL_CAN_TYPE_ID;
+   HAL_CAN_STD_ID      = ( CAN_STD_ID_TYPE  | CAN_DATA_TYPE ),
+   HAL_CAN_EXTD_ID     = ( CAN_EXTD_ID_TYPE | CAN_DATA_TYPE ),
+   HAL_CAN_STR_ID_RTR  = ( CAN_STD_ID_TYPE  | CAN_RTR_TYPE  ),
+   HAL_CAN_EXTD_ID_RTR = ( CAN_EXTD_ID_TYPE | CAN_RTR_TYPE ),
+} HAL_CAN_FRAME_TYPE;
 
 /* Transmit message object */
 typedef struct {
-    uint32_t ident;
     uint8_t DLC;
     uint8_t data[8];
-    HAL_CAN_TYPE_ID id_type;
-
+    uint32_t ident;
+    HAL_CAN_FRAME_TYPE id_type;
 } CAN_TX_FRAME_TYPE;
-
-
 
 
 typedef enum
@@ -95,18 +86,13 @@ typedef enum
 
 
 typedef struct {
-	uint32_t ident;
   uint16_t filter_id;
-	uint8_t  DLC;
-  uint8_t  data[8];  
-  HAL_CAN_TYPE_ID id_type;
+  uint8_t  DLC;
+  uint8_t  data[8];
+	uint32_t ident;
+  HAL_CAN_FRAME_TYPE id_type;
   HAL_CAN_MSG_TYPE RTR;
-
 } CAN_FRAME_TYPE;
-
-
-
-
 
 
 typedef enum
@@ -123,25 +109,16 @@ typedef struct
   void (* errorcallback)(void );
 } HAL_CAN_t;
 
-#if MCU == APM32
-	void CAN1_SCE_IRQHandler(void);
-	void CAN1_RX0_IRQHandler (void );
-	void CAN1_RX1_IRQHandler(void);
-	void CAN1_TX_IRQHandler (void);
-#endif
 
-#if CORE == WCH32V2 || CORE== WCH32V3
+void   USB_HP_CAN1_TX_IRQHandler(void);
+void   USB_LP_CAN1_RX0_IRQHandler(void);
+void   CAN1_RX1_IRQHandler(void);
+void   CAN1_SCE_IRQHandler(void);
 
-	void   USB_HP_CAN1_TX_IRQHandler(void);
-	void   USB_LP_CAN1_RX0_IRQHandler(void);
-	void   CAN1_RX1_IRQHandler(void);
-	void   CAN1_SCE_IRQHandler(void);
-#endif
 
 void HAL_CANInt(  uint8_t   CANbitRate);
 void HAL_CANResetFiltesr( uint8_t filter_index);
 HAL_CAN_ERROR_t HAL_CAN_MSG_GET( HAL_CAN_RX_FIFO_NUMBER_t fifo,  CAN_FRAME_TYPE * rx_message );
-uint8_t HAL_CAN_MSG_SEND(CAN_TX_FRAME_TYPE *buffer);
 void HAL_CANSetTXCallback(void (* f) ( void ));
 void HAL_CANSetRXCallback(void (* f) ( HAL_CAN_RX_FIFO_NUMBER_t));
 void HAL_CANSetERRCallback(void (* f) ( void ));
@@ -149,7 +126,6 @@ void HAL_CANIntIT(   CAN_BOUNDRATE    CANbitRate, uint8_t prior, uint8_t subprio
 uint8_t HAL_CANToInitMode();
 uint8_t HAL_CANToOperatingMode();
 uint8_t HAL_CANSend(CAN_TX_FRAME_TYPE *buffer);
-uint8_t HAL_CAN_TX_MAIL_BOX();
 HAL_CAN_ERROR_t HAL_CANGetRXMessage( HAL_CAN_RX_FIFO_NUMBER_t fifo,  CAN_FRAME_TYPE * rx_message );
 void HAL_CANSetFiters(uint8_t filter_index, uint32_t f1,uint32_t f2,uint32_t f3,uint32_t f4, HAL_CAN_FILTER_FIFO_t FIFO);
 void HAL_CANSetFitersEX(uint8_t filter_index, uint32_t f1,uint32_t f2, HAL_CAN_FILTER_FIFO_t FIFO);

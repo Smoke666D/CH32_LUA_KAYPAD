@@ -38,7 +38,8 @@ INIT_FUNC_LOC void HAL_WDT_Init( uint32_t period_in_3_2ms)
 }
 
 
-INIT_FUNC_LOC void HAL_WDTInit()
+INIT_FUNC_LOC 
+void HAL_WDTInit()
 {
 #ifdef WDT_ENABLE
     IWDG->CTLR = IWDG_WriteAccess_Enable;
@@ -49,7 +50,8 @@ INIT_FUNC_LOC void HAL_WDTInit()
 #endif
 }
 
-void HAL_WDTReset()
+void 
+HAL_WDTReset()
 {
 #ifdef WDT_ENABLE
     IWDG->CTLR = CTLR_KEY_Reload;
@@ -58,7 +60,8 @@ void HAL_WDTReset()
 /*
  *
  */
-INIT_FUNC_LOC void HAL_WDT_Init1s()
+INIT_FUNC_LOC void
+HAL_WDT_Init1s()
 {
 #ifdef WDT_ENABLE
 
