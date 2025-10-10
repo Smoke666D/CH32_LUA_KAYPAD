@@ -4,7 +4,6 @@
  *  Created on: Feb 14, 2025
  *      Author: i.dymov
  */
-
 #include "lua_task.h"
 #include "lprefix.h"
 #include "lua.h"
@@ -35,13 +34,9 @@ Static function
 */
 static int iCanSetConfig(lua_State *L);
 static int iCanSendData( lua_State *L );
-static int iCanSendTable( lua_State *L );
-static void vSendCanData(CAN_TX_FRAME_TYPE * frame );
-static int iCanSendRequest( lua_State *L );
 static int iCanSetResiveFilter(lua_State *L );
 static int iCanGetResivedData(lua_State *L );
 static int iCanResetResiveFilter(lua_State *L );
-static int iCanGetMessage(lua_State *L );
 static int iCanCheckData( lua_State *L );
 static int iSetCanNodeID( lua_State *L );
 
@@ -93,13 +88,45 @@ uint32_t uFLASHgetLength ( void )
   return  size;
 }
 
+static const luaL_Reg can_funcs[] = {
+  {"Send",           iCanSendData          },
+  {"CheckFilter",    iCanCheckData         },
+	{"GetFrame",       iCanGetResivedData    },
+  {"SetFilter",      iCanSetResiveFilter   },
+  {"ResetFilter",    iCanResetResiveFilter },
+	{"Config",         iCanSetConfig         },
+  {"SetNodeID",      iSetCanNodeID         },
+  {NULL, NULL}
+};
+
+LUAMOD_API int luaopen_can (lua_State *L) {
+  luaL_newlib(L, can_funcs);
+  return 1;
+}
+
+static const luaL_Reg userlibs[] = {
+  {"Can", luaopen_can},
+  {NULL, NULL}
+};
+
+
+LUALIB_API void luaL_openuser (lua_State *L) {
+  const luaL_Reg *lib;
+  /* "require" functions from 'loadedlibs' and set results to global table */
+  for (lib = userlibs; lib->func; lib++) {
+    luaL_requiref(L, lib->name, lib->func, 1);
+    lua_pop(L, 1);  /* remove lib */
+  }
+}
+
+
 void vLuaTask( void * argument )
 {
     int res ;
     TickType_t xLastWakeTime;
-    static lua_State *L1 = NULL;
+    lua_State *L1 = NULL;
     uint8_t data_buffer[6]={0,0,0,0,0,0};
-    static LUA_STATE_t lua_state = LUA_INIT;
+    LUA_STATE_t lua_state = LUA_INIT;
     uint32_t ulWorkCicleIn10us;
     xLastWakeTime = xTaskGetTickCount();
 #ifdef DEBUG_PRINT
@@ -117,18 +144,9 @@ void vLuaTask( void * argument )
                L1  = luaL_newstate();  //Созадем состояние LUA, занимет 2К оперативной памяти
                luaL_openlibs(L1);      //Подлючаем библиотеки
                //Регестрируем пользовательские функции
-               lua_register(L1,"CanSend",           iCanSendData          );
-               lua_register(L1,"CanTable",          iCanSendTable         );
-               lua_register(L1,"CheckCanId",        iCanCheckData         );
-               lua_register(L1,"GetRequest",        iCanGetMessage        );
-               lua_register(L1,"sendCandRequest",   iCanSendRequest       );
-	             lua_register(L1,"GetCanMessage",     iCanGetMessage        );
-               lua_register(L1,"setCanFilter",      iCanSetResiveFilter   );
-               lua_register(L1,"ResetCanFilter",    iCanResetResiveFilter );
-	             lua_register(L1,"GetCanToTable",     iCanGetResivedData    );
-	             lua_register(L1,"ConfigCan",         iCanSetConfig         );
-               lua_register(L1,"SetNodeID",         iSetCanNodeID         );
-               uint32_t real_size;
+               luaL_openuser(L1);
+              
+              uint32_t real_size;
               if ( eIsLuaSkriptValid(uFLASHgetScript(), uFLASHgetLength()+1,&real_size) == RESULT_TRUE )
 	   	         {     
 	   	    	      if (luaL_loadbuffer(L1, uFLASHgetScript(), real_size , uFLASHgetScript())==0 )  
@@ -219,68 +237,54 @@ void vLuaTask( void * argument )
 
 
 /*
-Функция отправки пакета по CAN. Вариативное кол-во агрументов, в завимости от DLC фрейма
+Функция отправки пакета по CAN. Вариативное кол-во агрументов, в завимости от DLC фрейма или передачи данных в таблице
 */
 static int iCanSendData( lua_State *L )
 {
-    CAN_TX_FRAME_TYPE frame;
-	  frame.DLC = lua_gettop(L)-1;  //Определяем кол-во агрументов, дожно быть как миниум 2 (CAN_ID и как миниум один байт данных)
-	  if (frame.DLC + 1 >= TWO_ARGUMENTS)
-	  {
-		  for (int i=0; i< (frame.DLC) ;i++)
-		  {
-			  frame.data[i]= (uint8_t) lua_tointeger(L,-( frame.DLC-i)); 
-		  }
-      frame.ident = (uint32_t)lua_tointeger(L, FIRST_ARGUMENT);
-      vSendCanData(&frame);
-    }
+    CAN_TX_FRAME_TYPE frame ={0};
+    int parametr_count = lua_gettop(L);
+    if ( parametr_count>= THREE_ARGUMENTS )
+    {
+        frame.rtr   = (uint32_t)lua_tointeger(L, THIRD_ARGUMENT);
+        frame.extd  = (uint32_t)lua_tointeger(L, SECOND_ARGUMENT);
+        frame.ident = (uint32_t)lua_tointeger(L, FIRST_ARGUMENT);
+        if (parametr_count == FOUR_ARGUMENTS )
+        {
+            if (lua_istable(L, LAST_ARGUMENT))   //Проверяем что в качестве аргумента передали таблицу
+            { 	
+			          frame.DLC 	 = luaL_len(L, LAST_ARGUMENT);  //Читаем рамер таблицы
+                if (frame.DLC  > CAN_FRAME_SIZE) frame.DLC = 8;
+				        for (uint8_t i = 0; i < frame.DLC ; i++)
+				        {
+					        lua_geti(L, LAST_ARGUMENT , i +1 );               //Получаем элемент таблицы
+					        frame.data[i]=   lua_tointeger(L,LAST_ARGUMENT);  //Вытаскиваем данные из таблицы
+                  lua_pop(L,1);                                     //Убираем значение из стека
+                }
+            }
+            else 
+            {
+              frame.DLC =  parametr_count - THREE_ARGUMENTS;
+              if (frame.DLC  > CAN_FRAME_SIZE) frame.DLC = 8;
+              for (int i=0; i< (frame.DLC) ;i++)
+		          {
+			            frame.data[i]= (uint8_t) lua_tointeger(L,-( frame.DLC-i)); 
+		          }
+          }                        
+				}
+				APPCANSEND(&frame);
+			}
 	  return ( NO_RESULT );
 }
-/*
-Функция отправки пакте по CAN, данные передаються таблицей
-*/
-static int iCanSendTable( lua_State *L )
-{
-  CAN_TX_FRAME_TYPE frame;
-	if (lua_gettop(L)==  TWO_ARGUMENTS)  //Проверяем, что при вызове нам передали нужное число аргументов
-	{
-     if (lua_istable(L, LAST_ARGUMENT))   //Проверяем что в качестве аргумента передали таблицу
-     { 	
-      frame.ident = (uint32_t) lua_tointeger(L,FIRST_ARGUMENT);   //Читаем размер таблицы
-			frame.DLC 	 = luaL_len(L, LAST_ARGUMENT);  //Читаем рамер таблицы
-			if  (frame.DLC  <= CAN_FRAME_SIZE )
-			{
-				for (uint8_t i = 0; i < frame.DLC ; i++)
-				{
-					lua_geti(L, LAST_ARGUMENT , i +1 );   //Получаем элемент таблицы
-					frame.data[i]=   lua_tointeger(L,LAST_ARGUMENT);  //Вытаскиваем данные из таблицы
-					lua_pop(L,1);                         //Убираем значение из стэка
-				}
-				 vSendCanData(&frame);
-			}
-     }
-	}
-	return (  NO_RESULT );
-}
+
 /*
 Инициализация контрллера CAN
 */
 static int iCanSetConfig(lua_State *L)
 {
-
-  uint16_t brate = 0;
-  switch (lua_gettop(L))
+  if (lua_gettop(L) == ONE_ARGUMENT)
   {
-    case TWO_ARGUMENTS:
-      brate =  FIRST_ARGUMENT;
-      break;
-    case ONE_ARGUMENT:
-      brate =   FIRST_ARGUMENT;
-      break;
-    default:
-      return ( NO_RESULT );
+	  vCANBoudInit( (uint16_t)lua_tointeger( L, FIRST_ARGUMENT) );
   }
-	vCANBoudInit( (uint16_t)lua_tointeger( L, brate) );
 	return ( NO_RESULT );
 }
 /*
@@ -295,64 +299,24 @@ static int iSetCanNodeID(lua_State *L)
 	return ( NO_RESULT );
 }
 
-/*
-Функция отправки даннх по CAN
-*/
-static void vSendCanData(CAN_TX_FRAME_TYPE * frame )
-{
-      if ((frame->ident &  CAN_EXT_FLAG) == CAN_EXT_FLAG)
-      {
-          frame->ident&=~CAN_EXT_FLAG;
-          frame->id_type = HAL_CAN_EXTD_ID;
-      }
-      else
-      {
-        frame->id_type = HAL_CAN_STD_ID;
-      }
-      APPCANSEND(frame);	
-}
+
 /*
 Функция установки CAN фильторв
 */
 static int iCanSetResiveFilter(lua_State *L )
 {
   uint8_t ucResNumber = NO_RESULT;
-  if (lua_gettop(L) == ONE_ARGUMENT )  /*Проверяем, что при вызове нам передали нужное число аргументов*/
+  if (lua_gettop(L) == THREE_ARGUMENTS )  /*Проверяем, что при вызове нам передали нужное число аргументов*/
   {
-	  lua_pushnumber(L, eMailboxFilterSet( ( uint32_t ) lua_tointeger(L,LAST_ARGUMENT ),INPUT_FILTER)== BUFFER_FULL ? 1U : 0U );
+	  lua_pushnumber(L, eMailboxFilterSet( ( uint32_t ) lua_tointeger(L,LAST_ARGUMENT ),
+                                                      lua_tointeger(L,SECOND_ARGUMENT ),
+                                                      lua_tointeger(L,THIRD_ARGUMENT )
+                                                      ) );
 	  ucResNumber = ONE_RESULT;
   }
   return ( ucResNumber );
 }
-/*
-Функция получаения пакет CAN 
-*/
-static int iCanGetResivedData(lua_State *L )
-{
-	uint8_t n;
-  uint8_t res = 0;
-	CAN_FRAME_TYPE  RXPacket;
-	if (lua_gettop(L)==TWO_ARGUMENTS)
-	{
-	    if (lua_istable(L, LAST_ARGUMENT))   //Проверяем что в качестве аргумента передали таблицу
-     { 
-	    RXPacket.ident = (uint32_t) lua_tointeger(L,FIRST_ARGUMENT );
-	    if ( vCanGetMessage(&RXPacket) == 1)
-	    {
-	        n = luaL_len(L, -1);
-	    	for (int i = 1; i<(n+1);i++)
-	    	{
-	    	  lua_pushnumber(L,RXPacket.data[i-1]);
-	    		lua_seti(L, -2, i);
-	      }
-	    	res = 1U;
-	    }
-     }
-	}
-  
-  lua_pushnumber(L,res );
-	return ( 1U );
-}
+
 /*
 Функция сброса фильтра CAN
 */
@@ -360,31 +324,11 @@ static int iCanResetResiveFilter(lua_State *L )
 {
   if (lua_gettop(L) == ONE_ARGUMENT )  /*Проверяем, что при вызове нам передали нужное число аргументов*/
   {
-    eMailboxFilterReset( ( uint32_t ) lua_tointeger(L,FIRST_ARGUMENT));
+    eMailboxFilterReset(  lua_tointeger(L,FIRST_ARGUMENT) );
   }
   return ( NO_RESULT );
 }
-/*
-Функия отправки запроса. В качестве парамеров передаються
-CAN_ID запроса, CAN_ID ответа, данные пакта запроса
-*/
-static int iCanSendRequest( lua_State *L )
-{
-  CAN_TX_FRAME_TYPE frame;
-	int arg_number = lua_gettop(L);
-	if (arg_number >= SEND_REQUEST_ARGUMENT_COUNT)  //Проверяем, что при вызове нам передали нужное число аргументов
-	{
-    eMailboxFilterSet(lua_tointeger( L, SECOND_ARGUMENT ),ANSWER_FILTER );
-		frame.DLC  = arg_number -2;
-		for (int i=0;i<frame.DLC;i++)
-		{
-			frame.data[i] = (uint8_t) lua_tointeger(L,-(arg_number-2-i)); //Третьем агрументом должно передоватьс время плавного старта в милисекундах
-		}
-     frame.ident = (uint32_t)lua_tointeger(L, FIRST_ARGUMENT);
-     vSendCanData(&frame);
-	}
-	return ( NO_RESULT );
-}
+
 /*
 Функция проерки пришле ли нужный пакет
 В качестве параметра передается CAN_ID для проверки. В случае если параметров не переадно,
@@ -393,43 +337,52 @@ static int iCanSendRequest( lua_State *L )
 static int iCanCheckData(lua_State *L )
 {
 	uint32_t uiRes = 0U;
-	switch (lua_gettop(L)) 
+	if (lua_gettop(L) == ONE_ARGUMENT ) 
   {
-     case 0:
-        uiRes = vCheckAnswer();
-        break;
-     case 1:
-		    uiRes = vCanChekMessage( lua_tointeger(L, FIRST_ARGUMENT) );
-        break;
-      default:
-        break;
+		  uiRes =  uCheckMailBoxData( lua_tointeger(L, FIRST_ARGUMENT));                                   		 
 	}
 	lua_pushnumber(L, uiRes );
 	return ( 1U );
 }
 
 
-static int iCanGetMessage(lua_State *L )
+/*
+Функция получаения пакет CAN 
+*/
+static int iCanGetResivedData(lua_State *L )
 {
-	uint8_t n = 0;
+	uint8_t n;
+  uint8_t res = 0;
+  int8_t mail_box_index= 0;
 	CAN_FRAME_TYPE  RXPacket;
-	switch (lua_gettop(L) )
+	if (lua_gettop(L) >= ONE_ARGUMENT )
 	{
-    case 1:
-			RXPacket.ident = (uint32_t) lua_tointeger(L,1);
-			n= vCanGetMessage(&RXPacket);
-      break;
-    case 0:
-      vCanGetAnsewerMessage(&RXPacket);
-      break;
+    mail_box_index = lua_tointeger(L,FIRST_ARGUMENT );
+  
+    if  ( GetMailBoxData( mail_box_index,&RXPacket ) == 1 )
+    {
+      if ((lua_gettop(L)==TWO_ARGUMENTS) && lua_istable(L, LAST_ARGUMENT))   //Проверяем что в качестве аргумента передали таблицу
+      { 
+	      n = luaL_len(L, -1);
+	    	for (int i = 1; i<(n+1);i++)
+	    	{
+	    	  lua_pushnumber(L,RXPacket.data[i-1]);
+	    		lua_seti(L, -2, i);
+	      }
+	    	res = 1U;
+      }
+      else 
+      {	    
+		    res = RXPacket.DLC;
+		    for (int i = 0; i < res;i++)
+		    {
+			    lua_pushnumber(L,RXPacket.data[i]);
+		    }
+        return (res );
+      }      
+    }
 	}
-	if (n!=0)
-	{
-		n = RXPacket.DLC;
-		for (int i = 0; i <n;i++)
-		{
-			lua_pushnumber(L,RXPacket.data[i]);
-		}
-	}
-	return ( n );
+  lua_pushnumber(L,res );
+	return ( 1U );
 }
+

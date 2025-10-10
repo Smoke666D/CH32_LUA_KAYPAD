@@ -10,7 +10,8 @@
 
 #include "system_config.h"
 
-#define CAN_EXT_FLAG   0x80000000
+
+
 /* CAN masks for identifiers */
 #define CAN_SFID_MASK                      ((uint32_t)0x000007FFU)      /*!< mask of standard identifier */
 #define CANID_MASK                              0x07FF  /*!< CAN standard ID mask */
@@ -19,8 +20,6 @@
 #define CAN_EXTD_ID_TYPE 0x01
 #define CAN_DATA_TYPE    0x00
 #define CAN_RTR_TYPE     0x02
-
-
 
 typedef enum 
 {
@@ -51,21 +50,19 @@ typedef enum
 #endif
 
 
+#define   HAL_CAN_STD_ID        ( CAN_STD_ID_TYPE  | CAN_DATA_TYPE )
+#define   HAL_CAN_EXTD_ID       ( CAN_EXTD_ID_TYPE | CAN_DATA_TYPE )
+#define   HAL_CAN_STR_ID_RTR    ( CAN_STD_ID_TYPE  | CAN_RTR_TYPE  )
+#define   HAL_CAN_EXTD_ID_RTR   ( CAN_EXTD_ID_TYPE | CAN_RTR_TYPE )
 
-typedef enum
-{
-   HAL_CAN_STD_ID      = ( CAN_STD_ID_TYPE  | CAN_DATA_TYPE ),
-   HAL_CAN_EXTD_ID     = ( CAN_EXTD_ID_TYPE | CAN_DATA_TYPE ),
-   HAL_CAN_STR_ID_RTR  = ( CAN_STD_ID_TYPE  | CAN_RTR_TYPE  ),
-   HAL_CAN_EXTD_ID_RTR = ( CAN_EXTD_ID_TYPE | CAN_RTR_TYPE ),
-} HAL_CAN_FRAME_TYPE;
 
 /* Transmit message object */
 typedef struct {
     uint8_t DLC;
     uint8_t data[8];
     uint32_t ident;
-    HAL_CAN_FRAME_TYPE id_type;
+    uint8_t rtr:1;
+    uint8_t extd:1;
 } CAN_TX_FRAME_TYPE;
 
 
@@ -78,12 +75,12 @@ typedef enum
 
 
 typedef struct {
-  uint16_t filter_id;
+  uint8_t filter_id;
   uint8_t  DLC;
   uint8_t  data[8];
 	uint32_t ident;
-  HAL_CAN_FRAME_TYPE id_type;
-  HAL_CAN_MSG_TYPE RTR;
+  uint8_t rtr:1;
+  uint8_t extd:1;
 } CAN_FRAME_TYPE;
 
 
@@ -118,7 +115,6 @@ void HAL_CANIntIT(   CAN_BOUNDRATE    CANbitRate, uint8_t prior, uint8_t subprio
 uint8_t HAL_CANToInitMode();
 uint8_t HAL_CANToOperatingMode();
 uint8_t HAL_CANSend(CAN_TX_FRAME_TYPE *buffer);
-HAL_CAN_ERROR_t HAL_CANGetRXMessage( HAL_CAN_RX_FIFO_NUMBER_t fifo,  CAN_FRAME_TYPE * rx_message );
 void HAL_CANSetFiters(uint8_t filter_index, uint32_t f1,uint32_t f2,uint32_t f3,uint32_t f4, HAL_CAN_FILTER_FIFO_t FIFO);
 void HAL_CANSetFitersEX(uint8_t filter_index, uint32_t f1,uint32_t f2, HAL_CAN_FILTER_FIFO_t FIFO);
 #endif /* HAL_HAL_CAN_H_ */

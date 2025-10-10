@@ -255,29 +255,27 @@ uint8_t HAL_CANSend(CAN_TX_FRAME_TYPE *buffer)
       return ( CAN_TxStatus_NoMailBox);
    }
    CAN1->sTxMailBox[transmit_mailbox].TXMIR &= TMIDxR_TXRQ;
-
-   RTR  =  ((buffer->id_type) & CAN_RTR_TYPE) ? CAN_RTR_REMOTE : CAN_RTR_DATA;
-   if (( buffer->id_type & CAN_EXTD_ID_TYPE ) == CAN_EXTD_ID_TYPE)
+   RTR   =  buffer->rtr;
+   StdId =  buffer->ident;
+   if ( buffer->extd )
    {
-       StdId              =  buffer->ident;
        CAN1->sTxMailBox[transmit_mailbox].TXMIR |= ((StdId << 3) | (uint32_t)0x00000004 |  RTR);
     }  
     else
     {
-        StdId             =  buffer->ident & CANID_MASK;
         CAN1->sTxMailBox[transmit_mailbox].TXMIR |= ((StdId << 21) | RTR);
     }
    DLC &= (uint8_t)0x0000000F;
    CAN1->sTxMailBox[transmit_mailbox].TXMDTR &= (uint32_t)0xFFFFFFF0;
    CAN1->sTxMailBox[transmit_mailbox].TXMDTR |= DLC;
 
-   CAN1->sTxMailBox[transmit_mailbox].TXMDLR = (((uint32_t)Data[3] << 24) |
+   CAN1->sTxMailBox[transmit_mailbox].TXMDLR =          (((uint32_t)Data[3] << 24)|
                                                         ((uint32_t)Data[2] << 16) |
-                                                        ((uint32_t)Data[1] << 8) |
+                                                        ((uint32_t)Data[1] << 8)  |
                                                         ((uint32_t)Data[0]));
-   CAN1->sTxMailBox[transmit_mailbox].TXMDHR = (((uint32_t)Data[7] << 24) |
+   CAN1->sTxMailBox[transmit_mailbox].TXMDHR =         (((uint32_t)Data[7] << 24)|
                                                        ((uint32_t)Data[6] << 16) |
-                                                       ((uint32_t)Data[5] << 8) |
+                                                       ((uint32_t)Data[5] << 8)  |
                                                        ((uint32_t)Data[4]));
    CAN1->sTxMailBox[transmit_mailbox].TXMIR |= TMIDxR_TXRQ;
    return (transmit_mailbox);
@@ -340,7 +338,6 @@ INIT_FUNC_LOC void HAL_CANResetFiltesr( uint8_t filter_index)
     CAN1->FCTLR |= FCTLR_FINIT;
     CAN1->FWR &= ~(uint32_t)filter_number_bit_pos;
     CAN1->FCTLR &= ~FCTLR_FINIT;
-
 }
 
 
@@ -393,70 +390,42 @@ INIT_FUNC_LOC void HAL_CANSetFitersEX(uint8_t filter_index, uint32_t f1,uint32_t
 }
 
 
-HAL_CAN_ERROR_t HAL_CANGetRXMessage( HAL_CAN_RX_FIFO_NUMBER_t fifo,  CAN_FRAME_TYPE * rx_message )
-{
-    u32 StdId;
-    if (((uint8_t)0x04 & CAN1->sFIFOMailBox[fifo ].RXMIR )!= CAN_Id_Standard)
-        return (HAL_CAN_ERROR);
-    else
-    {
-
-       StdId = (uint32_t)0x000007FF & (CAN1->sFIFOMailBox[fifo ].RXMIR >> 21);
-       u8 RTR = (uint8_t)0x02 & CAN1->sFIFOMailBox[fifo ].RXMIR;
-       rx_message->DLC = (uint8_t)0x0F & CAN1->sFIFOMailBox[fifo ].RXMDTR;
-       rx_message->data[0] = (uint8_t)0xFF &  CAN1->sFIFOMailBox[fifo ].RXMDLR;
-       rx_message->data[1] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDLR >> 8);
-       rx_message->data[2] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDLR >> 16);
-       rx_message->data[3] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDLR >> 24);
-       rx_message->data[4] = (uint8_t)0xFF &  CAN1->sFIFOMailBox[fifo ].RXMDHR;
-       rx_message->data[5] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDHR >> 8);
-       rx_message->data[6] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDHR >> 16);
-       rx_message->data[7] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDHR >> 24);
-       if (fifo == CAN_FIFO0)
-           CAN1->RFIFO0 |= CAN_RFIFO0_RFOM0;
-       else
-           CAN1->RFIFO1 |= CAN_RFIFO1_RFOM1;
-       rx_message->ident = (StdId & CAN_SFID_MASK) | ((RTR == CAN_RTR_Remote) ? FLAG_RTR : 0x00)   ;
-       rx_message->filter_id = 0;
-       return (HAL_CAN_OK);
-      }
-
-
-}
-
-
 HAL_CAN_ERROR_t HAL_CAN_MSG_GET( HAL_CAN_RX_FIFO_NUMBER_t fifo,  CAN_FRAME_TYPE * rx_message )
 {
     if (((uint8_t)0x04 & CAN1->sFIFOMailBox[fifo ].RXMIR )== 0x04)
     {
         rx_message->ident = (uint32_t)0x1FFFFFFF & (CAN1->sFIFOMailBox[fifo].RXMIR >> 3);
-        rx_message->id_type =HAL_CAN_EXTD_ID;
+        rx_message->extd = 1;
     }
     else
     {
         rx_message->ident = (uint32_t)0x000007FF & (CAN1->sFIFOMailBox[fifo ].RXMIR >> 21);
-        rx_message->id_type =HAL_CAN_STD_ID;
+        rx_message->extd = 0;
     }
-    u8 RTR = (uint8_t)0x02 & CAN1->sFIFOMailBox[fifo ].RXMIR;
-    rx_message->DLC = (uint8_t)0x0F & CAN1->sFIFOMailBox[fifo ].RXMDTR;
-    rx_message->data[0] = (uint8_t)0xFF &  CAN1->sFIFOMailBox[fifo ].RXMDLR;
-    rx_message->data[1] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDLR >> 8);
-    rx_message->data[2] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDLR >> 16);
-    rx_message->data[3] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDLR >> 24);
-    rx_message->data[4] = (uint8_t)0xFF &  CAN1->sFIFOMailBox[fifo ].RXMDHR;
-    rx_message->data[5] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDHR >> 8);
-    rx_message->data[6] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDHR >> 16);
-    rx_message->data[7] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDHR >> 24);
+    if  (((uint8_t)0x02 & CAN1->sFIFOMailBox[fifo ].RXMIR )== 0x00)
+    {
+        rx_message->rtr = 0;
+        rx_message->DLC = (uint8_t)0x0F & CAN1->sFIFOMailBox[fifo ].RXMDTR;
+        rx_message->data[0] = (uint8_t)0xFF &  CAN1->sFIFOMailBox[fifo ].RXMDLR;
+        rx_message->data[1] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDLR >> 8);
+        rx_message->data[2] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDLR >> 16);
+        rx_message->data[3] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDLR >> 24);
+        rx_message->data[4] = (uint8_t)0xFF &  CAN1->sFIFOMailBox[fifo ].RXMDHR;
+        rx_message->data[5] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDHR >> 8);
+        rx_message->data[6] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDHR >> 16);
+        rx_message->data[7] = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo ].RXMDHR >> 24);
+    }
+    else
+    {
+        rx_message->rtr = 1 ;
+        rx_message->DLC = 0;
+    }
     if (fifo == CAN_FIFO0)
         CAN1->RFIFO0 |= CAN_RFIFO0_RFOM0;
     else
         CAN1->RFIFO1 |= CAN_RFIFO1_RFOM1;
-    rx_message->RTR = (RTR == CAN_RTR_Remote) ? HAL_CAN_RTR : HAL_CAN_DATA   ;
-    rx_message->filter_id = 0;
+    rx_message->filter_id = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo].RXMDTR >> 8);;
     return (HAL_CAN_OK);
-
-
-
 }
 
 

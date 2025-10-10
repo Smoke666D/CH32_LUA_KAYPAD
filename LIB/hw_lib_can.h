@@ -11,6 +11,8 @@
 #include "message_buffer.h"
 #include "portmacro.h"
 
+#define CAN_EXT_FLAG   0x80000000
+#define CAN_RTR_FLAG   0x40000000
 
 #define CAN_FILTER_COUNT              16
 #define HALF_CAN_FILTER_COUNT		  (CAN_FILTER_COUNT/2)
@@ -21,18 +23,23 @@
 
 typedef struct {
     uint32_t ident;
-    uint16_t filter_id;
+    uint8_t filter_id;
     uint8_t DLC;
     uint8_t data[8];
-    uint8_t new_data;
-    uint8_t extd_id;
+    uint8_t new_data:1;
+    uint8_t extd_id:1;
+    uint8_t rtr:1;
+    uint8_t enable:1;
 } CANRX;
 
-typedef enum 
-{
-  ANSWER_FILTER = 1,
-  INPUT_FILTER  = 0,
-} CLIB_FILTER_TYPE;
+typedef struct {
+  uint8_t enable:1;
+  uint8_t index;
+} CanFilterHeandler;
+
+#define  ANSWER_FILTER 0x01
+#define  INPUT_FILTER  0x00
+
 
 typedef enum
 {
@@ -40,21 +47,20 @@ typedef enum
   BUFFER_FULL = 1
 } ERROR_TYPE_t;
 
-
+uint8_t GetMailBoxData( uint8_t mail_box_index,CAN_FRAME_TYPE * RXPacket );
+uint8_t  uCheckMailBoxData(uint8_t MailboxId) ;
 void vResetFilter( int id);
 void ConfigNodeID( uint8_t node_id);
 uint8_t vCanGetAnsewerMessage(CAN_FRAME_TYPE * RXPacket);
-uint8_t vCheckAnswer( void );
-void eMailboxFilterReset(uint32_t id) ;
-ERROR_TYPE_t eMailboxFilterSet(uint32_t id, CLIB_FILTER_TYPE is_answer_fiter) ;
+void eMailboxFilterReset(uint8_t MailboxId) ;
+ERROR_TYPE_t eMailboxFilterSet(uint32_t id, uint8_t extd, uint8_t rtr);
 void vCANBoudInit( uint16_t boudrate );
 void vCanRXTask(void *argument);
 void APPCANSEND(CAN_TX_FRAME_TYPE *buffer);
-uint8_t vCanGetMessage(CAN_FRAME_TYPE * RXPacket);
-uint8_t vCanGetRequest(CAN_FRAME_TYPE * RXPacket);
 uint8_t vCanChekMessage(uint32_t id);
 TaskHandle_t * xGetCanRXTaskHandle ();
 MessageBufferHandle_t * xGetCanRXMessageBufffer();
 MessageBufferHandle_t * xGetCanTXMessageBufffer();
+uint8_t uFindMessageToMailbox( uint8_t * index_id, uint32_t can_id, uint8_t ext, uint8_t rtr);
 
 #endif
