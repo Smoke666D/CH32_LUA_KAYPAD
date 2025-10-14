@@ -44,7 +44,6 @@ static uint16_t calcBrigt(uint8_t pbr)
  */
 INIT_FUNC_LOC void vLedDriverStart(void)
 {
-	
     DMA_INIT_t init;
     init.stream = DMA1_CH5;
     init.direction = MTOP;
@@ -65,7 +64,8 @@ INIT_FUNC_LOC void vLedDriverStart(void)
  */
 void vSetLedOn(uint8_t Color,uint8_t State)
 {
-	LED_ON[Color-1] = State;
+
+	if (LED_ON[Color-1] != State) LED_ON[Color-1] = State  ;
 	return;
 }
 
@@ -79,6 +79,7 @@ uint8_t uGetLedState( uint8_t Color )
  */
 void vSetLedBrigth(uint8_t brigth)
 {
+	
 	led_brigth = calcBrigt(brigth);
 	return;
 }
@@ -132,7 +133,12 @@ void vSetBackLigthColor(uint8_t color)
  */
 void vSetBackLigth(uint8_t brigth)
 {
-	backligch_brigth =calcBrigt( brigth);
+	
+	if (calcBrigt( brigth) != backligch_brigth)
+	{
+		printf("set br %x  %x\r\n",brigth,backligch_brigth);
+		backligch_brigth =calcBrigt( brigth);
+	}
 }
 
 /*

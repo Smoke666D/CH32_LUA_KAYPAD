@@ -7,7 +7,12 @@ static uint16_t CANbitRate;
 static TaskHandle_t  CanRXTaskHandle;
 static MessageBufferHandle_t pCanRXMessageBuffer;
 static MessageBufferHandle_t pCanTXMessageBuffer;
+ SemaphoreHandle_t xSemaphore;
 
+SemaphoreHandle_t * pGetCanMutex()
+{
+	return &xSemaphore ;
+}
 
 MessageBufferHandle_t * xGetCanTXMessageBufffer()
 {
@@ -48,6 +53,7 @@ void  prv_read_can_received_msg( HAL_CAN_RX_FIFO_NUMBER_t fifo)
    static portBASE_TYPE xHigherPriorityTaskWoken;
    xHigherPriorityTaskWoken = pdFALSE;
    xMessageBufferSendFromISR(pCanRXMessageBuffer,&rxMsg,sizeof(CAN_FRAME_TYPE), &xHigherPriorityTaskWoken );
+   printf("resicve_dATA\r\n");
    portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
    return;
 }
@@ -83,14 +89,16 @@ uint8_t GetMailBoxData( uint8_t mail_box_index,CAN_FRAME_TYPE * RXPacket )
 	{
 		if ((MailBoxBuffer[mail_box_index].enable == 1) && (MailBoxBuffer[mail_box_index].new_data == 1))
 		{
+			  
+			MailBoxBuffer[mail_box_index].new_data = 0;
 			RXPacket->ident	 = MailBoxBuffer[mail_box_index].ident;
-			xTaskNotify(CanRXTaskHandle,RXPacket->ident,eSetValueWithOverwrite);
+			 xSemaphoreTake( xSemaphore, portMAX_DELAY);
+	        //xTaskNotify(CanRXTaskHandle,RXPacket->ident,eSetValueWithOverwrite);
 			RXPacket->DLC = MailBoxBuffer[mail_box_index].DLC;
 			memcpy(RXPacket->data,MailBoxBuffer[mail_box_index].data,RXPacket->DLC);
-			MailBoxBuffer[mail_box_index].new_data = 0;
-			xTaskNotify(CanRXTaskHandle,0xFFFFFFFF,eSetValueWithOverwrite);
+			xSemaphoreGive( xSemaphore );
+			//xTaskNotify(CanRXTaskHandle,0xFFFFFFFF,eSetValueWithOverwrite);
 			res = 1U;
-
 		}
 	}
 	return (res);
@@ -178,8 +186,10 @@ void vCANBoudInit( uint16_t boudrate )
 	for (int i=0;i<MAILBOXSIZE;i++)
 	{
 		MailBoxBuffer[i].enable = 0U;
-        HAL_CANResetFiltesr(i);
-	}
+ 
+		if ((i%4) == 0 ) HAL_CANInitIDInactive(i/4, FILTER_FIFO_0);
+       // HAL_CANResetFiltesr(i);
+	}	
     return;
 }
 /*
@@ -189,35 +199,41 @@ void vCanInsertRXData(CAN_FRAME_TYPE * RXPacket)
 {
 	uint32_t ulNotifiedValue;
 	uint16_t id = RXPacket->filter_id;
-    uint8_t extd = RXPacket->extd;
-	uint8_t rtr   = RXPacket->rtr;
-    xTaskNotifyWait( 0x00,0x00,&ulNotifiedValue,0);
-	if (ulNotifiedValue == id) 
-	{
-		xTaskNotifyWait( 0x00,0x00,&ulNotifiedValue,10);
-	}
-	if ((MailBoxBuffer[id].ident == RXPacket->ident) &&  (MailBoxBuffer[id].extd_id == extd) && (MailBoxBuffer[id].rtr == rtr)  )
+ 
+	 xSemaphoreTake( xSemaphore, portMAX_DELAY);
+	    
+			
+
+   //xTaskNotifyWait( 0x00,0x00,&ulNotifiedValue,0);
+	//if (ulNotifiedValue == id) 
+	//{
+	//	xTaskNotifyWait( 0x00,0x00,&ulNotifiedValue,10);
+	//}
+	if ((MailBoxBuffer[id].ident == RXPacket->ident) &&  (MailBoxBuffer[id].extd_id == RXPacket->extd) && (MailBoxBuffer[id].rtr == RXPacket->rtr)  )
 	{
 		MailBoxBuffer[id].DLC = RXPacket->DLC;
 		memcpy(MailBoxBuffer[id].data,RXPacket->data,RXPacket->DLC);
 		if (MailBoxBuffer[id].enable == 1)
 		{
+			
 			MailBoxBuffer[id].new_data = 1;
 		}
+		
 	}
 	else
 	{
 		uint8_t MailboxId;
-        if ( uFindMessageToMailbox( &MailboxId,id, extd, rtr) == 1 ) 
+        if ( uFindMessageToMailbox( &MailboxId,RXPacket->ident, RXPacket->extd, RXPacket->rtr) == 1 ) 
 		{							 
 			MailBoxBuffer[MailboxId].DLC = RXPacket->DLC;
 			memcpy(MailBoxBuffer[MailboxId].data,RXPacket->data,RXPacket->DLC);
-			if (MailBoxBuffer[id].enable == 1)
+			if (MailBoxBuffer[MailboxId].enable == 1)
 			{
-				MailBoxBuffer[id].new_data = 1;
+				MailBoxBuffer[MailboxId].new_data = 1;
 			}
 		}
 	}
+	xSemaphoreGive( xSemaphore );
 	return;
 }
 /*
@@ -228,8 +244,11 @@ void vCanRXTask(void *argument)
 	CAN_FRAME_TYPE RXPacket;
 	while(1)
 	{  
-		xMessageBufferReceive(pCanRXMessageBuffer,&RXPacket,sizeof(CAN_FRAME_TYPE),portMAX_DELAY);
-		vCanInsertRXData(&RXPacket);
+		if (xMessageBufferReceive(pCanRXMessageBuffer,&RXPacket,sizeof(CAN_FRAME_TYPE),portMAX_DELAY) == sizeof(CAN_FRAME_TYPE)); 
+		{
+			vCanInsertRXData(&RXPacket);
+		    printf("id  %x   f=%x\r\n",RXPacket.ident,RXPacket.filter_id);
+		}
 	}
 }
 /*
@@ -314,9 +333,10 @@ ERROR_TYPE_t eMailboxFilterSet(uint32_t id, uint8_t extd, uint8_t rtr)
 		}
 		else 
 		{
+			
 			vFilterSet(findMBIndex);
 		}
-		
+		printf("id  =%x index=%x\r\n",id,findMBIndex);
 		
 	}
 	return ( findMBIndex );

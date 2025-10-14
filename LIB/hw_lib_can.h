@@ -62,5 +62,5 @@ TaskHandle_t * xGetCanRXTaskHandle ();
 MessageBufferHandle_t * xGetCanRXMessageBufffer();
 MessageBufferHandle_t * xGetCanTXMessageBufffer();
 uint8_t uFindMessageToMailbox( uint8_t * index_id, uint32_t can_id, uint8_t ext, uint8_t rtr);
-
+SemaphoreHandle_t * pGetCanMutex();
 #endif

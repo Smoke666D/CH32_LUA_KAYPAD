@@ -104,7 +104,7 @@ void   USB_LP_CAN1_RX0_IRQHandler(void);
 void   CAN1_RX1_IRQHandler(void);
 void   CAN1_SCE_IRQHandler(void);
 
-
+INIT_FUNC_LOC void HAL_CANInitIDInactive(uint8_t filter_index, HAL_CAN_FILTER_FIFO_t FIFO);
 void HAL_CANInt(  uint8_t   CANbitRate);
 void HAL_CANResetFiltesr( uint8_t filter_index);
 HAL_CAN_ERROR_t HAL_CAN_MSG_GET( HAL_CAN_RX_FIFO_NUMBER_t fifo,  CAN_FRAME_TYPE * rx_message );

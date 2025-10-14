@@ -329,6 +329,54 @@ INIT_FUNC_LOC void HAL_CANSetFiters(uint8_t filter_index, uint32_t f1,uint32_t f
       HAL_CANResetFiltesr(filter_index);
     }
 }
+
+
+INIT_FUNC_LOC void HAL_CANInitIDInactive(uint8_t filter_index, HAL_CAN_FILTER_FIFO_t FIFO)
+{
+    
+    {
+        u16 CAN_FilterIdLow       = 0;
+        u16 CAN_FilterIdHigh      = 0;
+        u16 CAN_FilterMaskIdLow   = 0;
+        u16 CAN_FilterMaskIdHigh  = 0;
+        uint16_t CAN_FilterFIFOAssignment =  (FIFO  == FILTER_FIFO_0) ?  CAN_Filter_FIFO0 :  CAN_Filter_FIFO1 ;
+        uint32_t filter_number_bit_pos = 0;
+        filter_number_bit_pos = ((uint32_t)1) << filter_index;
+        CAN1->FCTLR |= FCTLR_FINIT;
+        CAN1->FWR &= ~(uint32_t)filter_number_bit_pos;
+        CAN1->FSCFGR &= ~(uint32_t)filter_number_bit_pos;
+        CAN1->sFilterRegister[filter_index].FR1 =
+            ((0x0000FFFF & (uint32_t)CAN_FilterMaskIdLow) << 16) |
+                    (0x0000FFFF & (uint32_t)CAN_FilterIdLow);
+            CAN1->sFilterRegister[filter_index].FR2 =
+            ((0x0000FFFF & (uint32_t)CAN_FilterMaskIdHigh) << 16) |
+                    (0x0000FFFF & (uint32_t)CAN_FilterIdHigh);
+        #if defined (CH32V20x_D6)||defined (CH32V20x_D8)
+        if(((*(uint32_t *) 0x40022030) & 0x0F000000) == 0)
+        {
+            uint32_t i;
+            for(i = 0; i < 64; i++)
+            {
+                *(__IO uint16_t *)(0x40006000 + 512 + 4 * i) = *(__IO uint16_t *)(0x40006000 + 768 + 4 * i);
+            }
+        }
+        #endif
+        CAN1->FMCFGR |= (uint32_t)filter_number_bit_pos;
+        if (CAN_FilterFIFOAssignment == CAN_Filter_FIFO0)
+        {
+            CAN1->FAFIFOR &= ~(uint32_t)filter_number_bit_pos;
+        }
+        else
+        {
+            CAN1->FAFIFOR |= (uint32_t)filter_number_bit_pos;
+        }
+        CAN1->FWR  &= ~filter_number_bit_pos;
+        CAN1->FCTLR &= ~FCTLR_FINIT;
+    }
+   
+}
+
+
 /*
 Функция выключения фильтра
 */
@@ -420,11 +468,12 @@ HAL_CAN_ERROR_t HAL_CAN_MSG_GET( HAL_CAN_RX_FIFO_NUMBER_t fifo,  CAN_FRAME_TYPE 
         rx_message->rtr = 1 ;
         rx_message->DLC = 0;
     }
+    rx_message->filter_id = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo].RXMDTR >> 8);
     if (fifo == CAN_FIFO0)
         CAN1->RFIFO0 |= CAN_RFIFO0_RFOM0;
     else
         CAN1->RFIFO1 |= CAN_RFIFO1_RFOM1;
-    rx_message->filter_id = (uint8_t)0xFF & (CAN1->sFIFOMailBox[fifo].RXMDTR >> 8);;
+
     return (HAL_CAN_OK);
 }
 

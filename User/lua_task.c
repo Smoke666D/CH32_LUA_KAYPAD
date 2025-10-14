@@ -39,6 +39,13 @@ static int iCanGetResivedData(lua_State *L );
 static int iCanResetResiveFilter(lua_State *L );
 static int iCanCheckData( lua_State *L );
 static int iSetCanNodeID( lua_State *L );
+static int iGetKeyMask(lua_State *L);
+static int iSetLedRed(lua_State *L);
+static int iSetLedGreen(lua_State *L);
+static int iSetLedBlue(lua_State *L);
+static int iSetBackBrigth(lua_State *L);
+static int iSetBackColor(lua_State *L);
+static int iSetLedBrigth(lua_State *L);
 
 TaskHandle_t * xGetLuaTaskHandle ()
 {
@@ -88,7 +95,7 @@ uint32_t uFLASHgetLength ( void )
   return  size;
 }
 
-static const luaL_Reg can_funcs[] = {
+static const luaL_Reg dev_funcs[] = {
   {"Send",           iCanSendData          },
   {"CheckFilter",    iCanCheckData         },
 	{"GetFrame",       iCanGetResivedData    },
@@ -96,16 +103,24 @@ static const luaL_Reg can_funcs[] = {
   {"ResetFilter",    iCanResetResiveFilter },
 	{"Config",         iCanSetConfig         },
   {"SetNodeID",      iSetCanNodeID         },
+  {"GetKeys",     iGetKeyMask}, 
+  {"SetLedRed",   iSetLedRed },
+  {"SetLedGreen", iSetLedGreen },
+  {"SetLedBlue",  iSetLedBlue },
+  {"SetLedBrigth", iSetLedBrigth},
+  {"SetBackColor", iSetBackColor},
+  {"SetBackBrigth", iSetBackBrigth},
   {NULL, NULL}
 };
 
-LUAMOD_API int luaopen_can (lua_State *L) {
-  luaL_newlib(L, can_funcs);
+LUAMOD_API int luaopen_dev (lua_State *L) {
+  luaL_newlib(L, dev_funcs);
   return 1;
 }
 
 static const luaL_Reg userlibs[] = {
-  {"Can", luaopen_can},
+
+  {"Keypad8", luaopen_dev  },
   {NULL, NULL}
 };
 
@@ -125,17 +140,18 @@ void vLuaTask( void * argument )
     int res ;
     TickType_t xLastWakeTime;
     lua_State *L1 = NULL;
-    uint8_t data_buffer[6]={0,0,0,0,0,0};
     LUA_STATE_t lua_state = LUA_INIT;
     uint32_t ulWorkCicleIn10us;
+    uint32_t mid_time= 0;
     xLastWakeTime = xTaskGetTickCount();
 #ifdef DEBUG_PRINT
     uint16_t counter = 0;
     uint32_t max_clock = 0;
+
 #endif
     while(1)
     {
-        vTaskDelayUntil( &xLastWakeTime,1 );
+        vTaskDelayUntil( &xLastWakeTime,2);
         HAL_WDTReset();
         switch (lua_state)
         {
@@ -178,42 +194,21 @@ void vLuaTask( void * argument )
                break;
             case LUA_RUN:
                 ulWorkCicleIn10us= HAL_GetTimerCnt(TIMER1);
+                HAL_TimerReset(TIMER1);
                 lua_pushinteger(L1, ulWorkCicleIn10us);
-                lua_pushinteger(L1, getKeyData());
-                res = lua_resume(L1,0,2);       //Возобновляем выполнение скрита
-                for (uint8_t i=0;i<6;i++)
-                {
-                    uint8_t temp_data = (uint8_t) lua_tointeger( L1,-(i+1));
-                    if (data_buffer[i]!=temp_data)
-                    {
-                      data_buffer[i]=temp_data;
-                      switch (i)
-                      {
-                        default:
-                            vSetLedOn((i+1),temp_data);
-                            break;
-                        case 3:
-                            vSetLedBrigth(temp_data);
-                            break;
-                        case 4:
-                            vSetBackLigth(temp_data);
-                            break;
-                        case 5:
-                            vSetBackLigthColor(temp_data);
-                            break;
-                      }
-                    }
-                }  
+                res = lua_resume(L1,0,1);       //Возобновляем выполнение скрита
 #ifdef DEBUG_PRINT
+                mid_time+=ulWorkCicleIn10us;
                 if (++counter == 1000)
                 {
                   counter=0;
                   if( max_clock<ulWorkCicleIn10us) max_clock =ulWorkCicleIn10us;
-                  printf("timer = %i max_timer=%i\n",ulWorkCicleIn10us,max_clock);
+                  printf("timer = %i max_timer=%i\n",ulWorkCicleIn10us,mid_time/1000);
+                  mid_time = 0;
                   printf("Memory %d\r\n",lua_gc(L1,LUA_GCCOUNT,0)*1024);
                 }
 #endif
-                HAL_TimerReset(TIMER1);
+                
                 switch ( res)
                 {
                     case LUA_OK:
@@ -248,7 +243,7 @@ static int iCanSendData( lua_State *L )
         frame.rtr   = (uint32_t)lua_tointeger(L, THIRD_ARGUMENT);
         frame.extd  = (uint32_t)lua_tointeger(L, SECOND_ARGUMENT);
         frame.ident = (uint32_t)lua_tointeger(L, FIRST_ARGUMENT);
-        if (parametr_count == FOUR_ARGUMENTS )
+        if (parametr_count >= FOUR_ARGUMENTS )
         {
             if (lua_istable(L, LAST_ARGUMENT))   //Проверяем что в качестве аргумента передали таблицу
             { 	
@@ -299,6 +294,69 @@ static int iSetCanNodeID(lua_State *L)
 	return ( NO_RESULT );
 }
 
+static int iGetKeyMask(lua_State *L)
+{
+    lua_pushinteger(L, getKeyData());
+    return ( ONE_RESULT );
+}
+
+static int iSetLedRed(lua_State *L)
+{
+  int res;
+  uint8_t data = lua_tointegerx(L,LAST_ARGUMENT, &res);
+  if  (res ==  1)
+  {
+      vSetLedOn(RED,data);
+  }
+  return ( NO_RESULT );
+}
+
+static int iSetLedGreen(lua_State *L)
+{
+   int res;
+  uint8_t data = lua_tointegerx(L,LAST_ARGUMENT, &res);
+  if  (res ==  1)
+  {
+    	
+      vSetLedOn(GREEN,data);
+  }
+  return ( NO_RESULT );
+}
+
+static int iSetLedBlue(lua_State *L)
+{
+  if  (lua_gettop(L) == ONE_ARGUMENT)
+  {
+      vSetLedOn(BLUE,lua_tointeger(L,LAST_ARGUMENT ));
+  }
+  return ( ONE_RESULT );
+}
+
+static int iSetBackBrigth(lua_State *L)
+{
+  if  (lua_gettop(L) == ONE_ARGUMENT)
+  {
+      vSetBackLigth(lua_tointeger(L,LAST_ARGUMENT ));
+  }
+  return ( ONE_RESULT );
+}
+static int iSetBackColor(lua_State *L)
+{
+  if  (lua_gettop(L) == ONE_ARGUMENT)
+  {
+    vSetBackLigthColor(lua_tointeger(L,LAST_ARGUMENT ));
+  }
+  return ( ONE_RESULT );
+}
+static int iSetLedBrigth(lua_State *L)
+{
+  if  (lua_gettop(L) == ONE_ARGUMENT)
+  {
+    vSetLedBrigth(lua_tointeger(L,LAST_ARGUMENT ));
+  }
+  return ( ONE_RESULT );
+}
+
 
 /*
 Функция установки CAN фильторв
@@ -308,7 +366,7 @@ static int iCanSetResiveFilter(lua_State *L )
   uint8_t ucResNumber = NO_RESULT;
   if (lua_gettop(L) == THREE_ARGUMENTS )  /*Проверяем, что при вызове нам передали нужное число аргументов*/
   {
-	  lua_pushnumber(L, eMailboxFilterSet( ( uint32_t ) lua_tointeger(L,LAST_ARGUMENT ),
+	  lua_pushnumber(L, eMailboxFilterSet( ( uint32_t ) lua_tointeger(L,FIRST_ARGUMENT ),
                                                       lua_tointeger(L,SECOND_ARGUMENT ),
                                                       lua_tointeger(L,THIRD_ARGUMENT )
                                                       ) );
@@ -358,7 +416,7 @@ static int iCanGetResivedData(lua_State *L )
 	if (lua_gettop(L) >= ONE_ARGUMENT )
 	{
     mail_box_index = lua_tointeger(L,FIRST_ARGUMENT );
-  
+   
     if  ( GetMailBoxData( mail_box_index,&RXPacket ) == 1 )
     {
       if ((lua_gettop(L)==TWO_ARGUMENTS) && lua_istable(L, LAST_ARGUMENT))   //Проверяем что в качестве аргумента передали таблицу

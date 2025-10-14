@@ -26,7 +26,8 @@ static StaticMessageBuffer_t xTXCanMessageBufferStruct;
 static uint8_t ucMessageBufferStorage[ CANRX_QUEUE_SIZE * sizeof( CAN_FRAME_TYPE ) ];
 static uint8_t ucTXCanMessageBufferStorage[ CANRX_QUEUE_SIZE * sizeof( CAN_TX_FRAME_TYPE) ];
 static uint8_t ucKeyboardMessageBufferStorage[ 16 * sizeof( KeyEvent ) ];
-
+//static uint8_t ucQueueStorageArea[  16U * sizeof( CAN_FRAME_TYPE ) ];
+ StaticSemaphore_t xMutexBuffer;
 
 
 
@@ -78,6 +79,8 @@ INIT_FUNC_LOC void vSYSqueueInit ( void )
  * (xKeyboardMessageBuffer()) =  xMessageBufferCreateStatic( sizeof( ucKeyboardMessageBufferStorage ),
                                                  ucKeyboardMessageBufferStorage,
                                                  &xKeyboardMessageBufferStruct );
+   (* pGetCanMutex()) = xSemaphoreCreateMutexStatic( &xMutexBuffer );
+  
 }
 /*----------------------------------------------------------------------------*/
 void vSYSeventInit ( void )
