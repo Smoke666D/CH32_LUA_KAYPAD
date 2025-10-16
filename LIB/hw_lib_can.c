@@ -53,7 +53,6 @@ void  prv_read_can_received_msg( HAL_CAN_RX_FIFO_NUMBER_t fifo)
    static portBASE_TYPE xHigherPriorityTaskWoken;
    xHigherPriorityTaskWoken = pdFALSE;
    xMessageBufferSendFromISR(pCanRXMessageBuffer,&rxMsg,sizeof(CAN_FRAME_TYPE), &xHigherPriorityTaskWoken );
-   printf("resicve_dATA\r\n");
    portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
    return;
 }
@@ -89,15 +88,12 @@ uint8_t GetMailBoxData( uint8_t mail_box_index,CAN_FRAME_TYPE * RXPacket )
 	{
 		if ((MailBoxBuffer[mail_box_index].enable == 1) && (MailBoxBuffer[mail_box_index].new_data == 1))
 		{
-			  
 			MailBoxBuffer[mail_box_index].new_data = 0;
 			RXPacket->ident	 = MailBoxBuffer[mail_box_index].ident;
 			 xSemaphoreTake( xSemaphore, portMAX_DELAY);
-	        //xTaskNotify(CanRXTaskHandle,RXPacket->ident,eSetValueWithOverwrite);
 			RXPacket->DLC = MailBoxBuffer[mail_box_index].DLC;
 			memcpy(RXPacket->data,MailBoxBuffer[mail_box_index].data,RXPacket->DLC);
 			xSemaphoreGive( xSemaphore );
-			//xTaskNotify(CanRXTaskHandle,0xFFFFFFFF,eSetValueWithOverwrite);
 			res = 1U;
 		}
 	}
@@ -197,43 +193,34 @@ void vCANBoudInit( uint16_t boudrate )
  */
 void vCanInsertRXData(CAN_FRAME_TYPE * RXPacket)
 {
-	uint32_t ulNotifiedValue;
 	uint16_t id = RXPacket->filter_id;
- 
-	 xSemaphoreTake( xSemaphore, portMAX_DELAY);
-	    
-			
-
-   //xTaskNotifyWait( 0x00,0x00,&ulNotifiedValue,0);
-	//if (ulNotifiedValue == id) 
-	//{
-	//	xTaskNotifyWait( 0x00,0x00,&ulNotifiedValue,10);
-	//}
 	if ((MailBoxBuffer[id].ident == RXPacket->ident) &&  (MailBoxBuffer[id].extd_id == RXPacket->extd) && (MailBoxBuffer[id].rtr == RXPacket->rtr)  )
 	{
+		xSemaphoreTake( xSemaphore, portMAX_DELAY);
 		MailBoxBuffer[id].DLC = RXPacket->DLC;
 		memcpy(MailBoxBuffer[id].data,RXPacket->data,RXPacket->DLC);
 		if (MailBoxBuffer[id].enable == 1)
 		{
 			
 			MailBoxBuffer[id].new_data = 1;
-		}
-		
+		}	
+		xSemaphoreGive( xSemaphore );
 	}
 	else
 	{
 		uint8_t MailboxId;
         if ( uFindMessageToMailbox( &MailboxId,RXPacket->ident, RXPacket->extd, RXPacket->rtr) == 1 ) 
-		{							 
+		{	
+			xSemaphoreTake( xSemaphore, portMAX_DELAY);						 
 			MailBoxBuffer[MailboxId].DLC = RXPacket->DLC;
 			memcpy(MailBoxBuffer[MailboxId].data,RXPacket->data,RXPacket->DLC);
 			if (MailBoxBuffer[MailboxId].enable == 1)
 			{
 				MailBoxBuffer[MailboxId].new_data = 1;
 			}
+			xSemaphoreGive( xSemaphore );
 		}
 	}
-	xSemaphoreGive( xSemaphore );
 	return;
 }
 /*
@@ -244,11 +231,9 @@ void vCanRXTask(void *argument)
 	CAN_FRAME_TYPE RXPacket;
 	while(1)
 	{  
-		if (xMessageBufferReceive(pCanRXMessageBuffer,&RXPacket,sizeof(CAN_FRAME_TYPE),portMAX_DELAY) == sizeof(CAN_FRAME_TYPE)); 
-		{
-			vCanInsertRXData(&RXPacket);
-		    printf("id  %x   f=%x\r\n",RXPacket.ident,RXPacket.filter_id);
-		}
+		xMessageBufferReceive(pCanRXMessageBuffer,&RXPacket,sizeof(CAN_FRAME_TYPE),portMAX_DELAY);
+		vCanInsertRXData(&RXPacket);
+		
 	}
 }
 /*
