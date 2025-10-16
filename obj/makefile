@@ -39,6 +39,21 @@ endif
 ifneq ($(strip $(C_DEPS)),)
 -include $(C_DEPS)
 endif
+ifneq ($(strip $(C_UPPER_DEPS)),)
+-include $(C_UPPER_DEPS)
+endif
+ifneq ($(strip $(CC_DEPS)),)
+-include $(CC_DEPS)
+endif
+ifneq ($(strip $(C++_DEPS)),)
+-include $(C++_DEPS)
+endif
+ifneq ($(strip $(CXX_DEPS)),)
+-include $(CXX_DEPS)
+endif
+ifneq ($(strip $(CPP_DEPS)),)
+-include $(CPP_DEPS)
+endif
 endif
 
 -include ../makefile.defs
@@ -62,7 +77,7 @@ main-build: CH32V3_CAN_HACKER.elf secondary-outputs
 
 # Tool invocations
 CH32V3_CAN_HACKER.elf: $(OBJS) $(USER_OBJS)
-	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -fmax-errors=20 -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized -g -T "c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Ld/Link.ld" -nostartfiles -Xlinker --gc-sections -Xlinker --print-memory-usage -Wl,-Map,"CH32V3_CAN_HACKER.map" --specs=nano.specs --specs=nosys.specs -o "CH32V3_CAN_HACKER.elf" $(OBJS)  $(LIBS)
+	@	riscv-none-embed-g++ -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -fmax-errors=20 -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized -g -T "c:/MRS_DATA/workspace/CH32V3_CAN_HACKER/Ld/Link.ld" -nostartfiles -Xlinker --gc-sections -Xlinker --print-memory-usage -Wl,-Map,"CH32V3_CAN_HACKER.map" --specs=nano.specs --specs=nosys.specs -o "CH32V3_CAN_HACKER.elf" $(OBJS)  $(LIBS)
 CH32V3_CAN_HACKER.hex: CH32V3_CAN_HACKER.elf
 	@	riscv-none-embed-objcopy -O ihex "CH32V3_CAN_HACKER.elf" "CH32V3_CAN_HACKER.hex"
 CH32V3_CAN_HACKER.lst: CH32V3_CAN_HACKER.elf
@@ -72,7 +87,7 @@ CH32V3_CAN_HACKER.siz: CH32V3_CAN_HACKER.elf
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS) $(EXPANDS) $(CALLGRAPH_DOT) $(SECONDARY_FLASH)$(SECONDARY_LIST)$(SECONDARY_SIZE)$(S_DEPS)$(S_UPPER_DEPS)$(ASM_DEPS)$(ASM_UPPER_DEPS)$(C_DEPS) CH32V3_CAN_HACKER.elf
+	-$(RM) $(OBJS) $(EXPANDS) $(CALLGRAPH_DOT) $(SECONDARY_FLASH)$(SECONDARY_LIST)$(SECONDARY_SIZE)$(S_DEPS)$(S_UPPER_DEPS)$(ASM_DEPS)$(ASM_UPPER_DEPS)$(C_DEPS)$(C_UPPER_DEPS)$(CC_DEPS)$(C++_DEPS)$(CXX_DEPS)$(CPP_DEPS) CH32V3_CAN_HACKER.elf
 
 secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_LIST) $(SECONDARY_SIZE)
 

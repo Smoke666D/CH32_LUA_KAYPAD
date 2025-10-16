@@ -24,7 +24,7 @@
 		],
 		"projectName": "CH32V3_CAN_HACKER",
 		"architecture": "RISC-V",
-		"projectType": "c"
+		"projectType": "cpp"
 	},
 	"buildConfig": {
 		"configurations": [
