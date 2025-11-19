@@ -210,7 +210,21 @@
 						"undefined_symbols": []
 					},
 					"includes": {
-						"include_paths": [],
+						"include_paths": [
+							"${project}/Core",
+							"${project}/Debug",
+							"${project}/DRIVER",
+							"${project}/FreeRTOS",
+							"${project}/FreeRTOS/include",
+							"${project}/FreeRTOS/portable/Common",
+							"${project}/FreeRTOS/portable/GCC/RISC-V",
+							"${project}/FreeRTOS/portable/GCC/RISC-V/chip_specific_extensions",
+							"${project}/FreeRTOS/portable/MemMang",
+							"${project}/LIB",
+							"${project}/LUA",
+							"${project}/Peripheral/inc",
+							"${project}/User"
+						],
 						"include_system_paths": [],
 						"include_files": []
 					},
@@ -348,6 +362,7 @@
 					"show_totals": false,
 					"other_flags": ""
 				},
+				"configVariables": [],
 				"riscvTargetProcessor": {
 					"architecture": "rv32i",
 					"multiply_extension": true,
@@ -367,8 +382,7 @@
 					"other_target_flags": ""
 				},
 				"component_toolchain": "${WCH:Toolchain:GCC8}",
-				"name": "obj",
-				"configVariables": []
+				"name": "obj"
 			},
 			{
 				"buildArtifact": {
@@ -654,6 +668,7 @@
 					"show_totals": false,
 					"other_flags": ""
 				},
+				"configVariables": [],
 				"riscvTargetProcessor": {
 					"architecture": "rv32i",
 					"multiply_extension": true,
@@ -673,8 +688,7 @@
 					"other_target_flags": ""
 				},
 				"component_toolchain": "${WCH:Toolchain:GCC8}",
-				"name": "dbg",
-				"configVariables": []
+				"name": "dbg"
 			}
 		]
 	},
@@ -683,7 +697,7 @@
 		"address": "0x08001000",
 		"target_path": "obj\\CH32V3_LUA.hex",
 		"clkSpeed": "High",
-		"debug_interface_mode": "",
+		"debug_interface_mode": "1-wire serial",
 		"erase": false,
 		"program": true,
 		"verify": true,

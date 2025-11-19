@@ -249,5 +249,6 @@ __attribute__((used)) void *_sbrk(ptrdiff_t incr)
     return curbrk - incr;
 }
 
-
+void _fini(){}
+void _init(){}
 

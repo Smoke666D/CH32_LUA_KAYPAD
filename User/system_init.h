@@ -32,6 +32,8 @@
 #define  CANRX_QUEUE_SIZE 				16U
 #define  CANTX_QUEUE_SIZE 				16U
 
+
+
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
                                     StackType_t **ppxIdleTaskStackBuffer,
                                     uint32_t *pulIdleTaskStackSize );
@@ -40,8 +42,17 @@ void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer,
                                      StackType_t **ppxTimerTaskStackBuffer,
                                      uint32_t *pulTimerTaskStackSize );
 
-void vSYStaskInit ( void );
-void vSYSqueueInit ( void );
-void vSYSeventInit ( void );
+#ifdef __cplusplus
+ extern "C" {
+#endif 
+
+
+extern void vSYStaskInit ( void );
+extern void vSYSqueueInit ( void );
+extern void vSYSeventInit ( void );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* USER_SYSTEM_INIT_H_ */

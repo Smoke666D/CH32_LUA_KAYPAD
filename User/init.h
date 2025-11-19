@@ -42,6 +42,14 @@
 #define TIM2_CH3_Port PORT_B
 #define TIM2_CH3_Pin GPIO_10
 
-void InitDevice();
+#ifdef __cplusplus
+ extern "C" {
+#endif 
+
+extern void InitDevice();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* USER_INIT_H_ */
