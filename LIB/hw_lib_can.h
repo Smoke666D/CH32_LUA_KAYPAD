@@ -1,6 +1,9 @@
 #ifndef HW_LIB_CAN_H_
 #define HW_LIB_CAN_H_
 
+#ifdef __cplusplus
+ extern "C" {
+#endif 
 
 #include "hal_can.h"
 #include "FreeRTOS.h"
@@ -53,7 +56,7 @@ void vResetFilter( int id);
 void ConfigNodeID( uint8_t node_id);
 uint8_t vCanGetAnsewerMessage(CAN_FRAME_TYPE * RXPacket);
 void eMailboxFilterReset(uint8_t MailboxId) ;
-ERROR_TYPE_t eMailboxFilterSet(uint32_t id, uint8_t extd, uint8_t rtr);
+uint8_t eMailboxFilterSet(uint32_t id, uint8_t extd, uint8_t rtr);
 void vCANBoudInit( uint16_t boudrate );
 void vCanRXTask(void *argument);
 void APPCANSEND(CAN_TX_FRAME_TYPE *buffer);
@@ -63,4 +66,8 @@ MessageBufferHandle_t * xGetCanRXMessageBufffer();
 MessageBufferHandle_t * xGetCanTXMessageBufffer();
 uint8_t uFindMessageToMailbox( uint8_t * index_id, uint32_t can_id, uint8_t ext, uint8_t rtr);
 SemaphoreHandle_t * pGetCanMutex();
+
+#ifdef __cplusplus
+}
+#endif
 #endif

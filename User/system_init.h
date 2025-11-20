@@ -47,9 +47,9 @@ void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer,
 #endif 
 
 
-extern void vSYStaskInit ( void );
-extern void vSYSqueueInit ( void );
-extern void vSYSeventInit ( void );
+
+void vSYSqueueInit ( void );
+
 
 #ifdef __cplusplus
 }

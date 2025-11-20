@@ -61,8 +61,13 @@ typedef enum {
 
 
 
+#ifdef __cplusplus
+ extern "C" {
+#endif 
 
-TaskHandle_t * xGetLuaTaskHandle ();
-void vLuaTask( void * argument );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* USER_LUA_TASK_H_ */

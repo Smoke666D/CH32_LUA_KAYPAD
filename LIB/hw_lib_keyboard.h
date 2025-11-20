@@ -13,8 +13,12 @@
 #include "task.h"
 #include "semphr.h"
 #include "string.h"
-#include "event_groups.h"
 #include "hal_gpio.h"
+
+
+#ifdef __cplusplus
+ extern "C" {
+#endif 
 
 /*------------------------ Define --------------------------------------*/
 /* Константа определяющая количесвто клавиш, которые обрабатываем драйвер */
@@ -87,4 +91,9 @@ KEYBOARD_INIT_CODES eKeyboardInit( KeybaordStruct_t * kis );
 uint16_t HW_LIB_GetKeyboardPeriod();
 void HW_LIB_KeyboradFSM();
 MessageBufferHandle_t * xKeyboardMessageBuffer();
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif /* HW_LIB_HW_LIB_KEYBOARD_H_ */

@@ -10,7 +10,9 @@
 
 #include "system_config.h"
 
-
+#ifdef __cplusplus
+ extern "C" {
+#endif 
 
 /* CAN masks for identifiers */
 #define CAN_SFID_MASK                      ((uint32_t)0x000007FFU)      /*!< mask of standard identifier */
@@ -117,4 +119,9 @@ uint8_t HAL_CANToOperatingMode();
 uint8_t HAL_CANSend(CAN_TX_FRAME_TYPE *buffer);
 void HAL_CANSetFiters(uint8_t filter_index, uint32_t f1,uint32_t f2,uint32_t f3,uint32_t f4, HAL_CAN_FILTER_FIFO_t FIFO);
 void HAL_CANSetFitersEX(uint8_t filter_index, uint32_t f1,uint32_t f2, HAL_CAN_FILTER_FIFO_t FIFO);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif /* HAL_HAL_CAN_H_ */

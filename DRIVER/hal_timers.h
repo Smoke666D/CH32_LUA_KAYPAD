@@ -8,6 +8,9 @@
 #ifndef HAL_HAL_TIMERS_H_
 #define HAL_HAL_TIMERS_H_
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
 #include "system_config.h"
 
 #define EDGE 3
@@ -120,6 +123,10 @@ uint16_t vHAL_CaptureTimerInteruptCallback(TimerName_t TimerName , uint16_t TimI
 void HAL_TIMER_DisablePWMCH(TimerName_t TimerName , uint8_t channel );
 void HAL_TIMER_EnablePWMCH(TimerName_t TimerName , uint8_t channel );
 uint32_t uGetFreeRuningTimer(TimerName_t TimerName );
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 #endif /* HAL_HAL_TIMERS_H_ */
 

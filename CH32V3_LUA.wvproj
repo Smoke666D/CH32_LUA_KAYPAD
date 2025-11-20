@@ -9,6 +9,7 @@
 			"rtos": "FreeRTOS",
 			"mcu": "CH32V307-FreeRTOS",
 			"description": "==Website: http://www.wch.cn/products/CH32V307.html?\\nROM(byte): 256K, SRAM(byte): 64K, CHIP PINS: 64, GPIO PORTS: 51.\\nWCH CH32V3 series of mainstream MCUs covers the needs of a large variety of applications in the industrial,medical and consumer markets. High performance with first-class peripherals and low-power,low-voltage operation is paired with a high level of integration at accessible prices with a simple architecture and easy-to-use tools.",
+			"artifactType": "executable",
 			"link": "WCH-Link",
 			"peripheral_version": "==2.6",
 			"calibrateSupport": false,
@@ -35,6 +36,11 @@
 				"parentLogicPath": "LIB",
 				"type": "file",
 				"name": "cpp_can_lib.h"
+			},
+			{
+				"name": "lua_interface_cpp.h",
+				"parentLogicPath": "User",
+				"type": "folder"
 			}
 		],
 		"projectName": "CH32V3_LUA",
@@ -185,7 +191,7 @@
 						"include_files": []
 					},
 					"optimization": {
-						"language_standard": "gnu11",
+						"language_standard": "gnu17",
 						"other_optimization_flags": ""
 					},
 					"warnings": {
@@ -229,7 +235,7 @@
 						"include_files": []
 					},
 					"optimization": {
-						"cpp_language_standard": "gnucpp11",
+						"cpp_language_standard": "gnucpp17",
 						"abi_version": "0",
 						"do_not_use_exceptions": false,
 						"do_not_use_rtti": false,

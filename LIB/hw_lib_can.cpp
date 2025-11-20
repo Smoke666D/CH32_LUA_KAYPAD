@@ -1,9 +1,11 @@
 #include "hw_lib_can.h"
 #include "hal_flash.h"
 #include "string.h"
+#include "os_core.h"
+#include "system_init.h"
 
 static CANRX MailBoxBuffer[MAILBOXSIZE];
-static uint16_t CANbitRate;
+static CAN_BOUNDRATE CANbitRate;
 static TaskHandle_t  CanRXTaskHandle;
 static MessageBufferHandle_t pCanRXMessageBuffer;
 static MessageBufferHandle_t pCanTXMessageBuffer;
@@ -226,12 +228,42 @@ void vCanInsertRXData(CAN_FRAME_TYPE * RXPacket)
 /*
  *
  */
-void vCanRXTask(void *argument)
+
+class cpp_can_rx_buffer : os::os_message_buffer<cpp_can_rx_buffer,  CANRX_QUEUE_SIZE * sizeof( CAN_FRAME_TYPE )>
+{
+	using os_message_buffer::os_message_buffer;
+	using os_message_buffer::recieve;
+};
+cpp_can_rx_buffer can_rx_buffer = {};
+
+class cpp_can_rx_task : os::os_task<cpp_can_rx_task, CANRX_STK_SIZE>
+{
+protected:
+ 
+  TickType_t xLastWakeTime;
+  
+ public:
+    void run(void )  __attribute__((__noreturn__)) ;        
+    using os_task::os_task;
+	
+};
+
+cpp_can_rx_task can_rx_task ={"can_rx_Task",CANRX_TASK_PRIO};
+
+
+
+
+
+
+
+
+void cpp_can_rx_task::run( void )
 {
 	CAN_FRAME_TYPE RXPacket;
 	while(1)
 	{  
-		xMessageBufferReceive(pCanRXMessageBuffer,&RXPacket,sizeof(CAN_FRAME_TYPE),portMAX_DELAY);
+		can_rx_buffer.recieve(static_cast<void *>(&RXPacket),sizeof(CAN_FRAME_TYPE),portMAX_DELAY);
+		//xMessageBufferReceive(pCanRXMessageBuffer,&RXPacket,sizeof(CAN_FRAME_TYPE),portMAX_DELAY);
 		vCanInsertRXData(&RXPacket);
 		
 	}
@@ -291,7 +323,7 @@ void eMailboxFilterReset(uint8_t MailboxId)
 }
 /*
 */
-ERROR_TYPE_t eMailboxFilterSet(uint32_t id, uint8_t extd, uint8_t rtr) 
+uint8_t eMailboxFilterSet(uint32_t id, uint8_t extd, uint8_t rtr) 
 {
 	ERROR_TYPE_t eRes = BUFFER_FULL;
 	uint8_t findMBIndex,first_index,last_index;

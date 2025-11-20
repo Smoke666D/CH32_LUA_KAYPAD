@@ -3,17 +3,24 @@
 #include "string.h"
 #include "hw_lib_keyboard.h"
 #include "init.h"
+#include "os_core.h"
 
-static TaskHandle_t  IOTaskHandle;
+class cpp_IO_task : os::os_task<cpp_IO_task, IO_STK_SIZE>
+{
+ public:
+    void run(void )  __attribute__((__noreturn__)) ;    
+    using os_task::os_task;
+};
+
+cpp_IO_task IO_task ={"IO_Task",IO_TASK_PRIO};
+
+
 static uint8_t  STATUS[KEY_COUNT];
 static uint8_t  COUNTERS[KEY_COUNT];
 static MessageBufferHandle_t pKeyboardMessageBuffer;
 static KeyEvent          TempEvent        = { 0U };
 
-TaskHandle_t * xGetIOTaskHandle ()
-{
-    return  &IOTaskHandle ;
-}
+
 
 BitState_t fPortState (uint8_t i)
 {
@@ -36,7 +43,7 @@ BitState_t fPortState (uint8_t i)
         case 7:
             return HAL_GetBit( KL2_8_Port, KL8Pin  );
         default:
-            return 0;
+            return HAL_BIT_RESET;
     }
 }
 
@@ -63,14 +70,14 @@ uint8_t getKeyData()
     return data;
 }
 
-void vIOTask(void *argument)
+void  cpp_IO_task::run(void )
 {
  static uint8_t key_mask;
    vInitKeybord();
    pKeyboardMessageBuffer= *(xKeyboardMessageBuffer());
 	while(1)
 	{  
-		vTaskDelay(1); 
+		sleep(1); 
         HW_LIB_KeyboradFSM();
         if ( xMessageBufferReceive(pKeyboardMessageBuffer,&TempEvent,sizeof(KeyEvent),0) != 0)
 		{

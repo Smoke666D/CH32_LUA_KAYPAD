@@ -2,6 +2,7 @@
 #define USER_IO_TASK_H_
 
 #include "main.h"
+
 #define KEY_COUNT           8
 #define ADC1_DATA_READY 0x01
 #define K1   0x01
@@ -13,7 +14,15 @@
 #define K7   0x40
 #define K8   0x80
 
+#ifdef __cplusplus
+ extern "C" {
+#endif 
+
 uint8_t getKeyData();
-TaskHandle_t * xGetIOTaskHandle ();
-void vIOTask(void *argument);
+
+#ifdef __cplusplus
+}
+#endif
+
+
 #endif

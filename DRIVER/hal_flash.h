@@ -10,7 +10,9 @@
 
 #include "system_config.h"
 
-
+#ifdef __cplusplus
+ extern "C" {
+#endif 
 
 typedef enum
 {
@@ -32,6 +34,9 @@ FLASH_Status ProgramOptionByteData(uint8_t Address, uint8_t Data);
 FLASH_STATE HAL_FLASH_WriteByWord( uint8_t * src, uint8_t * dest, uint32_t len);
 FLASH_STATE HAL_FLASH_ErasePage(uint32_t Page_Address);
 
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* HAL_HAL_FLASH_H_ */
