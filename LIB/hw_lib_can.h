@@ -61,9 +61,6 @@ void vCANBoudInit( uint16_t boudrate );
 void vCanRXTask(void *argument);
 void APPCANSEND(CAN_TX_FRAME_TYPE *buffer);
 uint8_t vCanChekMessage(uint32_t id);
-TaskHandle_t * xGetCanRXTaskHandle ();
-MessageBufferHandle_t * xGetCanRXMessageBufffer();
-MessageBufferHandle_t * xGetCanTXMessageBufffer();
 uint8_t uFindMessageToMailbox( uint8_t * index_id, uint32_t can_id, uint8_t ext, uint8_t rtr);
 SemaphoreHandle_t * pGetCanMutex();
 

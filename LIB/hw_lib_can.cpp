@@ -4,11 +4,13 @@
 #include "os_core.h"
 #include "system_init.h"
 
+
+static void  prv_read_can_received_msg( HAL_CAN_RX_FIFO_NUMBER_t fifo);
+void CAN_SendMessage();
+
 static CANRX MailBoxBuffer[MAILBOXSIZE];
 static CAN_BOUNDRATE CANbitRate;
-static TaskHandle_t  CanRXTaskHandle;
-static MessageBufferHandle_t pCanRXMessageBuffer;
-static MessageBufferHandle_t pCanTXMessageBuffer;
+
  SemaphoreHandle_t xSemaphore;
 
 SemaphoreHandle_t * pGetCanMutex()
@@ -16,48 +18,14 @@ SemaphoreHandle_t * pGetCanMutex()
 	return &xSemaphore ;
 }
 
-MessageBufferHandle_t * xGetCanTXMessageBufffer()
-{
-	return &pCanTXMessageBuffer;
-}
 
-MessageBufferHandle_t * xGetCanRXMessageBufffer()
-{
-	return &pCanRXMessageBuffer;
-}
 
-TaskHandle_t * xGetCanRXTaskHandle ()
-{
-    return  &CanRXTaskHandle ;
-}
-
-void CAN_SendMessage()
-{
-    CAN_TX_FRAME_TYPE buffer;
-    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	if (xMessageBufferReceiveFromISR(pCanTXMessageBuffer,&buffer,sizeof( CAN_TX_FRAME_TYPE),&xHigherPriorityTaskWoken) !=0 )
-    {
-        HAL_CANSend(&buffer);
-    }
-    portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
-}
 
 void vRestartNode( void )
 {
     return;
 }
-/*
-*/
-void  prv_read_can_received_msg( HAL_CAN_RX_FIFO_NUMBER_t fifo) 
-{
-   CAN_FRAME_TYPE rxMsg;
-   HAL_CAN_MSG_GET(fifo, &rxMsg);
-   static portBASE_TYPE xHigherPriorityTaskWoken;
-   xHigherPriorityTaskWoken = pdFALSE;
-   xMessageBufferSendFromISR(pCanRXMessageBuffer,&rxMsg,sizeof(CAN_FRAME_TYPE), &xHigherPriorityTaskWoken );
-   portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
-   return;
-}
+
 
 uint8_t uFindMessageToMailbox( uint8_t * index_id, uint32_t can_id, uint8_t ext, uint8_t rtr)
 {
@@ -179,7 +147,7 @@ void vCANBoudInit( uint16_t boudrate )
     HAL_CANSetTXCallback(&CAN_SendMessage);
     HAL_CANSetERRCallback(&vRestartNode);
     HAL_CANSetRXCallback(&prv_read_can_received_msg);
-	xTaskNotify(CanRXTaskHandle,0xFFFFFFFF,eSetValueWithOverwrite);
+	//xTaskNotify(CanRXTaskHandle,0xFFFFFFFF,eSetValueWithOverwrite);
     HAL_CANIntIT(CANbitRate,CAN1_PRIOR,CAN1_SUBPRIOR);
 	for (int i=0;i<MAILBOXSIZE;i++)
 	{
@@ -229,14 +197,13 @@ void vCanInsertRXData(CAN_FRAME_TYPE * RXPacket)
  *
  */
 
-class cpp_can_rx_buffer : os::os_message_buffer<cpp_can_rx_buffer,  CANRX_QUEUE_SIZE * sizeof( CAN_FRAME_TYPE )>
-{
-	using os_message_buffer::os_message_buffer;
-	using os_message_buffer::recieve;
-};
-cpp_can_rx_buffer can_rx_buffer = {};
+class cpp_can_rx_buffer : public os::os_message_buffer<cpp_can_rx_buffer,  CANRX_QUEUE_SIZE * sizeof( CAN_FRAME_TYPE )> {}
+can_rx_buffer = {};
 
-class cpp_can_rx_task : os::os_task<cpp_can_rx_task, CANRX_STK_SIZE>
+class cpp_can_tx_buffer : public os::os_message_buffer<cpp_can_rx_buffer,  CANRX_QUEUE_SIZE * sizeof( CAN_FRAME_TYPE )> {}
+can_tx_buffer = {};
+
+class cpp_can_rx_task : public os::os_task<cpp_can_rx_task, CANRX_STK_SIZE>
 {
 protected:
  
@@ -263,7 +230,6 @@ void cpp_can_rx_task::run( void )
 	while(1)
 	{  
 		can_rx_buffer.recieve(static_cast<void *>(&RXPacket),sizeof(CAN_FRAME_TYPE),portMAX_DELAY);
-		//xMessageBufferReceive(pCanRXMessageBuffer,&RXPacket,sizeof(CAN_FRAME_TYPE),portMAX_DELAY);
 		vCanInsertRXData(&RXPacket);
 		
 	}
@@ -367,8 +333,28 @@ void APPCANSEND(CAN_TX_FRAME_TYPE *buffer)
 {
     if ( HAL_CANSend(buffer) == CAN_TxStatus_NoMailBox )
     {
-		xMessageBufferSend(pCanTXMessageBuffer,&buffer,sizeof(CAN_TX_FRAME_TYPE), portMAX_DELAY);
+		can_tx_buffer.send(&buffer,sizeof(CAN_TX_FRAME_TYPE), portMAX_DELAY);
     }
 }
 
 
+/*
+*/
+static void  prv_read_can_received_msg( HAL_CAN_RX_FIFO_NUMBER_t fifo) 
+{
+   CAN_FRAME_TYPE rxMsg;
+   HAL_CAN_MSG_GET(fifo, &rxMsg);
+   can_rx_buffer.isr_send(&rxMsg,sizeof(CAN_FRAME_TYPE));
+   return;
+}
+
+
+void CAN_SendMessage()
+{
+    CAN_TX_FRAME_TYPE buffer;
+	if (can_tx_buffer.isr_recieve(&buffer,sizeof( CAN_TX_FRAME_TYPE)) !=0 )
+    {
+        HAL_CANSend(&buffer);
+    }
+
+}

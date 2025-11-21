@@ -11,7 +11,6 @@
 namespace os
 {
 
-
 template <class _T>  void (*mem_func(   void(_T::*_member)(void )))(void *)
 {
     const union
@@ -58,8 +57,6 @@ template <typename T, int _stack_size> class os_task
     {
 
     }
-   
-
 
     os_task( const char* _name, const UBaseType_t uxPriority)
     {                       
@@ -76,11 +73,12 @@ protected:
    MessageBufferHandle_t xMessageBuffer;
    StaticMessageBuffer_t xMessageBufferStruct;
 public:   
+   buffer() =delete;
    buffer(uint8_t * _pMessageBufferStorage, const uint32_t _buffer_size);
    uint32_t isr_send(const void *_pvTxData, const uint32_t _xDataLengthBytes);
    uint32_t recieve( void *_pvRxData, const uint32_t _xDataLengthBytes, const TickType_t _xTicksToWait);
-
-
+   uint32_t isr_recieve( void *_pvRxData, const uint32_t _xDataLengthBytes);
+   uint32_t send( const void *_pvTxData, const uint32_t _xDataLengthBytes, const TickType_t _xTicksToWait);   
 };
 
 template <typename T, int _buffer_size> class os_message_buffer : public buffer
@@ -88,10 +86,15 @@ template <typename T, int _buffer_size> class os_message_buffer : public buffer
 protected:
     uint8_t ucMessageBufferStorage[_buffer_size];
 public:
-    using buffer::recieve;    
+    using buffer::recieve;  
+    using buffer::isr_send;  
+    using buffer::send;  
+    using buffer::isr_recieve;
+
     os_message_buffer(): buffer(ucMessageBufferStorage, sizeof(ucMessageBufferStorage))
     {
     }
+
 };
 
 }

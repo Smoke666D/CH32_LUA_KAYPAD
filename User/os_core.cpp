@@ -29,4 +29,27 @@ uint32_t buffer::recieve( void *_pvRxData, const uint32_t _xDataLengthBytes, con
                                   _xTicksToWait );
 
 }
+
+uint32_t buffer::isr_recieve( void *_pvRxData, const uint32_t _xDataLengthBytes)
+{
+     uint32_t sended_bytes;
+        BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+        sended_bytes = xMessageBufferReceiveFromISR( xMessageBuffer,
+                                            _pvRxData,
+                                            _xDataLengthBytes,
+                                            &xHigherPriorityTaskWoken );
+                                            
+        portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+        return (sended_bytes);
+
+}
+
+uint32_t buffer::send( const void *_pvTxData, const uint32_t _xDataLengthBytes, const TickType_t _xTicksToWait)
+{
+   return xMessageBufferSend( xMessageBuffer,
+                                  _pvTxData,
+                                  _xDataLengthBytes,
+                                  _xTicksToWait );
+}
+
 }
