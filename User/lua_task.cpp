@@ -69,7 +69,21 @@ uint32_t uFLASHgetLength ( void )
 }
 
 
-class cpp_lua_task : os::os_task<cpp_lua_task, LUA_STK_SIZE>
+class cpp_lua_run
+{
+  protected:
+    LUA_STATE_t lua_state = LUA_INIT;
+    lua_State *L1;
+
+  public:
+    
+
+
+};
+
+
+
+class cpp_lua_task : os::os_task<cpp_lua_task, LUA_STK_SIZE> , cpp_lua_run
 {
 protected:
  
@@ -86,8 +100,8 @@ void cpp_lua_task::run( void  )
 {
     char * pcLuaErrorString;
     int res ;
-    lua_State *L1;
-    LUA_STATE_t lua_state = LUA_INIT;
+    
+    
     uint32_t ulWorkCicleIn10us;
     uint32_t mid_time= 0;
     xLastWakeTime = xTaskGetTickCount();

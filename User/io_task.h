@@ -4,15 +4,15 @@
 #include "main.h"
 
 #define KEY_COUNT           8
-#define ADC1_DATA_READY 0x01
-#define K1   0x01
-#define K2   0x02
-#define K3   0x04
-#define K4   0x08
-#define K5   0x10
-#define K6   0x20
-#define K7   0x40
-#define K8   0x80
+
+#define kl1_key            0x00U
+#define kl2_key            0x01U
+#define kl3_key            0x02U
+#define kl4_key            0x03U
+#define kl5_key            0x04U
+#define kl6_key            0x05U
+#define kl7_key            0x06U
+#define kl8_key            0x07U
 
 #ifdef __cplusplus
  extern "C" {

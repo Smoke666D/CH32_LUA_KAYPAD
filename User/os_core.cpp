@@ -52,4 +52,24 @@ uint32_t buffer::send( const void *_pvTxData, const uint32_t _xDataLengthBytes, 
                                   _xTicksToWait );
 }
 
+
+
+
+   
+mutex::mutex()
+{
+ _mutex= xSemaphoreCreateMutexStatic( &xMutexBuffer );
+}
+
+void mutex::give()
+{
+   xSemaphoreGive( _mutex );
+}
+
+bool mutex::take( uint32_t _time )
+{
+   return xSemaphoreTake( _mutex, _time);	
+
+}
+
 }

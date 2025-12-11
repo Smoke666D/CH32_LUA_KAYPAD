@@ -5,24 +5,13 @@
  *      Author: i.dymov
  */
 #include "system_init.h"
-#include "hw_lib_can.h"
-#include "hal_can.h"
 #include "io_task.h"
-#include "hw_lib_keyboard.h"
+
 
 static StaticTask_t xIdleTaskTCB;
 static StaticTask_t xTimerTaskTCB;
-
-
-
 static StackType_t uxIdleTaskStack[ configMINIMAL_STACK_SIZE ];
 static StackType_t uxTimerTaskStack[ configTIMER_TASK_STACK_DEPTH ];
-static StaticMessageBuffer_t xKeyboardMessageBufferStruct;
-static uint8_t ucKeyboardMessageBufferStorage[ 16 * sizeof( KeyEvent ) ];
-//static uint8_t ucQueueStorageArea[  16U * sizeof( CAN_FRAME_TYPE ) ];
- StaticSemaphore_t xMutexBuffer;
-
-
 
 /*
  * 妤快把快技快扶扶抑快
@@ -53,10 +42,8 @@ void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer,
 INIT_FUNC_LOC void vSYSqueueInit ( void )
 {
 
- * (xKeyboardMessageBuffer()) =  xMessageBufferCreateStatic( sizeof( ucKeyboardMessageBufferStorage ),
-                                                 ucKeyboardMessageBufferStorage,
-                                                 &xKeyboardMessageBufferStruct );
-   (* pGetCanMutex()) = xSemaphoreCreateMutexStatic( &xMutexBuffer );
+
+
   
 }
 /*----------------------------------------------------------------------------*/

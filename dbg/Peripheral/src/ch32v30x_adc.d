@@ -1,88 +1,88 @@
 Peripheral/src/ch32v30x_adc.o: ../Peripheral/src/ch32v30x_adc.c \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_adc.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Core/core_riscv.h \
- C:\MRS_DATA\workspace\CH32V_LUA\User/system_ch32v30x.h \
- C:\MRS_DATA\workspace\CH32V_LUA\User/ch32v30x_conf.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_bkp.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_can.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_crc.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_dac.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_dbgmcu.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_dma.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_exti.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_flash.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_fsmc.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_gpio.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_i2c.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_iwdg.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_pwr.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_rcc.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_rtc.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_sdio.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_spi.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_tim.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_usart.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_wwdg.h \
- C:\MRS_DATA\workspace\CH32V_LUA\User/ch32v30x_it.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Debug/debug.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x.h \
- C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_misc.h
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_adc.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Core/core_riscv.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/User/system_ch32v30x.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/User/ch32v30x_conf.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_bkp.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_can.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_crc.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_dac.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_dbgmcu.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_dma.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_exti.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_flash.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_fsmc.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_gpio.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_i2c.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_iwdg.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_pwr.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_rcc.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_rtc.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_sdio.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_spi.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_tim.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_usart.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_wwdg.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/User/ch32v30x_it.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Debug/debug.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_misc.h
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_adc.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_adc.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Core/core_riscv.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Core/core_riscv.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\User/system_ch32v30x.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/User/system_ch32v30x.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\User/ch32v30x_conf.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/User/ch32v30x_conf.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_bkp.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_bkp.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_can.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_can.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_crc.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_crc.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_dac.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_dac.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_dbgmcu.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_dbgmcu.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_dma.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_dma.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_exti.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_exti.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_flash.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_flash.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_fsmc.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_fsmc.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_gpio.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_gpio.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_i2c.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_i2c.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_iwdg.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_iwdg.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_pwr.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_pwr.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_rcc.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_rcc.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_rtc.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_rtc.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_sdio.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_sdio.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_spi.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_spi.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_tim.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_tim.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_usart.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_usart.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_wwdg.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_wwdg.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\User/ch32v30x_it.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/User/ch32v30x_it.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Debug/debug.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Debug/debug.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x.h:
 
-C:\MRS_DATA\workspace\CH32V_LUA\Peripheral\inc/ch32v30x_misc.h:
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_misc.h:

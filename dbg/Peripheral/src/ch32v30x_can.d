@@ -1,12 +1,11 @@
-User/system_ch32v30x.o: ../User/system_ch32v30x.c \
+Peripheral/src/ch32v30x_can.o: ../Peripheral/src/ch32v30x_can.c \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_can.h \
  c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x.h \
  c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Core/core_riscv.h \
  c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/User/system_ch32v30x.h \
  c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/User/ch32v30x_conf.h \
  c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_adc.h \
- c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x.h \
  c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_bkp.h \
- c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_can.h \
  c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_crc.h \
  c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_dac.h \
  c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_dbgmcu.h \
@@ -27,7 +26,10 @@ User/system_ch32v30x.o: ../User/system_ch32v30x.c \
  c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_wwdg.h \
  c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/User/ch32v30x_it.h \
  c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Debug/debug.h \
+ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x.h \
  c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_misc.h
+
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_can.h:
 
 c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x.h:
 
@@ -39,11 +41,7 @@ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/User/ch32v30x_conf.h:
 
 c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_adc.h:
 
-c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x.h:
-
 c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_bkp.h:
-
-c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_can.h:
 
 c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_crc.h:
 
@@ -84,5 +82,7 @@ c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_wwdg.h:
 c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/User/ch32v30x_it.h:
 
 c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Debug/debug.h:
+
+c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x.h:
 
 c:/Users/dymov-i.d/Documents/CH32_LUA_KAYPAD/Peripheral/inc/ch32v30x_misc.h:

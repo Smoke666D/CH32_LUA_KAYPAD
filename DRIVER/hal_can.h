@@ -83,6 +83,7 @@ typedef struct {
 	uint32_t ident;
   uint8_t rtr:1;
   uint8_t extd:1;
+  uint8_t can_iface:1;
 } CAN_FRAME_TYPE;
 
 

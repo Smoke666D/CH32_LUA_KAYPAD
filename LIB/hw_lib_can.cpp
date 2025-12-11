@@ -1,74 +1,153 @@
 #include "hw_lib_can.h"
 #include "hal_flash.h"
 #include "string.h"
-#include "os_core.h"
 #include "system_init.h"
-
+#include "hw_lib_can_mail_box.h"
 
 static void  prv_read_can_received_msg( HAL_CAN_RX_FIFO_NUMBER_t fifo);
-void CAN_SendMessage();
-
-static CANRX MailBoxBuffer[MAILBOXSIZE];
+static void CAN_SendMessage();
 static CAN_BOUNDRATE CANbitRate;
+static  can_lib_mail_box <MAILBOXSIZE>   MailBoxBuffer;
 
- SemaphoreHandle_t xSemaphore;
+/*
+ *
+ */
+class cpp_can_rx_buffer : public os::os_message_buffer<cpp_can_rx_buffer,  CANRX_QUEUE_SIZE * sizeof( CAN_FRAME_TYPE )> {}
+can_rx_buffer = {};
 
-SemaphoreHandle_t * pGetCanMutex()
+class cpp_can_tx_buffer : public os::os_message_buffer<cpp_can_rx_buffer,  CANRX_QUEUE_SIZE * sizeof( CAN_FRAME_TYPE )> {}
+can_tx_buffer = {};
+
+class cpp_can_rx_task : public os::os_task<cpp_can_rx_task, CANRX_STK_SIZE>
 {
-	return &xSemaphore ;
+ public:
+    void run(void )  __attribute__((__noreturn__)) ;        
+    using os_task::os_task;
+	
+};
+
+cpp_can_rx_task can_rx_task ={"can_rx_Task",CANRX_TASK_PRIO};
+/*
+*/
+void cpp_can_rx_task::run( void )
+{
+	CAN_FRAME_TYPE RXPacket;
+	while(1)
+	{  
+		can_rx_buffer.recieve(static_cast<void *>(&RXPacket),sizeof(CAN_FRAME_TYPE),portMAX_DELAY);
+		MailBoxBuffer.insert(&RXPacket);
+		
+	}
+}
+
+/*
+*/
+static void  prv_read_can_received_msg( HAL_CAN_RX_FIFO_NUMBER_t fifo) 
+{
+   CAN_FRAME_TYPE rxMsg;
+   HAL_CAN_MSG_GET(fifo, &rxMsg);
+   can_rx_buffer.isr_send(&rxMsg,sizeof(CAN_FRAME_TYPE));
+   return;
+}
+
+/*
+*/
+static void CAN_SendMessage()
+{
+    CAN_TX_FRAME_TYPE buffer;
+	if (can_tx_buffer.isr_recieve(&buffer, sizeof( CAN_TX_FRAME_TYPE)) !=0 )
+    {
+        HAL_CANSend(&buffer);
+    }
+}
+
+/*
+*/
+static void SetFilter( uint8_t _index)
+{
+	if (_index > NORMAL_CAN_ID_FILTER_COUNT )	
+	{
+		uint16_t index = HALF_CAN_FILTER_COUNT +  ( _index - NORMAL_CAN_ID_FILTER_COUNT )/ 2;  //§ª§ß§Õ§Ö§Ü§ã §Ò§Ñ§ß§Ü§Ñ §æ§Ú§Ý§î§ä§â§à§Ó, §Ó §Ü§à§ä§à§â§à§Þ §ß§Ñ§Õ§à §å§ã§ä§Ñ§ß§à§Ó§Ú§ä§î §æ§Ú§Ý§î§ä§â
+		uint16_t offset = (_index % 2) ? _index - 1 : _index;   //§ª§ß§Õ§Ö§Ü§ã §á§Ö§â§Ó§à§Ô§à §ï§Ý§Ö§Þ§Ö§ß§ä§Ñ §Ó §Þ§Ñ§ã§ã§Ú§Ó§Ö  MailBoxBuffer, §Ü§à§ä§à§â§í§Û §ß§Ñ§Õ§à §Ù§Ñ§á§Ú§ç§Ñ§ä§î §Ó §æ§Ú§Ý§î§ä§â
+		HAL_CANSetFitersEX(	index,
+		 					MailBoxBuffer.get_id(offset),
+							MailBoxBuffer.get_id(offset  +1),
+							FILTER_FIFO_1 );
+
+	}
+	else 
+	{
+		uint16_t index = _index / 4;
+     	HAL_CANSetFiters( index,
+	 					  MailBoxBuffer.get_id(index*4U),
+	 					  MailBoxBuffer.get_id(index*4U  +1),
+						  MailBoxBuffer.get_id(index*4U  +2),
+	 					  MailBoxBuffer.get_id(index*4U  +3), 
+						  FILTER_FIFO_0); 
+	}
 }
 
 
+/***********************************************************PUBLIC FUNCTION*************************************************************************************************/
 
+/*
+*  §¶§å§ß§Ü§è§Ú§ñ §Ó§à§Ù§Ó§â§Ñ§ë§Ñ§Ö§ä §ã§é§Ú§ä§í§Ó§Ñ§Ö§ä §Õ§Ñ§ß§ß§í§Ö §Ú§Ù §Þ§Ñ§Û§Ý§Ò§à§Ü§ã§Ñ §ã §ß§å§Ø§ß§í§Þ §ß§à§Þ§Ö§â§à§Þ
+*/
+bool lib_can_get_new_data( const uint8_t mail_box_index, CAN_FRAME_TYPE * RXPacket )
+{	
+	return MailBoxBuffer.get_new(mail_box_index, *RXPacket);
+}
+
+/*
+*  §¶§å§ß§Ü§è§Ú§ñ §á§â§à§Ó§Ö§â§ñ§Ö§ä §Ö§ã§ä§î §Ý§Ú §ß§à§Ó§í§Ö §Õ§Ñ§ß§ß§í§Ö §Ó §Þ§Ñ§Û§Ý§Ò§à§Ü§ã§Ö
+*/
+bool lib_can_check_new_data(const uint8_t MailboxId) 
+{
+	return MailBoxBuffer.is_new(MailboxId);
+}
+
+/*
+*/
+bool lib_can_set_new(const uint32_t id,const uint8_t extd, const uint8_t rtr, uint8_t * findMBIndex ) 
+{	
+	if (MailBoxBuffer.find_free(id, extd, rtr, *findMBIndex))
+	{		
+		SetFilter(*findMBIndex);		
+		printf("id  =%x index=%x\r\n",id,*findMBIndex);
+		return true;
+	}
+	return false;
+}
+
+/*
+*
+*/
+void eMailboxFilterReset(const uint8_t MailboxId) 
+{
+    if ( MailBoxBuffer.resert(MailboxId) == true)
+	{
+		SetFilter(MailboxId );		
+	}
+	
+}
+
+/*
+§°§ä§á§â§Ñ§Ó§Ü§Ñ §á§Ñ§Ü§Ö§ä§Ñ §Ó §ã§Ö§ä§î CAN. 
+§¦§ã§Ý§Ú §ä§Ö§Ü§å§ë§Ú§Ö §Þ§Ñ§Û§Ý§Ò§à§Ü§ã§í §ã§à§ß§ä§â§à§Ý§Ý§Ö§â§Ñ CAN §Ù§Ñ§ß§ñ§ä§í, §ä§à §á§Ñ§Ü§Ö§ä §â§Ñ§Ù§Þ§Ö§ë§Ñ§Ö§ä§ã§ñ §Ó §à§é§Ö§â§Ö§Õ§Ú §à§á§Ö§â§Ñ§è§Ú§à§ß§ß§à§Û §ã§Ú§ã§ä§Ö§Þ§í
+*/
+void lib_can_send_data(CAN_TX_FRAME_TYPE *buffer)
+{
+    if ( HAL_CANSend(buffer) == CAN_TxStatus_NoMailBox )
+    {
+		can_tx_buffer.send(&buffer,sizeof(CAN_TX_FRAME_TYPE), portMAX_DELAY);
+    }
+}
 
 void vRestartNode( void )
 {
     return;
 }
 
-
-uint8_t uFindMessageToMailbox( uint8_t * index_id, uint32_t can_id, uint8_t ext, uint8_t rtr)
-{
-	uint16_t first_index, last_index;
-	if (ext)
-	{
-		first_index = NORMAL_CAN_ID_FILTER_COUNT ;
-		last_index  = MAILBOXSIZE;
-	}
-	else 
-	{
-		first_index = 0;
-        last_index  = NORMAL_CAN_ID_FILTER_COUNT ;
-	}
-	for (uint16_t k =  first_index ; k < last_index; k++)
-	{
-		if  ( (MailBoxBuffer[k].ident == can_id ) && (MailBoxBuffer[k].rtr == rtr) )
-		{
-			*index_id = k;
-			return 1;
-		}
-	}
-    return 0;
-}
-
-uint8_t GetMailBoxData( uint8_t mail_box_index,CAN_FRAME_TYPE * RXPacket )
-{
-	uint8_t res = 0U;
-	if (mail_box_index < MAILBOXSIZE)
-	{
-		if ((MailBoxBuffer[mail_box_index].enable == 1) && (MailBoxBuffer[mail_box_index].new_data == 1))
-		{
-			MailBoxBuffer[mail_box_index].new_data = 0;
-			RXPacket->ident	 = MailBoxBuffer[mail_box_index].ident;
-			 xSemaphoreTake( xSemaphore, portMAX_DELAY);
-			RXPacket->DLC = MailBoxBuffer[mail_box_index].DLC;
-			memcpy(RXPacket->data,MailBoxBuffer[mail_box_index].data,RXPacket->DLC);
-			xSemaphoreGive( xSemaphore );
-			res = 1U;
-		}
-	}
-	return (res);
-}
 
 
 /*
@@ -151,210 +230,9 @@ void vCANBoudInit( uint16_t boudrate )
     HAL_CANIntIT(CANbitRate,CAN1_PRIOR,CAN1_SUBPRIOR);
 	for (int i=0;i<MAILBOXSIZE;i++)
 	{
-		MailBoxBuffer[i].enable = 0U;
- 
+		MailBoxBuffer.resert(i);
 		if ((i%4) == 0 ) HAL_CANInitIDInactive(i/4, FILTER_FIFO_0);
        // HAL_CANResetFiltesr(i);
 	}	
     return;
-}
-/*
- *
- */
-void vCanInsertRXData(CAN_FRAME_TYPE * RXPacket)
-{
-	uint16_t id = RXPacket->filter_id;
-	if ((MailBoxBuffer[id].ident == RXPacket->ident) &&  (MailBoxBuffer[id].extd_id == RXPacket->extd) && (MailBoxBuffer[id].rtr == RXPacket->rtr)  )
-	{
-		xSemaphoreTake( xSemaphore, portMAX_DELAY);
-		MailBoxBuffer[id].DLC = RXPacket->DLC;
-		memcpy(MailBoxBuffer[id].data,RXPacket->data,RXPacket->DLC);
-		if (MailBoxBuffer[id].enable == 1)
-		{
-			
-			MailBoxBuffer[id].new_data = 1;
-		}	
-		xSemaphoreGive( xSemaphore );
-	}
-	else
-	{
-		uint8_t MailboxId;
-        if ( uFindMessageToMailbox( &MailboxId,RXPacket->ident, RXPacket->extd, RXPacket->rtr) == 1 ) 
-		{	
-			xSemaphoreTake( xSemaphore, portMAX_DELAY);						 
-			MailBoxBuffer[MailboxId].DLC = RXPacket->DLC;
-			memcpy(MailBoxBuffer[MailboxId].data,RXPacket->data,RXPacket->DLC);
-			if (MailBoxBuffer[MailboxId].enable == 1)
-			{
-				MailBoxBuffer[MailboxId].new_data = 1;
-			}
-			xSemaphoreGive( xSemaphore );
-		}
-	}
-	return;
-}
-/*
- *
- */
-
-class cpp_can_rx_buffer : public os::os_message_buffer<cpp_can_rx_buffer,  CANRX_QUEUE_SIZE * sizeof( CAN_FRAME_TYPE )> {}
-can_rx_buffer = {};
-
-class cpp_can_tx_buffer : public os::os_message_buffer<cpp_can_rx_buffer,  CANRX_QUEUE_SIZE * sizeof( CAN_FRAME_TYPE )> {}
-can_tx_buffer = {};
-
-class cpp_can_rx_task : public os::os_task<cpp_can_rx_task, CANRX_STK_SIZE>
-{
-protected:
- 
-  TickType_t xLastWakeTime;
-  
- public:
-    void run(void )  __attribute__((__noreturn__)) ;        
-    using os_task::os_task;
-	
-};
-
-cpp_can_rx_task can_rx_task ={"can_rx_Task",CANRX_TASK_PRIO};
-
-
-
-
-
-
-
-
-void cpp_can_rx_task::run( void )
-{
-	CAN_FRAME_TYPE RXPacket;
-	while(1)
-	{  
-		can_rx_buffer.recieve(static_cast<void *>(&RXPacket),sizeof(CAN_FRAME_TYPE),portMAX_DELAY);
-		vCanInsertRXData(&RXPacket);
-		
-	}
-}
-/*
-*
-*/
-static void vFilterSet(uint16_t mailboxindex)
-{
-	 uint16_t index = mailboxindex / 4;
-     HAL_CANSetFiters(	index,
-	 					MailBoxBuffer[index*4U  	].ident,
-	 					MailBoxBuffer[index*4U  +1 	].ident,
-						MailBoxBuffer[index*4U  +2	].ident,
-	 					MailBoxBuffer[index*4U  +3	].ident   , 
-						FILTER_FIFO_0); 
-	 return;
-}
-/*
-*/
-void vFilterSetExtd(uint16_t mailboxindex)
-{
-	uint16_t index = HALF_CAN_FILTER_COUNT +  ( mailboxindex - NORMAL_CAN_ID_FILTER_COUNT )/ 2;  //§ª§ß§Õ§Ö§Ü§ã §Ò§Ñ§ß§Ü§Ñ §æ§Ú§Ý§î§ä§â§à§Ó, §Ó §Ü§à§ä§à§â§à§Þ §ß§Ñ§Õ§à §å§ã§ä§Ñ§ß§à§Ó§Ú§ä§î §æ§Ú§Ý§î§ä§â
-	uint16_t offset = (mailboxindex % 2) ? mailboxindex - 1 : mailboxindex;   //§ª§ß§Õ§Ö§Ü§ã §á§Ö§â§Ó§à§Ô§à §ï§Ý§Ö§Þ§Ö§ß§ä§Ñ §Ó §Þ§Ñ§ã§ã§Ú§Ó§Ö  MailBoxBuffer, §Ü§à§ä§à§â§í§Û §ß§Ñ§Õ§à §Ù§Ñ§á§Ú§ç§Ñ§ä§î §Ó §æ§Ú§Ý§î§ä§â
-	HAL_CANSetFitersEX(	index,
-		 				MailBoxBuffer[offset     ].ident,
-						MailBoxBuffer[offset  +1 ].ident,
-						FILTER_FIFO_1 );
-	return;
-
-}
-
-uint8_t  uCheckMailBoxData(uint8_t MailboxId) 
-{
-  return 	((MailBoxBuffer[MailboxId].enable == 1) &&	(MailBoxBuffer[MailboxId].new_data == 1)?1:0);
-}
-/*
-*/
-void eMailboxFilterReset(uint8_t MailboxId) 
-{
-     if (MailboxId < MAILBOXSIZE) 
-	 {
-		if	(MailBoxBuffer[MailboxId].enable == 1)
-		{
-			MailBoxBuffer[MailboxId].enable = 0;
-			if (MailBoxBuffer[MailboxId].extd_id )
-			{
-				vFilterSetExtd(MailboxId);
-			}
-			else 
-			{
-				vFilterSet(MailboxId);
-			}
-		}
-	}
-	return;
-}
-/*
-*/
-uint8_t eMailboxFilterSet(uint32_t id, uint8_t extd, uint8_t rtr) 
-{
-	ERROR_TYPE_t eRes = BUFFER_FULL;
-	uint8_t findMBIndex,first_index,last_index;
-	
-	first_index = (extd)? NORMAL_CAN_ID_FILTER_COUNT : 0;
-	last_index  = (extd) ? MAILBOXSIZE : NORMAL_CAN_ID_FILTER_COUNT;
-
-	for (findMBIndex = first_index ; findMBIndex <  last_index ; findMBIndex++)  //§´§à §Ú§ë§Ö§Þ §ã§Ó§à§Ò§à§Õ§ß§í§Û §Ò§å§æ§æ§Ö§â §Ó §ã§ä§Ñ§â§ê§Ö§Û §á§à§Ý§à§Ó§Ú§ß§Ö §Þ§Ñ§ã§ã§Ú§Ó§Ñ
-	{
-		if ( MailBoxBuffer[findMBIndex].enable == 0U )
-		{
-			eRes = ERROR_NO;
-			break;
-		}
-	}
-	if (eRes ==ERROR_NO )
-	{
-		MailBoxBuffer[findMBIndex].ident = id;
-		MailBoxBuffer[findMBIndex].rtr = rtr;
-		MailBoxBuffer[findMBIndex].enable = 1;
-		if (extd ) 
-		{
-			vFilterSetExtd(findMBIndex);
-		}
-		else 
-		{
-			
-			vFilterSet(findMBIndex);
-		}
-		printf("id  =%x index=%x\r\n",id,findMBIndex);
-		
-	}
-	return ( findMBIndex );
-}
-
-/*
-§°§ä§á§â§Ñ§Ó§Ü§Ñ §á§Ñ§Ü§Ö§ä§Ñ §Ó §ã§Ö§ä§î CAN. 
-§¦§ã§Ý§Ú §ä§Ö§Ü§å§ë§Ú§Ö §Þ§Ñ§Û§Ý§Ò§à§Ü§ã§í §ã§à§ß§ä§â§à§Ý§Ý§Ö§â§Ñ CAN §Ù§Ñ§ß§ñ§ä§í, §ä§à §á§Ñ§Ü§Ö§ä §â§Ñ§Ù§Þ§Ö§ë§Ñ§Ö§ä§ã§ñ §Ó §à§é§Ö§â§Ö§Õ§Ú §à§á§Ö§â§Ñ§è§Ú§à§ß§ß§à§Û §ã§Ú§ã§ä§Ö§Þ§í
-*/
-void APPCANSEND(CAN_TX_FRAME_TYPE *buffer)
-{
-    if ( HAL_CANSend(buffer) == CAN_TxStatus_NoMailBox )
-    {
-		can_tx_buffer.send(&buffer,sizeof(CAN_TX_FRAME_TYPE), portMAX_DELAY);
-    }
-}
-
-
-/*
-*/
-static void  prv_read_can_received_msg( HAL_CAN_RX_FIFO_NUMBER_t fifo) 
-{
-   CAN_FRAME_TYPE rxMsg;
-   HAL_CAN_MSG_GET(fifo, &rxMsg);
-   can_rx_buffer.isr_send(&rxMsg,sizeof(CAN_FRAME_TYPE));
-   return;
-}
-
-
-void CAN_SendMessage()
-{
-    CAN_TX_FRAME_TYPE buffer;
-	if (can_tx_buffer.isr_recieve(&buffer,sizeof( CAN_TX_FRAME_TYPE)) !=0 )
-    {
-        HAL_CANSend(&buffer);
-    }
-
 }

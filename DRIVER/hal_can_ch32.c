@@ -393,10 +393,10 @@ INIT_FUNC_LOC void HAL_CANSetFitersEX(uint8_t filter_index, uint32_t f1,uint32_t
 {
     if ((f1 !=0) || (f2!=0))
     {
-        u16 CAN_FilterId1Low       = ((f1 <<3) | 0x04) & 0xFFFF;
+        u16 CAN_FilterId1Low   = ((f1 <<3) | 0x04) & 0xFFFF;
         u16 CAN_FilterId1High  = (f1 >>13) & 0xFFFF;
         u16 CAN_FilterId2Low   = ((f2 <<3) | 0x04) & 0xFFFF;
-        u16 CAN_FilterId2High      = (f2 >>13) & 0xFFFF;
+        u16 CAN_FilterId2High  = (f2 >>13) & 0xFFFF;
         uint16_t CAN_FilterFIFOAssignment =  (FIFO  == FILTER_FIFO_0) ?  CAN_Filter_FIFO0 :  CAN_Filter_FIFO1 ;
         uint32_t filter_number_bit_pos = 0;
         filter_number_bit_pos = ((uint32_t)1) << filter_index;

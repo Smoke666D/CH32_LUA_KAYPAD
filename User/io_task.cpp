@@ -1,9 +1,38 @@
 #include "io_task.h"
-#include "hal_dma.h"
-#include "string.h"
-#include "hw_lib_keyboard.h"
-#include "init.h"
 #include "os_core.h"
+#include "hal_gpio.h"
+#include "hw_lib_cpp_keyboard.h"
+#include "init.h"
+
+static PortName_t      port[KEY_COUNT] = { 
+										   KL1_Port, 
+										   KL2_8_Port,
+										   KL2_8_Port,
+										   KL2_8_Port,
+										   KL2_8_Port,
+										   KL2_8_Port,
+										   KL2_8_Port,
+										   KL2_8_Port
+										  };	
+
+static const uint16_t   pin[KEY_COUNT] = { 
+										   KL1Pin,
+										   KL2Pin,
+										   KL3Pin,
+										   KL4Pin,
+										   KL5Pin,
+										   KL6Pin,
+										   KL7Pin,
+										   KL8Pin
+										   };
+
+static BitState_t fPortState (uint8_t i)
+{
+	return HAL_GetBit(port[i], pin[i]);    
+}
+
+static cpp_keyboard<KEY_COUNT> keyboard = {&fPortState, 30 , 40, 20};
+
 
 class cpp_IO_task : os::os_task<cpp_IO_task, IO_STK_SIZE>
 {
@@ -15,54 +44,6 @@ class cpp_IO_task : os::os_task<cpp_IO_task, IO_STK_SIZE>
 cpp_IO_task IO_task ={"IO_Task",IO_TASK_PRIO};
 
 
-static uint8_t  STATUS[KEY_COUNT];
-static uint8_t  COUNTERS[KEY_COUNT];
-static MessageBufferHandle_t pKeyboardMessageBuffer;
-static KeyEvent          TempEvent        = { 0U };
-
-
-
-BitState_t fPortState (uint8_t i)
-{
-    switch (i)
-    {
-        case 0:
-            return HAL_GetBit( KL1_Port, KL1Pin  );
-        case 1:
-            return HAL_GetBit( KL2_8_Port, KL2Pin  );
-        case 2:
-            return HAL_GetBit( KL2_8_Port, KL3Pin  );
-        case 3:
-            return HAL_GetBit( KL2_8_Port, KL4Pin  );
-        case 4:
-            return HAL_GetBit( KL2_8_Port, KL5Pin  );
-        case 5:
-            return HAL_GetBit( KL2_8_Port, KL6Pin  );
-        case 6:
-            return HAL_GetBit( KL2_8_Port, KL7Pin  );
-        case 7:
-            return HAL_GetBit( KL2_8_Port, KL8Pin  );
-        default:
-            return HAL_BIT_RESET;
-    }
-}
-
-
-
-void vInitKeybord()
-{
-    KeybaordStruct_t KeyboardInit;
-    KeyboardInit.KEYBOARD_COUNT    = KEY_COUNT;
-    KeyboardInit.COUNTERS          = COUNTERS;
-    KeyboardInit.STATUS            = STATUS;
-    KeyboardInit.REPEAT_TIME       = 3;
-    KeyboardInit.KEYDOWN_HOLD_TIME = 4;
-    KeyboardInit.KEYDOWN_DELAY     = 2;
-    KeyboardInit.KEYBOARD_PERIOD   = 20;
-    KeyboardInit.getPortCallback = &fPortState;
-    eKeyboardInit(&KeyboardInit);
-}
-
 static uint8_t data;
 
 uint8_t getKeyData()
@@ -71,47 +52,17 @@ uint8_t getKeyData()
 }
 
 void  cpp_IO_task::run(void )
-{
- static uint8_t key_mask;
-   vInitKeybord();
-   pKeyboardMessageBuffer= *(xKeyboardMessageBuffer());
-	while(1)
-	{  
-		sleep(1); 
-        HW_LIB_KeyboradFSM();
-        if ( xMessageBufferReceive(pKeyboardMessageBuffer,&TempEvent,sizeof(KeyEvent),0) != 0)
-		{
-			switch (TempEvent.KeyCode)
-			{
-				case kl1_key:
-				   key_mask = K1;
-				   break;
-				case kl2_key:
-				   key_mask = K2;
-			   	   break;
-				case kl3_key:
-				   key_mask = K3;
-			   	   break;
-				case kl4_key:
-				   key_mask = K4;
- 			   	   break;
-				case kl5_key:
-				   key_mask = K5;
-   			   	   break;
-				case kl6_key:
-				   key_mask = K6;
-			  	   break;
-				case kl7_key:
-				   key_mask = K7;
-			   	   break;
-				case kl8_key:
-				   key_mask = K8;
-			   	   break;
-				default:
-				   key_mask = 0U;
-				   break;
-			}
-			if ( TempEvent.Status == MAKECODE )
+{  
+   uint8_t _key_mask[] = {kl1_key,kl2_key,kl3_key,kl4_key,kl5_key,kl6_key,kl7_key,kl8_key};
+   _keybard_evet event;
+   while(1)
+   {
+   		sleep(1); 
+		keyboard.run(1);
+        if ( keyboard.get(&event) )
+		{			
+			uint8_t key_mask = _key_mask[event.key_index] ;			
+			if (event.Status == key_code_make)
 			{
 				data |= key_mask;
 			}

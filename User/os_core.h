@@ -11,6 +11,18 @@
 namespace os
 {
 
+class mutex 
+{
+protected:
+    SemaphoreHandle_t _mutex;
+    StaticSemaphore_t xMutexBuffer;
+public: 
+    mutex();
+    void give();
+    bool take(uint32_t _time = portMAX_DELAY);
+};
+
+
 template <class _T>  void (*mem_func(   void(_T::*_member)(void )))(void *)
 {
     const union

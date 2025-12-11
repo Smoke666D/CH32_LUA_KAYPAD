@@ -108,7 +108,7 @@ static int iCanSendData( lua_State *L )
 		          }
           }                        
 				}
-				APPCANSEND(&frame);
+				lib_can_send_data(&frame);
 			}
 	  return ( NO_RESULT );
 }
@@ -206,12 +206,16 @@ static int iSetLedBrigth(lua_State *L)
 static int iCanSetResiveFilter(lua_State *L )
 {
   uint8_t ucResNumber = NO_RESULT;
-  if (lua_gettop(L) == THREE_ARGUMENTS )  /*§±§â§à§Ó§Ö§â§ñ§Ö§Þ, §é§ä§à §á§â§Ú §Ó§í§Ù§à§Ó§Ö §ß§Ñ§Þ §á§Ö§â§Ö§Õ§Ñ§Ý§Ú §ß§å§Ø§ß§à§Ö §é§Ú§ã§Ý§à §Ñ§â§Ô§å§Þ§Ö§ß§ä§à§Ó*/
+  uint8_t index = 0;
+  if (true 
+     && lua_gettop(L) == THREE_ARGUMENTS
+     && lib_can_set_new( lua_tointeger(L,FIRST_ARGUMENT ),
+                         lua_tointeger(L,SECOND_ARGUMENT ),
+                         lua_tointeger(L,THIRD_ARGUMENT ),
+                         &index)     
+      )  /*§±§â§à§Ó§Ö§â§ñ§Ö§Þ, §é§ä§à §á§â§Ú §Ó§í§Ù§à§Ó§Ö §ß§Ñ§Þ §á§Ö§â§Ö§Õ§Ñ§Ý§Ú §ß§å§Ø§ß§à§Ö §é§Ú§ã§Ý§à §Ñ§â§Ô§å§Þ§Ö§ß§ä§à§Ó*/
   {
-	  lua_pushnumber(L, eMailboxFilterSet( ( uint32_t ) lua_tointeger(L,FIRST_ARGUMENT ),
-                                                      lua_tointeger(L,SECOND_ARGUMENT ),
-                                                      lua_tointeger(L,THIRD_ARGUMENT )
-                                                      ) );
+	  lua_pushnumber(L, index);
 	  ucResNumber = ONE_RESULT;
   }
   return ( ucResNumber );
@@ -239,7 +243,7 @@ static int iCanCheckData(lua_State *L )
 	uint32_t uiRes = 0U;
 	if (lua_gettop(L) == ONE_ARGUMENT ) 
   {
-		  uiRes =  uCheckMailBoxData( lua_tointeger(L, FIRST_ARGUMENT));                                   		 
+      uiRes = lib_can_check_new_data(lua_tointeger(L, FIRST_ARGUMENT)) ? 1 : 0;		  
 	}
 	lua_pushnumber(L, uiRes );
 	return ( 1U );
@@ -259,7 +263,7 @@ static int iCanGetResivedData(lua_State *L )
 	{
     mail_box_index = lua_tointeger(L,FIRST_ARGUMENT );
    
-    if  ( GetMailBoxData( mail_box_index,&RXPacket ) == 1 )
+    if  ( lib_can_get_new_data( mail_box_index, &RXPacket ) )
     {
       if ((lua_gettop(L)==TWO_ARGUMENTS) && lua_istable(L, LAST_ARGUMENT))   //§±§â§à§Ó§Ö§â§ñ§Ö§Þ §é§ä§à §Ó §Ü§Ñ§é§Ö§ã§ä§Ó§Ö §Ñ§â§Ô§å§Þ§Ö§ß§ä§Ñ §á§Ö§â§Ö§Õ§Ñ§Ý§Ú §ä§Ñ§Ò§Ý§Ú§è§å
       { 
