@@ -25,7 +25,7 @@
 #define LUA_TASK_PRIO               3  //ДОЛЖЕН БЫТЬ САМЫ ВЫСОКИЙ
 #define LUA_STK_SIZE                700
 #define CANRX_TASK_PRIO             9 //ДОЛЖЕН БЫТЬ САМЫ ВЫСОКИЙ
-#define CANRX_STK_SIZE             256
+#define CANRX_STK_SIZE              200
 #define IO_TASK_PRIO                5 //ДОЛЖЕН БЫТЬ САМЫ ВЫСОКИЙ
 #define IO_STK_SIZE                 128
 
@@ -34,6 +34,10 @@
 
 
 
+#ifdef __cplusplus
+ extern "C" {
+#endif 
+
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
                                     StackType_t **ppxIdleTaskStackBuffer,
                                     uint32_t *pulIdleTaskStackSize );
@@ -41,15 +45,6 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
 void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer,
                                      StackType_t **ppxTimerTaskStackBuffer,
                                      uint32_t *pulTimerTaskStackSize );
-
-#ifdef __cplusplus
- extern "C" {
-#endif 
-
-
-
-void vSYSqueueInit ( void );
-
 
 #ifdef __cplusplus
 }

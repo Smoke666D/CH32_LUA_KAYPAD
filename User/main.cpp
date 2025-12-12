@@ -36,7 +36,6 @@ int main(void)
     InitDevice();
 	USART_Printf_Init(115200);
     printf("Versin %i.%i.%i\r\n",V1,V2,V3);
-    vSYSqueueInit();
     vTaskStartScheduler();
 	while(1);
 }

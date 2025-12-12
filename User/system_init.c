@@ -5,7 +5,6 @@
  *      Author: i.dymov
  */
 #include "system_init.h"
-#include "io_task.h"
 
 
 static StaticTask_t xIdleTaskTCB;
@@ -14,7 +13,7 @@ static StackType_t uxIdleTaskStack[ configMINIMAL_STACK_SIZE ];
 static StackType_t uxTimerTaskStack[ configTIMER_TASK_STACK_DEPTH ];
 
 /*
- * 妤快把快技快扶扶抑快
+ * 
  */
 
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
@@ -37,14 +36,5 @@ void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer,
 }
 
 
-
-
-INIT_FUNC_LOC void vSYSqueueInit ( void )
-{
-
-
-
-  
-}
 /*----------------------------------------------------------------------------*/
 

@@ -7,7 +7,7 @@
 static void  prv_read_can_received_msg( HAL_CAN_RX_FIFO_NUMBER_t fifo);
 static void CAN_SendMessage();
 static CAN_BOUNDRATE CANbitRate;
-static  can_lib_mail_box <MAILBOXSIZE>   MailBoxBuffer;
+static  can_lib_mail_box <1,28>   MailBoxBuffer;
 
 /*
  *
@@ -21,24 +21,21 @@ can_tx_buffer = {};
 class cpp_can_rx_task : public os::os_task<cpp_can_rx_task, CANRX_STK_SIZE>
 {
  public:
-    void run(void )  __attribute__((__noreturn__)) ;        
+    void run( void )
+	{
+		CAN_FRAME_TYPE RXPacket;
+		while(1)
+		{  
+			can_rx_buffer.recieve(static_cast<void *>(&RXPacket),sizeof(CAN_FRAME_TYPE),portMAX_DELAY);
+			MailBoxBuffer.insert(RXPacket);			
+		}
+	}       
     using os_task::os_task;
 	
-};
-
-cpp_can_rx_task can_rx_task ={"can_rx_Task",CANRX_TASK_PRIO};
+} can_rx_task ={"can_rx_Task",CANRX_TASK_PRIO};
 /*
 */
-void cpp_can_rx_task::run( void )
-{
-	CAN_FRAME_TYPE RXPacket;
-	while(1)
-	{  
-		can_rx_buffer.recieve(static_cast<void *>(&RXPacket),sizeof(CAN_FRAME_TYPE),portMAX_DELAY);
-		MailBoxBuffer.insert(&RXPacket);
-		
-	}
-}
+
 
 /*
 */

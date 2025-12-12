@@ -2,10 +2,13 @@
 
 #include "os_core.h"
 
+/****************************************DEFINES******************************************************************/
 
 #define KEY_ON_STATE       ( HAL_BIT_RESET  )
 #define KEY_OFF_STATE      ( HAL_BIT_SET )
 
+
+/****************************************TYPES******************************************************************/
 
 typedef enum: uint8_t
 {
@@ -14,7 +17,7 @@ typedef enum: uint8_t
   key_code_time_out,
 } key_event;
 
-typedef enum:uint8_t
+typedef enum: uint8_t
 {
   key_code_off = 0,
   key_code_on,
@@ -102,7 +105,7 @@ public:
               {
                      if ( timer[i] >= keydown_delay )
                      {
-                        status[i]      = key_code_on;
+                        status[i] = key_code_on;
                         post( i , key_code_make);
                      }
                }
@@ -119,7 +122,7 @@ public:
                         )     
                     )
                     {
-                        status[i]      = key_code_repeat;
+                        status[i] = key_code_repeat;
                         post( i , key_code_make);
                     }
                }

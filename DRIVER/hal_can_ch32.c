@@ -6,11 +6,11 @@
  */
 #include "hal_can.h"
 #include "string.h"
+//#include "hal_cpp_can_filter.h"
 
 
 
-
-static HAL_CAN_t CAN;
+static HAL_CAN_t CAN[CAN_CONTROLLER_COUNT];
 
 
 /* Time out for INAK bit */
@@ -47,17 +47,17 @@ void   CAN1_SCE_IRQHandler(void)
 
 void HAL_CANSetTXCallback(void (* f) ( void ))
 {
-	CAN.txcallback = f;
+	CAN[CAN_1].txcallback = f;
 }
 void HAL_CANSetRXCallback(void (* f) ( HAL_CAN_RX_FIFO_NUMBER_t))
 {
 
-	CAN.rxcallback = f;
+	CAN[CAN_1].rxcallback = f;
 }
 
 void HAL_CANSetERRCallback(void (* f) ( void ))
 {
-	CAN.errorcallback = f;
+	CAN[CAN_1].errorcallback = f;
 }
 
 
@@ -331,6 +331,10 @@ INIT_FUNC_LOC void HAL_CANSetFiters(uint8_t filter_index, uint32_t f1,uint32_t f
 }
 
 
+
+
+
+
 INIT_FUNC_LOC void HAL_CANInitIDInactive(uint8_t filter_index, HAL_CAN_FILTER_FIFO_t FIFO)
 {
     
@@ -486,7 +490,7 @@ void   USB_HP_CAN1_TX_IRQHandler(void)
     //Сбрасываем флаг прерывания по всем mainbox. В данном драйвере нам нет необходимости отслеживать
     // что мы передали, а что нет.
     CAN1->TSTATR = CAN_TSTATR_RQCP0|CAN_TSTATR_RQCP1|CAN_TSTATR_RQCP2;
-    CAN.txcallback();
+    CAN[CAN_1].txcallback();
 
 }
 /*
@@ -494,30 +498,24 @@ void   USB_HP_CAN1_TX_IRQHandler(void)
  */
 void   USB_LP_CAN1_RX0_IRQHandler(void)
 {
-
-
-	CAN.rxcallback( HAL_RX_FIFO0);
+	CAN[CAN_1].rxcallback( HAL_RX_FIFO0);
 	CAN1->RFIFO0 = CAN_RFIFO0_FULL0;  //Сбрасываем флаг прерывания
-
 }
 /*
  * Обработчик прерывания по приему в данных в Fifo 1
  */
 void   CAN1_RX1_IRQHandler(void)
 {
-
-	CAN.rxcallback( HAL_RX_FIFO1);
+	CAN[CAN_1].rxcallback( HAL_RX_FIFO1);
 	CAN1->RFIFO1 = CAN_RFIFO1_FULL1;  //Сбрасываем флаг прерывания
-
 }
 /*
  * Обработчик прерывния общики CAN
  */
 void   CAN1_SCE_IRQHandler(void)
 {
-
     CAN1->STATR = CAN_STATR_ERRI;   //Сбрасываем флаг прерывания
-    CAN.errorcallback();
+    CAN[CAN_1].errorcallback();
 }
 
 

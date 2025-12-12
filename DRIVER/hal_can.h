@@ -14,6 +14,12 @@
  extern "C" {
 #endif 
 
+#define CAN_CONTROLLER_COUNT 2
+#define CAN_1   0
+#define CAN_2   1
+
+
+
 /* CAN masks for identifiers */
 #define CAN_SFID_MASK                      ((uint32_t)0x000007FFU)      /*!< mask of standard identifier */
 #define CANID_MASK                              0x07FF  /*!< CAN standard ID mask */

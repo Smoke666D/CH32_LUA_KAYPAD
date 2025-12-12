@@ -57,6 +57,9 @@ void lib_can_send_data(CAN_TX_FRAME_TYPE *buffer);
 
 SemaphoreHandle_t * pGetCanMutex();
 
+
+
+
 #ifdef __cplusplus
 }
 #endif
