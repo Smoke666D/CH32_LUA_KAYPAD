@@ -73,7 +73,7 @@ protected:
     }
 
 public:
-    can_lib_data_buffer_mng():
+    can_lib_data_buffer_mng():    
     cur_data_count(0)
     {
         for (auto i = 0; i < count; i++)
@@ -131,7 +131,7 @@ template <uint8_t _can_count, uint8_t _max_filter_count> class can_lib_mail_box
     static constexpr uint8_t ext_filter_max_count = _max_filter_count/_can_count * 2;
     static constexpr uint8_t _size = (_max_filter_count/_can_count)*6;
     static constexpr uint8_t max_buffer_data_size = 8;
-	os::mutex semaphore ={};
+	os::mutex semaphore;
 
     can_lib_data_buffer_mng<max_buffer_data_size>  data_buffer;
     can_filter_descr can_discriptor[_size];
@@ -182,6 +182,7 @@ template <uint8_t _can_count, uint8_t _max_filter_count> class can_lib_mail_box
   public:
     can_lib_mail_box():
     data_buffer(),
+    semaphore(),
     std_id_ptr(0),
     extd_id_ptr(0)
     {
