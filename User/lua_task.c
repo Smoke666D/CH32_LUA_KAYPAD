@@ -26,7 +26,6 @@
 Global variables
 */
 static TaskHandle_t  LuaTaskHandle;
-
 static char * pcLuaErrorString;
 
 /* 
@@ -65,7 +64,7 @@ static RESULT_t eIsLuaSkriptValid(const uint8_t* pcData, uint32_t size, uint32_t
 		}
     else 
     {
-	      for (uint32_t ulIndex = 0;ulIndex < size; ulIndex++)
+	      for (uint32_t ulIndex = 0; ulIndex < size; ulIndex++)
 	      {
 		          if ( pcData[ulIndex] == 0x00 )
               {
@@ -79,12 +78,11 @@ static RESULT_t eIsLuaSkriptValid(const uint8_t* pcData, uint32_t size, uint32_t
 	return ( ucRes );
 }
 
-
-
 const uint8_t* uFLASHgetScript ( void )
 {
   return ( const uint8_t* )( FLASH_STORAGE_ADR + FLASH_STORAGE_LENGTH_SIZE );
 }
+
 uint32_t uFLASHgetLength ( void )
 {
   uint32_t size ;
@@ -96,20 +94,20 @@ uint32_t uFLASHgetLength ( void )
 }
 
 static const luaL_Reg dev_funcs[] = {
-  {"Send",           iCanSendData          },
-  {"CheckFilter",    iCanCheckData         },
-	{"GetFrame",       iCanGetResivedData    },
-  {"SetFilter",      iCanSetResiveFilter   },
-  {"ResetFilter",    iCanResetResiveFilter },
-	{"Config",         iCanSetConfig         },
-  {"SetNodeID",      iSetCanNodeID         },
-  {"GetKeys",     iGetKeyMask}, 
-  {"SetLedRed",   iSetLedRed },
-  {"SetLedGreen", iSetLedGreen },
-  {"SetLedBlue",  iSetLedBlue },
-  {"SetLedBrigth", iSetLedBrigth},
-  {"SetBackColor", iSetBackColor},
-  {"SetBackBrigth", iSetBackBrigth},
+  {"Send",          iCanSendData          },
+  {"CheckFilter",   iCanCheckData         },
+	{"GetFrame",      iCanGetResivedData    },
+  {"SetFilter",     iCanSetResiveFilter   },
+  {"ResetFilter",   iCanResetResiveFilter },
+	{"Config",        iCanSetConfig         },
+  {"SetNodeID",     iSetCanNodeID         },
+  {"GetKeys",       iGetKeyMask           }, 
+  {"SetLedRed",     iSetLedRed            },
+  {"SetLedGreen",   iSetLedGreen          },
+  {"SetLedBlue",    iSetLedBlue           },
+  {"SetLedBrigth",  iSetLedBrigth         },
+  {"SetBackColor",  iSetBackColor         },
+  {"SetBackBrigth", iSetBackBrigth        },
   {NULL, NULL}
 };
 
@@ -236,9 +234,9 @@ void vLuaTask( void * argument )
 */
 static int iCanSendData( lua_State *L )
 {
-    CAN_TX_FRAME_TYPE frame ={0};
+    CAN_TX_FRAME_TYPE frame = {0};
     int parametr_count = lua_gettop(L);
-    if ( parametr_count>= THREE_ARGUMENTS )
+    if (parametr_count >= THREE_ARGUMENTS)
     {
         frame.rtr   = (uint32_t)lua_tointeger(L, THIRD_ARGUMENT);
         frame.extd  = (uint32_t)lua_tointeger(L, SECOND_ARGUMENT);
@@ -247,22 +245,28 @@ static int iCanSendData( lua_State *L )
         {
             if (lua_istable(L, LAST_ARGUMENT))   //Проверяем что в качестве аргумента передали таблицу
             { 	
-			          frame.DLC 	 = luaL_len(L, LAST_ARGUMENT);  //Читаем рамер таблицы
-                if (frame.DLC  > CAN_FRAME_SIZE) frame.DLC = 8;
+			          frame.DLC = luaL_len(L, LAST_ARGUMENT);  //Читаем рамер таблицы
+                if (frame.DLC  > CAN_FRAME_SIZE) 
+                {
+                  frame.DLC = 8;
+                }
 				        for (uint8_t i = 0; i < frame.DLC ; i++)
 				        {
-					        lua_geti(L, LAST_ARGUMENT , i +1 );               //Получаем элемент таблицы
-					        frame.data[i]=   lua_tointeger(L,LAST_ARGUMENT);  //Вытаскиваем данные из таблицы
+					        lua_geti(L, LAST_ARGUMENT, i + 1);               //Получаем элемент таблицы
+					        frame.data[i] = lua_tointeger(L,LAST_ARGUMENT);  //Вытаскиваем данные из таблицы
                   lua_pop(L,1);                                     //Убираем значение из стека
                 }
             }
             else 
             {
-              frame.DLC =  parametr_count - THREE_ARGUMENTS;
-              if (frame.DLC  > CAN_FRAME_SIZE) frame.DLC = 8;
-              for (int i=0; i< (frame.DLC) ;i++)
+              frame.DLC = parametr_count - THREE_ARGUMENTS;
+              if (frame.DLC  > CAN_FRAME_SIZE) 
+              {
+                frame.DLC = 8;
+              }
+              for (int i=0; i< frame.DLC; i++)
 		          {
-			            frame.data[i]= (uint8_t) lua_tointeger(L,-( frame.DLC-i)); 
+			            frame.data[i]= (uint8_t)lua_tointeger(L, -(frame.DLC - i)); 
 		          }
           }                        
 				}
@@ -278,9 +282,9 @@ static int iCanSetConfig(lua_State *L)
 {
   if (lua_gettop(L) == ONE_ARGUMENT)
   {
-	  vCANBoudInit( (uint16_t)lua_tointeger( L, FIRST_ARGUMENT) );
+	  vCANBoudInit((uint16_t)lua_tointeger(L, FIRST_ARGUMENT));
   }
-	return ( NO_RESULT );
+	return (NO_RESULT);
 }
 /*
 Инициализация контрллера CAN
@@ -289,15 +293,15 @@ static int iSetCanNodeID(lua_State *L)
 {
 	if (lua_gettop(L) == ONE_ARGUMENT)
 	{
-    ConfigNodeID( (uint8_t) lua_tointeger( L, FIRST_ARGUMENT)); 
+    ConfigNodeID((uint8_t)lua_tointeger(L, FIRST_ARGUMENT)); 
 	}
-	return ( NO_RESULT );
+	return (NO_RESULT);
 }
 
 static int iGetKeyMask(lua_State *L)
 {
-    lua_pushinteger(L, getKeyData());
-    return ( ONE_RESULT );
+  lua_pushinteger(L, getKeyData());
+  return (ONE_RESULT);
 }
 
 static int iSetLedRed(lua_State *L)
@@ -313,7 +317,7 @@ static int iSetLedRed(lua_State *L)
 
 static int iSetLedGreen(lua_State *L)
 {
-   int res;
+  int res;
   uint8_t data = lua_tointegerx(L,LAST_ARGUMENT, &res);
   if  (res ==  1)
   {

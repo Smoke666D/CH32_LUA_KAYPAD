@@ -1,5 +1,5 @@
 ################################################################################
-# MRS Version: 2.2.0
+# MRS Version: 2.4.0
 # Automatically-generated file. Do not edit!
 ################################################################################
 
@@ -14,7 +14,9 @@ C++_DEPS :=
 CXX_DEPS :=
 CPP_DEPS :=
 OBJS :=
-EXPANDS :=
+DIR_OBJS :=
+DIR_DEPS :=
+DIR_EXPANDS :=
 ARCHIVES :=
 ELF_SRCS :=
 OBJ_SRCS :=

@@ -35,9 +35,6 @@ static uint16_t calcBrigt(uint8_t pbr)
 {
   return ( ( pbr > MAX_BRIGTH )?  MAX_BRIGTH_COUNTER :  (uint16_t) ( sin((double)pbr*(3.14/2.0)/MAX_BRIGTH )*(MAX_BRIGTH_COUNTER) ) );
 }
-/*
- *
- */
 
 /*
  *
@@ -64,12 +61,14 @@ INIT_FUNC_LOC void vLedDriverStart(void)
  */
 void vSetLedOn(uint8_t Color,uint8_t State)
 {
-
-	if (LED_ON[Color-1] != State) LED_ON[Color-1] = State  ;
+	if (LED_ON[Color-1] != State) 
+	{
+		LED_ON[Color-1] = State;
+	}
 	return;
 }
 
-uint8_t uGetLedState( uint8_t Color )
+uint8_t uGetLedState(uint8_t Color)
 {
     return (LED_ON[Color-1]);
 }
@@ -78,62 +77,71 @@ uint8_t uGetLedState( uint8_t Color )
  *
  */
 void vSetLedBrigth(uint8_t brigth)
-{
-	
+{		
 	led_brigth = calcBrigt(brigth);
 	return;
 }
 
 void vSetBackLigthColor(uint8_t color)
 {
-	brigth_color[0]=MAX_DATA;
-	brigth_color[1]=MAX_DATA;
-	brigth_color[2]=MAX_DATA;
-	color_div =2;
+	brigth_color[0] = MAX_DATA;
+	brigth_color[1] = MAX_DATA;
+	brigth_color[2] = MAX_DATA;
+	color_div = 2;
+
 	switch (color)
 	{
 		case  RED:
-			brigth_color[1]=0x00;
-			brigth_color[2]=0x00;
+			brigth_color[1] = 0x00;
+			brigth_color[2] = 0x00;
 			color_div =1;
 			break;
+
 		case GREEN:
-			brigth_color[0]=0x00;
-			brigth_color[2]=0x00;
+			brigth_color[0] = 0x00;
+			brigth_color[2] = 0x00;
 			color_div =1;
 			break;
+
 		case BLUE:
-			brigth_color[0]=0x00;
-			brigth_color[1]=0x00;
+			brigth_color[0] = 0x00;
+			brigth_color[1] = 0x00;
 			color_div =1;
 			break;
+
 		case YELLOW:
-			brigth_color[2]=0x00;
+			brigth_color[2] = 0x00;			
 			break;
+
 		case YELLOW_GREEN:
-			brigth_color[2]=0x00;
+			brigth_color[2] = 0x00;
 			break;
+
 		case  AMBER:
+
 			brigth_color[2]=0x00;
 			break;
+
 		case VIOLET:
 			brigth_color[1]=0x00;
 			break;
+
 		case CYAN:
 			brigth_color[0]=0x00;
 			break;
-		case WHITE:
+
+		case WHITE:		
 		default:
 			break;
 	}
 	return;
 }
+
 /*
- *
- */
+*
+*/
 void vSetBackLigth(uint8_t brigth)
-{
-	
+{	
 	if (calcBrigt( brigth) != backligch_brigth)
 	{
 		printf("set br %x  %x\r\n",brigth,backligch_brigth);
@@ -156,9 +164,9 @@ static void vLedProcess( void )
     temp_led = ~(LED_ON[0]  | LED_ON[1] | LED_ON[2] );
 	if (led_brigth_counter < backligch_brigth)
 	{
-		 data[2]=brigth_color[0] & temp_led;
-	 	 data[1]=brigth_color[1] & temp_led;
-	 	 data[0]=brigth_color[2] & temp_led;
+		data[2]=brigth_color[0] & temp_led;
+	 	data[1]=brigth_color[1] & temp_led;
+	 	data[0]=brigth_color[2] & temp_led;
  	}
 	if (led_brigth_counter < led_brigth)
 	{
